@@ -1,4 +1,5 @@
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 export default function SiteLayout({
   children,
@@ -8,7 +9,8 @@ export default function SiteLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <main>{children}</main>
+      <Footer />
     </>
   );
 }

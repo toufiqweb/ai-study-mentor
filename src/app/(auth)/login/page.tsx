@@ -37,7 +37,7 @@ export default function LoginPage() {
           setLoading(false);
           setErrorMsg(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -61,7 +61,10 @@ export default function LoginPage() {
         <form className="mt-8 space-y-5" onSubmit={handleLogin}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5" htmlFor="email">
+              <label
+                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                htmlFor="email"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -83,7 +86,10 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5" htmlFor="password">
+              <label
+                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                htmlFor="password"
+              >
                 Password
               </label>
               <div className="relative">
@@ -129,7 +135,11 @@ export default function LoginPage() {
               disabled={loading}
               className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--primary) hover:bg-(--secondary) focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--primary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                "Sign In"
+              )}
             </button>
           </div>
         </form>

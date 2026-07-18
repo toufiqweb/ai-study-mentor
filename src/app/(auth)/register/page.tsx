@@ -4,7 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { GraduationCap, Mail, Lock, User, Loader2, Eye, EyeOff } from "lucide-react";
+import {
+  GraduationCap,
+  Mail,
+  Lock,
+  User,
+  Loader2,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -38,7 +46,7 @@ export default function RegisterPage() {
           setLoading(false);
           setErrorMsg(ctx.error.message);
         },
-      }
+      },
     );
   };
 
@@ -62,7 +70,10 @@ export default function RegisterPage() {
         <form className="mt-8 space-y-5" onSubmit={handleRegister}>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5" htmlFor="name">
+              <label
+                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                htmlFor="name"
+              >
                 Full Name
               </label>
               <div className="relative">
@@ -83,7 +94,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5" htmlFor="email">
+              <label
+                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                htmlFor="email"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -105,7 +119,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1.5" htmlFor="password">
+              <label
+                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                htmlFor="password"
+              >
                 Password
               </label>
               <div className="relative">
@@ -152,7 +169,11 @@ export default function RegisterPage() {
               disabled={loading}
               className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--primary) hover:bg-(--secondary) focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--primary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create Account"}
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                "Create Account"
+              )}
             </button>
           </div>
         </form>
