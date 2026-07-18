@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -43,10 +43,17 @@ const toWeakTopicsArray = (value?: string) =>
 
 export default function CreateGoalPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<GeneratedStudyPlan | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const prefillTitle = searchParams.get("title");
+  const prefillCategory = searchParams.get("category");
+  const prefillDescription = searchParams.get("description");
+  const prefillLevel = searchParams.get("currentLevel");
+  const isFromRoadmap = Boolean(prefillTitle);
 
   const {
     register,
@@ -55,7 +62,17 @@ export default function CreateGoalPage() {
     getValues,
   } = useForm<GoalFormValues>({
     resolver: zodResolver(goalSchema),
-    defaultValues: { dailyStudyHours: 1 },
+    defaultValues: {
+      dailyStudyHours: 1,
+      title: prefillTitle ?? undefined,
+      category: CATEGORIES.includes(prefillCategory as (typeof CATEGORIES)[number])
+        ? (prefillCategory as (typeof CATEGORIES)[number])
+        : undefined,
+      description: prefillDescription ?? undefined,
+      currentLevel: SKILL_LEVELS.includes(prefillLevel as (typeof SKILL_LEVELS)[number])
+        ? (prefillLevel as (typeof SKILL_LEVELS)[number])
+        : undefined,
+    },
   });
 
   const onGenerate = handleSubmit(async (values) => {
@@ -98,6 +115,12 @@ export default function CreateGoalPage() {
           Tell us what you want to learn and your AI mentor will build a personalized plan.
         </p>
       </div>
+
+      {isFromRoadmap && (
+        <div className="rounded-xl border border-(--primary)/20 bg-(--primary)/5 px-4 py-3 text-sm font-medium text-(--primary)">
+          Pre-filled from the &ldquo;{prefillTitle}&rdquo; roadmap — feel free to adjust anything below.
+        </div>
+      )}
 
       <form className="space-y-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <div className="space-y-5">

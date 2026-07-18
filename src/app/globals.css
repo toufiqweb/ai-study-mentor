@@ -2,10 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #4f46e5;
-  --secondary: #7c3aed;
-  --ternary: #06b6d4;
+  --foreground: #0f172a;
+  --primary: #111827;
+  --secondary: #334155;
+  --ternary: #2563eb;
 }
 
 @theme inline {
