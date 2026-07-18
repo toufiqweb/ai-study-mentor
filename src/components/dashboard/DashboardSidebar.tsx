@@ -8,6 +8,7 @@ import {
   Target,
   PlusCircle,
   MessageCircleMore,
+  BarChart3,
   User,
   Settings,
   LogOut,
@@ -24,6 +25,7 @@ const navLinks = [
   { label: "My Goals", href: "/dashboard/goals", icon: Target },
   { label: "Create Goal", href: "/dashboard/goals/create", icon: PlusCircle },
   { label: "AI Mentor Chat", href: "/dashboard/chat", icon: MessageCircleMore },
+  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
   { label: "Profile", href: "/dashboard/profile", icon: User },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

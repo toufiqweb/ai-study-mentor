@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   ChevronRight,
   CalendarClock,
@@ -9,9 +12,12 @@ import {
   MessagesSquare,
   ListChecks,
   Map,
+  Loader2,
+  Target,
 } from "lucide-react";
-import { getGoalById } from "@/lib/api/goals";
-import { getChatHistory } from "@/lib/api/chat";
+import { getGoalById, type GoalDetail } from "@/lib/api/goals";
+import { getChatHistory, type ChatMessage } from "@/lib/api/chat";
+import { toggleTaskAction } from "@/lib/actions/goals";
 
 const statusStyles = {
   "on-track": "bg-(--primary)/10 text-(--primary)",
@@ -25,12 +31,90 @@ const statusLabels = {
   completed: "Completed",
 } as const;
 
-export default async function GoalDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const [goal, chatHistory] = await Promise.all([getGoalById(id), getChatHistory(id)]);
+export default function GoalDetailsPage() {
+  const params = useParams<{ id: string }>();
+  const id = params.id;
+
+  const [goal, setGoal] = useState<GoalDetail | null>(null);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [pendingTaskKey, setPendingTaskKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all([getGoalById(id), getChatHistory(id)])
+      .then(([goalData, historyData]) => {
+        if (cancelled) return;
+        setGoal(goalData);
+        setChatHistory(historyData);
+      })
+      .catch((err) => {
+        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load this goal.");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  const toggleTask = async (taskKey: string) => {
+    if (!goal || pendingTaskKey) return;
+
+    const wasCompleted = goal.completedTaskKeys.includes(taskKey);
+    const nextCompleted = !wasCompleted;
+    const totalTasks = goal.studyPlan.dailyRoutine.length;
+    const nextKeys = nextCompleted
+      ? [...goal.completedTaskKeys, taskKey]
+      : goal.completedTaskKeys.filter((k) => k !== taskKey);
+    const optimisticProgress = totalTasks > 0 ? Math.round((nextKeys.length / totalTasks) * 100) : 0;
+
+    const previousGoal = goal;
+    setGoal({ ...goal, completedTaskKeys: nextKeys, progress: optimisticProgress });
+    setPendingTaskKey(taskKey);
+    setErrorMsg("");
+
+    try {
+      const updated = await toggleTaskAction(goal._id, taskKey, nextCompleted);
+      setGoal((prev) => (prev ? { ...prev, ...updated, studyPlan: prev.studyPlan } : prev));
+    } catch (err) {
+      setGoal(previousGoal);
+      setErrorMsg(err instanceof Error ? err.message : "Failed to update this task.");
+    } finally {
+      setPendingTaskKey(null);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+      </div>
+    );
+  }
 
   if (!goal) {
-    notFound();
+    return (
+      <div className="flex h-64 flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white text-center shadow-sm">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+          <Target className="h-7 w-7" />
+        </div>
+        <h3 className="mt-4 text-base font-bold text-gray-900">Goal not found</h3>
+        <p className="mt-1 max-w-sm text-sm text-gray-500">
+          {errorMsg || "This goal doesn't exist or you don't have access to it."}
+        </p>
+        <Link
+          href="/dashboard/goals"
+          className="mt-6 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white hover:bg-(--secondary)"
+        >
+          Back to My Goals
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -42,6 +126,12 @@ export default async function GoalDetailsPage({ params }: { params: Promise<{ id
         <ChevronRight className="h-3.5 w-3.5" />
         <span className="font-medium text-gray-900">{goal.title}</span>
       </div>
+
+      {errorMsg && (
+        <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {errorMsg}
+        </div>
+      )}
 
       <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -99,7 +189,7 @@ export default async function GoalDetailsPage({ params }: { params: Promise<{ id
           </div>
           <div className="h-2.5 w-full overflow-hidden rounded-full bg-gray-100">
             <div
-              className="h-full rounded-full bg-(--primary)"
+              className="h-full rounded-full bg-(--primary) transition-all"
               style={{ width: `${goal.progress}%` }}
             />
           </div>
@@ -112,13 +202,26 @@ export default async function GoalDetailsPage({ params }: { params: Promise<{ id
             <ListChecks className="h-4 w-4 text-(--primary)" />
             Daily Tasks
           </h2>
+          <p className="mt-1 text-xs text-gray-400">Check off a task once you&apos;ve completed it.</p>
           <ul className="mt-4 space-y-2.5">
-            {goal.studyPlan.dailyRoutine.map((task) => (
-              <li key={task} className="flex gap-2 text-sm text-gray-700">
-                <span className="text-(--primary)">•</span>
-                {task}
-              </li>
-            ))}
+            {goal.studyPlan.dailyRoutine.map((task, i) => {
+              const taskKey = `daily-${i}`;
+              const isDone = goal.completedTaskKeys.includes(taskKey);
+              return (
+                <li key={taskKey}>
+                  <label className="flex cursor-pointer items-start gap-2.5 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={isDone}
+                      disabled={pendingTaskKey === taskKey}
+                      onChange={() => toggleTask(taskKey)}
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 accent-(--primary) disabled:opacity-50"
+                    />
+                    <span className={isDone ? "text-gray-400 line-through" : "text-gray-700"}>{task}</span>
+                  </label>
+                </li>
+              );
+            })}
           </ul>
         </section>
 

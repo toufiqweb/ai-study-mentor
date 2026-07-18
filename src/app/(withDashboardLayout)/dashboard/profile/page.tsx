@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2, Save, Target, Clock, CheckCircle2, Flame } from "lucide-react";
+import { Loader2, Save, Target, Clock, CheckCircle2, TrendingUp } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { goals } from "@/lib/mock/goals";
+import { getMyGoals } from "@/lib/api/goals";
+import type { Goal } from "@/lib/actions/goals";
+import { getAnalytics, type Analytics } from "@/lib/api/analytics";
 import StatCard from "@/components/dashboard/StatCard";
-
-const activeGoals = goals.filter((g) => g.status !== "completed");
 
 export default function ProfilePage() {
   const { data: session, isPending } = authClient.useSession();
@@ -15,6 +15,34 @@ export default function ProfilePage() {
   const [image, setImage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [analytics, setAnalytics] = useState<Analytics | null>(null);
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
+  const [statsError, setStatsError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all([getMyGoals(), getAnalytics()])
+      .then(([goalsData, analyticsData]) => {
+        if (cancelled) return;
+        setGoals(goalsData);
+        setAnalytics(analyticsData);
+      })
+      .catch((err) => {
+        if (!cancelled) setStatsError(err instanceof Error ? err.message : "Failed to load your stats.");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingStats(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const activeGoals = goals.filter((g) => g.status !== "completed");
 
   const user = session?.user;
   const displayName = name || user?.name || "";
@@ -146,29 +174,72 @@ export default function ProfilePage() {
         </div>
 
         <div className="space-y-4">
-          <StatCard label="Active Goals" value={String(activeGoals.length)} icon={Target} accent="primary" />
-          <StatCard label="Total Study Hours" value="142h" icon={Clock} accent="secondary" />
-          <StatCard label="Completed Tasks" value="86" icon={CheckCircle2} accent="accent" />
-          <StatCard label="Current Streak" value="12 days" icon={Flame} accent="neutral" />
+          {isLoadingStats ? (
+            <div className="flex h-64 items-center justify-center rounded-2xl border border-gray-100 bg-white shadow-sm">
+              <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
+            </div>
+          ) : statsError ? (
+            <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+              {statsError}
+            </div>
+          ) : (
+            <>
+              <StatCard label="Active Goals" value={String(activeGoals.length)} icon={Target} accent="primary" />
+              <StatCard
+                label="Study Hours"
+                value={`${analytics?.stats.weeklyPlannedHours ?? 0}h`}
+                sub="Planned per week"
+                icon={Clock}
+                accent="secondary"
+              />
+              <StatCard
+                label="Completed Tasks"
+                value={`${analytics?.stats.totalCompletedTasks ?? 0} / ${analytics?.stats.totalTasks ?? 0}`}
+                icon={CheckCircle2}
+                accent="accent"
+              />
+              <StatCard
+                label="Goal Progress"
+                value={`${analytics?.stats.avgProgress ?? 0}%`}
+                sub="Average across all goals"
+                icon={TrendingUp}
+                accent="neutral"
+              />
+            </>
+          )}
         </div>
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-gray-900">Current Goals</h2>
         <div className="mt-4 space-y-3">
-          {activeGoals.map((goal) => (
-            <Link
-              key={goal.id}
-              href={`/dashboard/goals/${goal.id}`}
-              className="flex items-center justify-between rounded-xl border border-gray-100 px-4 py-3 hover:bg-gray-50"
-            >
-              <div>
-                <p className="text-sm font-bold text-gray-900">{goal.title}</p>
-                <p className="text-xs text-gray-400">{goal.category}</p>
-              </div>
-              <span className="text-sm font-bold text-(--primary)">{goal.progress}%</span>
-            </Link>
-          ))}
+          {isLoadingStats ? (
+            <div className="flex h-24 items-center justify-center">
+              <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
+            </div>
+          ) : activeGoals.length === 0 ? (
+            <p className="text-sm text-gray-500">
+              No active goals yet.{" "}
+              <Link href="/dashboard/goals/create" className="font-bold text-(--primary) hover:underline">
+                Create one
+              </Link>
+              .
+            </p>
+          ) : (
+            activeGoals.map((goal) => (
+              <Link
+                key={goal._id}
+                href={`/dashboard/goals/${goal._id}`}
+                className="flex items-center justify-between rounded-xl border border-gray-100 px-4 py-3 hover:bg-gray-50"
+              >
+                <div>
+                  <p className="text-sm font-bold text-gray-900">{goal.title}</p>
+                  <p className="text-xs text-gray-400">{goal.category}</p>
+                </div>
+                <span className="text-sm font-bold text-(--primary)">{goal.progress}%</span>
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </div>
