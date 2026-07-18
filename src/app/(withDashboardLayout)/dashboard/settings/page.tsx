@@ -42,7 +42,7 @@ export default function SettingsPage() {
         className="space-y-5 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8"
       >
         <h2 className="flex items-center gap-2 border-b border-gray-100 pb-2 text-lg font-semibold text-gray-900">
-          <KeyRound className="h-4 w-4 text-(--primary)" />
+          <KeyRound className="h-4 w-4 text-(--ternary)" />
           Change Password
         </h2>
 
@@ -89,7 +89,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-(--secondary) disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Update Password

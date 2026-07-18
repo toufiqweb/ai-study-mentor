@@ -68,7 +68,7 @@ export default function ProfilePage() {
   if (isPending) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+        <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
       </div>
     );
   }
@@ -164,7 +164,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-(--secondary) disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
               >
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Update Profile
@@ -176,7 +176,7 @@ export default function ProfilePage() {
         <div className="space-y-4">
           {isLoadingStats ? (
             <div className="flex h-64 items-center justify-center rounded-2xl border border-gray-100 bg-white shadow-sm">
-              <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
+              <Loader2 className="h-6 w-6 animate-spin text-(--ternary)" />
             </div>
           ) : statsError ? (
             <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
@@ -215,7 +215,7 @@ export default function ProfilePage() {
         <div className="mt-4 space-y-3">
           {isLoadingStats ? (
             <div className="flex h-24 items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
+              <Loader2 className="h-6 w-6 animate-spin text-(--ternary)" />
             </div>
           ) : activeGoals.length === 0 ? (
             <p className="text-sm text-gray-500">

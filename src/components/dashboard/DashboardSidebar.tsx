@@ -62,7 +62,7 @@ export default function DashboardSidebar() {
         <div className="flex h-16 items-center justify-between border-b border-gray-100 px-4">
           {!isCollapsed && (
             <Link href="/" className="flex items-center gap-2 font-bold text-gray-900">
-              <GraduationCap className="h-6 w-6 text-(--primary)" />
+              <GraduationCap className="h-6 w-6 text-(--ternary)" />
               AI Study Mentor
             </Link>
           )}
@@ -92,7 +92,7 @@ export default function DashboardSidebar() {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                     active
-                      ? "bg-(--primary) text-white"
+                      ? "bg-(--ternary) text-white"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                   } ${isCollapsed ? "justify-center" : ""}`}
                 >

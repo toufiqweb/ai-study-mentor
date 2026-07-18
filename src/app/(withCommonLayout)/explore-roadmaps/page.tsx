@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Search, ChevronLeft, ChevronRight, Compass } from "lucide-react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Search, ChevronLeft, ChevronRight, Compass, Loader2 } from "lucide-react";
 import { getRoadmaps, type RoadmapSummary, type RoadmapSort } from "@/lib/api/roadmaps";
 import { CATEGORIES, SKILL_LEVELS } from "@/lib/constants";
 import RoadmapCard from "@/components/shared/RoadmapCard";
 import RoadmapCardSkeleton from "@/components/shared/RoadmapCardSkeleton";
+import SectionContainer from "@/components/shared/SectionContainer";
+import SectionTitle from "@/components/shared/SectionTitle";
+import SectionDescription from "@/components/shared/SectionDescription";
 import CTA from "@/components/home/CTA";
 
 const DURATION_OPTIONS = [
@@ -24,9 +28,27 @@ const SORT_OPTIONS: { value: RoadmapSort; label: string }[] = [
 ];
 
 export default function ExploreRoadmapsPage() {
-  const [searchInput, setSearchInput] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [category, setCategory] = useState("all");
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-[60vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
+        </div>
+      }
+    >
+      <ExploreRoadmapsContent />
+    </Suspense>
+  );
+}
+
+function ExploreRoadmapsContent() {
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") ?? "";
+  const initialCategory = searchParams.get("category") ?? "all";
+
+  const [searchInput, setSearchInput] = useState(initialSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
+  const [category, setCategory] = useState(initialCategory);
   const [difficulty, setDifficulty] = useState("all");
   const [duration, setDuration] = useState("any");
   const [sort, setSort] = useState<RoadmapSort>("latest");
@@ -93,82 +115,79 @@ export default function ExploreRoadmapsPage() {
 
   return (
     <div>
-      <section className="bg-gray-50 py-20">
-        <div className="container mx-auto max-w-6xl px-4 text-center">
-          <p className="text-sm font-bold tracking-widest text-(--primary) uppercase">Explore Roadmaps</p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Find your next learning path
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-            Browse AI-crafted roadmaps across every subject, then personalize one into your own learning goal.
-          </p>
+      <SectionContainer className="bg-gray-50 py-20" containerClassName="max-w-6xl text-center">
+        <SectionTitle as="h1" eyebrow="Explore Roadmaps">
+          Find your next learning path
+        </SectionTitle>
+        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+          Browse AI-crafted roadmaps across every subject, then personalize one into your own learning goal.
+        </SectionDescription>
 
-          <div className="mx-auto mt-10 max-w-3xl">
-            <div className="relative">
-              <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Search roadmaps by title..."
-                className="h-11 w-full rounded-xl border border-gray-200 bg-white py-1.5 pr-4 pl-11 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
-              />
-            </div>
+        <div className="mx-auto mt-10 max-w-3xl">
+          <div className="relative">
+            <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder="Search roadmaps by title..."
+              className="h-11 w-full rounded-xl border border-gray-200 bg-white py-1.5 pr-4 pl-11 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+            />
+          </div>
 
-            <div className="mt-3 flex flex-wrap justify-center gap-3">
-              <select
-                value={category}
-                onChange={(e) => handleFilterChange(setCategory)(e.target.value)}
-                className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
-              >
-                <option value="all">All Categories</option>
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+          <div className="mt-3 flex flex-wrap justify-center gap-3">
+            <select
+              value={category}
+              onChange={(e) => handleFilterChange(setCategory)(e.target.value)}
+              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+            >
+              <option value="all">All Categories</option>
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
 
-              <select
-                value={difficulty}
-                onChange={(e) => handleFilterChange(setDifficulty)(e.target.value)}
-                className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
-              >
-                <option value="all">All Difficulties</option>
-                {SKILL_LEVELS.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
+            <select
+              value={difficulty}
+              onChange={(e) => handleFilterChange(setDifficulty)(e.target.value)}
+              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+            >
+              <option value="all">All Difficulties</option>
+              {SKILL_LEVELS.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select>
 
-              <select
-                value={duration}
-                onChange={(e) => handleFilterChange(setDuration)(e.target.value)}
-                className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
-              >
-                {DURATION_OPTIONS.map((d) => (
-                  <option key={d.value} value={d.value}>
-                    {d.label}
-                  </option>
-                ))}
-              </select>
+            <select
+              value={duration}
+              onChange={(e) => handleFilterChange(setDuration)(e.target.value)}
+              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+            >
+              {DURATION_OPTIONS.map((d) => (
+                <option key={d.value} value={d.value}>
+                  {d.label}
+                </option>
+              ))}
+            </select>
 
-              <select
-                value={sort}
-                onChange={(e) => handleFilterChange((v) => setSort(v as RoadmapSort))(e.target.value)}
-                className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
-              >
-                {SORT_OPTIONS.map((s) => (
-                  <option key={s.value} value={s.value}>
-                    Sort: {s.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={sort}
+              onChange={(e) => handleFilterChange((v) => setSort(v as RoadmapSort))(e.target.value)}
+              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+            >
+              {SORT_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  Sort: {s.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
-      </section>
+      </SectionContainer>
 
       <section className="bg-white py-20">
         <div className="container mx-auto max-w-6xl px-4">
@@ -222,7 +241,7 @@ export default function ExploreRoadmapsPage() {
                         onClick={() => handlePageChange(i + 1)}
                         className={`h-9 w-9 rounded-xl border text-xs font-bold ${
                           page === i + 1
-                            ? "border-(--primary) bg-(--primary) text-white shadow-sm"
+                            ? "border-(--ternary) bg-(--ternary) text-white shadow-sm"
                             : "border-gray-200 text-gray-600 hover:bg-gray-50"
                         }`}
                       >

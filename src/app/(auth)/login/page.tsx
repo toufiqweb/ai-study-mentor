@@ -48,13 +48,13 @@ export default function LoginPage() {
 
       <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 z-10 relative">
         <div className="text-center">
-          <div className="mx-auto h-14 w-14 bg-(--primary) rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
+          <div className="mx-auto h-14 w-14 bg-(--ternary) rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
             <GraduationCap className="w-7 h-7 text-white" />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-(--primary) tracking-tight">
             Welcome Back
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-(--secondary)">
             Sign in to your AI Study Mentor account
           </p>
         </div>
@@ -62,7 +62,7 @@ export default function LoginPage() {
           <div className="space-y-4">
             <div>
               <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                className="block text-sm font-semibold text-(--primary) mb-1.5"
                 htmlFor="email"
               >
                 Email Address
@@ -87,7 +87,7 @@ export default function LoginPage() {
 
             <div>
               <label
-                className="block text-sm font-semibold text-gray-700 mb-1.5"
+                className="block text-sm font-semibold text-(--primary) mb-1.5"
                 htmlFor="password"
               >
                 Password
@@ -133,7 +133,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--primary) hover:bg-(--secondary) focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--primary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--ternary) hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -150,7 +150,7 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-200" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 font-medium">
+              <span className="px-4 bg-white text-(--secondary) font-medium">
                 New to AI Study Mentor?
               </span>
             </div>
@@ -159,7 +159,7 @@ export default function LoginPage() {
           <div className="mt-6">
             <Link
               href="/register"
-              className="w-full flex justify-center py-3.5 px-4 border-2 border-gray-200 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all"
+              className="w-full flex justify-center py-3.5 px-4 border-2 border-gray-200 rounded-xl shadow-sm bg-white text-sm font-bold text-(--ternary) hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
               Create an account
             </Link>

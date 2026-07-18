@@ -35,7 +35,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 text-lg font-bold text-gray-900">
-              <GraduationCap className="h-6 w-6 text-(--primary)" />
+              <GraduationCap className="h-6 w-6 text-(--ternary)" />
               AI Study Mentor
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-gray-600">
@@ -53,7 +53,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-(--primary)/10 hover:text-(--primary)"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-(--ternary)/10 hover:text-(--ternary)"
                 >
                   <social.icon className="h-4 w-4" />
                 </a>

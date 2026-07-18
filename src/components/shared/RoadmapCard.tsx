@@ -46,8 +46,8 @@ export default function RoadmapCard({ roadmap }: { roadmap: RoadmapSummary }) {
 
   return (
     <div className="flex h-full flex-col rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-      <div className="flex h-28 items-center justify-center rounded-2xl bg-gradient-to-br from-(--primary)/10 to-(--secondary)/10">
-        <Icon className="h-10 w-10 text-(--primary)" />
+      <div className="flex h-28 items-center justify-center rounded-2xl bg-gradient-to-br from-(--ternary)/10 to-(--secondary)/10">
+        <Icon className="h-10 w-10 text-(--ternary)" />
       </div>
 
       <div className="mt-4 flex items-start justify-between gap-2">

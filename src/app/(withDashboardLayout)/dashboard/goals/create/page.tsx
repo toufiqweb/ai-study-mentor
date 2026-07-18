@@ -368,7 +368,7 @@ export default function CreateGoalPage() {
             type="button"
             onClick={onGenerate}
             disabled={isGenerating || isSaving}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-(--primary)/20 bg-white px-5 py-2.5 text-sm font-bold text-(--primary) transition-colors hover:border-(--primary)/40 disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-(--ternary)/20 bg-white px-5 py-2.5 text-sm font-bold text-(--ternary) transition-colors hover:border-(--ternary)/40 disabled:opacity-60"
           >
             {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Generate AI Study Plan
@@ -377,7 +377,7 @@ export default function CreateGoalPage() {
             type="button"
             onClick={onSave}
             disabled={isSaving || isGenerating}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-(--secondary) disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Goal

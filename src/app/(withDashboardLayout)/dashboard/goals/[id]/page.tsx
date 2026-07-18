@@ -92,7 +92,7 @@ export default function GoalDetailsPage() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+        <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
       </div>
     );
   }
@@ -109,7 +109,7 @@ export default function GoalDetailsPage() {
         </p>
         <Link
           href="/dashboard/goals"
-          className="mt-6 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white hover:bg-(--secondary)"
+          className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
         >
           Back to My Goals
         </Link>
@@ -149,7 +149,7 @@ export default function GoalDetailsPage() {
           </div>
           <Link
             href={`/dashboard/chat?goalId=${goal._id}`}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-(--secondary)"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700"
           >
             <MessagesSquare className="h-4 w-4" />
             Ask AI Mentor

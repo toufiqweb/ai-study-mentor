@@ -103,7 +103,7 @@ export default function MyGoalsPage() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+        <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
       </div>
     );
   }
@@ -117,7 +117,7 @@ export default function MyGoalsPage() {
         </div>
         <Link
           href="/dashboard/goals/create"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-(--secondary)"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700"
         >
           <PlusCircle className="h-4 w-4" />
           Create Goal
@@ -179,7 +179,7 @@ export default function MyGoalsPage() {
           </p>
           <Link
             href="/dashboard/goals/create"
-            className="mt-6 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white hover:bg-(--secondary)"
+            className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
           >
             Create Goal
           </Link>
@@ -258,7 +258,7 @@ export default function MyGoalsPage() {
                 onClick={() => setPage(i + 1)}
                 className={`h-9 w-9 rounded-xl border text-xs font-bold ${
                   page === i + 1
-                    ? "border-(--primary) bg-(--primary) text-white shadow-sm"
+                    ? "border-(--ternary) bg-(--ternary) text-white shadow-sm"
                     : "border-gray-200 text-gray-600 hover:bg-gray-50"
                 }`}
               >

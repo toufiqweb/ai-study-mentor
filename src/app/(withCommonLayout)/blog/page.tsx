@@ -4,23 +4,23 @@ import { useState } from "react";
 import { Clock, X } from "lucide-react";
 import { blogPosts, type BlogPost } from "@/lib/mock/blogPosts";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import SectionContainer from "@/components/shared/SectionContainer";
+import SectionTitle from "@/components/shared/SectionTitle";
+import SectionDescription from "@/components/shared/SectionDescription";
 
 export default function BlogPage() {
   const [selected, setSelected] = useState<BlogPost | null>(null);
 
   return (
     <div>
-      <section className="bg-gray-50 py-20">
-        <div className="container mx-auto max-w-6xl px-4 text-center">
-          <p className="text-sm font-bold tracking-widest text-(--primary) uppercase">Blog</p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Learn how to learn
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-            Practical, no-fluff articles on studying, focus, and building real skills.
-          </p>
-        </div>
-      </section>
+      <SectionContainer className="bg-gray-50 py-20" containerClassName="max-w-6xl text-center">
+        <SectionTitle as="h1" eyebrow="Blog">
+          Learn how to learn
+        </SectionTitle>
+        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+          Practical, no-fluff articles on studying, focus, and building real skills.
+        </SectionDescription>
+      </SectionContainer>
 
       <section className="bg-white py-20">
         <div className="container mx-auto max-w-6xl px-4">
@@ -28,7 +28,7 @@ export default function BlogPage() {
             {blogPosts.map((post, i) => (
               <AnimatedSection key={post.id} delay={i * 0.06}>
                 <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <div className="flex h-36 items-center justify-center bg-linear-to-br from-(--primary) to-(--secondary)">
+                  <div className="flex h-36 items-center justify-center bg-linear-to-br from-(--ternary) to-(--secondary)">
                     <post.icon className="h-10 w-10 text-white/90" />
                   </div>
                   <div className="flex flex-1 flex-col p-6">
@@ -44,7 +44,7 @@ export default function BlogPage() {
                       </span>
                       <button
                         onClick={() => setSelected(post)}
-                        className="text-xs font-bold text-(--primary) hover:underline"
+                        className="text-xs font-bold text-(--ternary) hover:underline"
                       >
                         View Details
                       </button>

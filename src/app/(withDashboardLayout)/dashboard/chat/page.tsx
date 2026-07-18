@@ -117,7 +117,7 @@ export default function AIChatPage() {
   if (isLoadingGoals) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+        <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
       </div>
     );
   }
@@ -125,7 +125,7 @@ export default function AIChatPage() {
   if (goals.length === 0) {
     return (
       <div className="flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--primary)/10 text-(--primary)">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--ternary)/10 text-(--ternary)">
           <GraduationCap className="h-7 w-7" />
         </div>
         <h3 className="mt-4 text-base font-bold text-gray-900">No goals to chat about yet</h3>
@@ -134,7 +134,7 @@ export default function AIChatPage() {
         </p>
         <Link
           href="/dashboard/goals/create"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white hover:bg-(--secondary)"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
         >
           <PlusCircle className="h-4 w-4" />
           Create Goal
@@ -147,8 +147,8 @@ export default function AIChatPage() {
     <div className="flex h-[calc(100vh-8rem)] flex-col rounded-2xl border border-gray-100 bg-white shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-6 py-4">
         <div className="flex items-center gap-2">
-          <div className="rounded-xl bg-(--primary)/10 p-2">
-            <GraduationCap className="h-5 w-5 text-(--primary)" />
+          <div className="rounded-xl bg-(--ternary)/10 p-2">
+            <GraduationCap className="h-5 w-5 text-(--ternary)" />
           </div>
           <div>
             <p className="text-sm font-bold text-gray-900">AI Mentor Chat</p>
@@ -180,7 +180,7 @@ export default function AIChatPage() {
       <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
         {isLoadingHistory ? (
           <div className="flex h-full items-center justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
+            <Loader2 className="h-6 w-6 animate-spin text-(--ternary)" />
           </div>
         ) : (
           <>
@@ -212,7 +212,7 @@ export default function AIChatPage() {
               key={q}
               onClick={() => sendMessage(q)}
               disabled={isTyping}
-              className="inline-flex items-center gap-1.5 rounded-full border border-(--primary)/20 bg-(--primary)/5 px-3 py-1.5 text-xs font-medium text-(--primary) hover:bg-(--primary)/10 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-full border border-(--ternary)/20 bg-(--ternary)/5 px-3 py-1.5 text-xs font-medium text-(--ternary) hover:bg-(--ternary)/10 disabled:opacity-50"
             >
               <Sparkles className="h-3 w-3" />
               {q}
@@ -237,7 +237,7 @@ export default function AIChatPage() {
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--primary) text-white transition-colors hover:bg-(--secondary) disabled:opacity-40"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--ternary) text-white transition-colors hover:bg-blue-700 disabled:opacity-40"
             aria-label="Send message"
           >
             {isTyping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
