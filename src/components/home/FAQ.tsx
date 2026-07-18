@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const faqs = [
   {

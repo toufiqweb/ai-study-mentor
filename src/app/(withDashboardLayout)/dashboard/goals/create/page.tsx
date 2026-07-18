@@ -7,6 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Sparkles, Loader2, Save, CheckCircle2 } from "lucide-react";
 import { CATEGORIES, SKILL_LEVELS, LEARNING_STYLES } from "@/lib/constants";
+import {
+  generateStudyPlanAction,
+  createGoalAction,
+  type GeneratedStudyPlan,
+} from "@/lib/actions/goals";
 
 const goalSchema = z.object({
   title: z.string().min(3, "Give your goal a clear title"),
@@ -28,11 +33,20 @@ const inputStyles =
   "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)";
 const labelStyles = "text-sm font-medium text-gray-700";
 
+const toWeakTopicsArray = (value?: string) =>
+  value
+    ? value
+        .split(",")
+        .map((topic) => topic.trim())
+        .filter(Boolean)
+    : [];
+
 export default function CreateGoalPage() {
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [generatedPlan, setGeneratedPlan] = useState<string[] | null>(null);
+  const [generatedPlan, setGeneratedPlan] = useState<GeneratedStudyPlan | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     register,
@@ -46,25 +60,34 @@ export default function CreateGoalPage() {
 
   const onGenerate = handleSubmit(async (values) => {
     setIsGenerating(true);
+    setErrorMsg("");
     setGeneratedPlan(null);
-    // Simulated AI call — wire this up once POST /study-plan/generate exists on the backend.
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    setIsGenerating(false);
-    setGeneratedPlan([
-      `Daily routine built around ${values.dailyStudyHours}h/day of ${values.learningStyle.toLowerCase()}-focused study`,
-      `Weekly roadmap broken into 4 milestones toward "${values.title}"`,
-      values.weakTopics
-        ? `Extra revision blocks scheduled for: ${values.weakTopics}`
-        : "Balanced revision schedule across all topics",
-      "Resource list and practice schedule tailored to your current level",
-    ]);
+    try {
+      const plan = await generateStudyPlanAction({
+        ...values,
+        weakTopics: toWeakTopicsArray(values.weakTopics),
+      });
+      setGeneratedPlan(plan);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to generate a study plan.");
+    } finally {
+      setIsGenerating(false);
+    }
   });
 
-  const onSave = handleSubmit(async () => {
+  const onSave = handleSubmit(async (values) => {
     setIsSaving(true);
-    // No backend `POST /goals` endpoint yet — this simulates the save and redirects.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    router.push("/dashboard/goals");
+    setErrorMsg("");
+    try {
+      await createGoalAction(
+        { ...values, weakTopics: toWeakTopicsArray(values.weakTopics) },
+        generatedPlan ?? undefined
+      );
+      router.push("/dashboard/goals");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to save this goal.");
+      setIsSaving(false);
+    }
   });
 
   return (
@@ -209,20 +232,111 @@ export default function CreateGoalPage() {
           </div>
         </div>
 
+        {errorMsg && (
+          <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+            {errorMsg}
+          </div>
+        )}
+
         {generatedPlan && (
-          <div className="rounded-xl border border-(--primary)/20 bg-(--primary)/5 p-5">
+          <div className="space-y-5 rounded-xl border border-(--primary)/20 bg-(--primary)/5 p-5">
             <p className="flex items-center gap-2 text-sm font-bold text-(--primary)">
               <CheckCircle2 className="h-4 w-4" />
               AI Study Plan Preview for &ldquo;{getValues("title")}&rdquo;
             </p>
-            <ul className="mt-3 space-y-1.5 text-sm text-gray-700">
-              {generatedPlan.map((line) => (
-                <li key={line} className="flex gap-2">
-                  <span className="text-(--primary)">•</span>
-                  {line}
-                </li>
-              ))}
-            </ul>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Daily Routine</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.dailyRoutine.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-(--primary)">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Weekly Roadmap</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.weeklyRoadmap.map((item) => (
+                    <li key={item.week}>
+                      <span className="font-semibold text-gray-900">{item.week}:</span> {item.focus}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                  Monthly Milestones
+                </p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.monthlyMilestones.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-(--primary)">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Resources</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.resources.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-(--primary)">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                  Practice Schedule
+                </p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.practiceSchedule.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-(--primary)">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                  Revision Schedule
+                </p>
+                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                  {generatedPlan.revisionSchedule.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="text-(--primary)">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                Productivity Tips
+              </p>
+              <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                {generatedPlan.tips.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="text-(--primary)">•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         )}
 
@@ -230,7 +344,7 @@ export default function CreateGoalPage() {
           <button
             type="button"
             onClick={onGenerate}
-            disabled={isGenerating}
+            disabled={isGenerating || isSaving}
             className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-(--primary)/20 bg-white px-5 py-2.5 text-sm font-bold text-(--primary) transition-colors hover:border-(--primary)/40 disabled:opacity-60"
           >
             {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
@@ -239,7 +353,7 @@ export default function CreateGoalPage() {
           <button
             type="button"
             onClick={onSave}
-            disabled={isSaving}
+            disabled={isSaving || isGenerating}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-(--secondary) disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}

@@ -6,7 +6,7 @@ import {
   CalendarClock,
   BookOpenCheck,
 } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const features = [
   {

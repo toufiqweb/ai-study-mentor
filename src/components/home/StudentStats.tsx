@@ -1,5 +1,5 @@
 import { Users, FileText, Clock, Trophy } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const stats = [
   { icon: Users, value: "12,000+", label: "Active learners" },

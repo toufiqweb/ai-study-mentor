@@ -47,7 +47,7 @@ export default function Hero() {
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              href="#learning-categories"
+              href="/explore-roadmaps"
               className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-gray-200 bg-white px-7 py-3.5 text-sm font-bold text-gray-700 transition-all hover:border-(--primary)/30 hover:text-(--primary)"
             >
               <Compass className="h-4 w-4" />

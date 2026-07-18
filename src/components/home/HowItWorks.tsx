@@ -1,5 +1,5 @@
 import { Target, Sparkles, MessagesSquare, TrendingUp } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const steps = [
   {

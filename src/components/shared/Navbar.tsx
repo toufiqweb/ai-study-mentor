@@ -1,12 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { GraduationCap, LogOut, User } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
+const publicLinks = [
+  { label: "Explore Roadmaps", href: "/explore-roadmaps" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
 
   const handleLogout = async () => {
@@ -22,6 +30,20 @@ export default function Navbar() {
           <GraduationCap className="w-6 h-6 text-(--ternary)" />
           AI Study Mentor
         </Link>
+
+        <nav className="hidden md:flex items-center gap-1">
+          {publicLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm font-medium px-3 py-2 rounded-lg transition-colors ${
+                pathname === link.href ? "bg-white/10 text-white" : "text-gray-200 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
         {isPending ? (
           <div className="w-24 h-9 rounded-lg bg-white/10 animate-pulse" />

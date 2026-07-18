@@ -8,7 +8,7 @@ import {
   GraduationCap,
   FlaskConical,
 } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const categories = [
   { icon: Code2, name: "Programming & Web Dev" },
