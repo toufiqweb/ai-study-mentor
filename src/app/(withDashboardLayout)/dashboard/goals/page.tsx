@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -9,8 +9,10 @@ import {
   ChevronRight,
   Target,
   PlusCircle,
+  Loader2,
 } from "lucide-react";
-import { goals as initialGoals, type Goal, type GoalStatus } from "@/lib/mock/goals";
+import { type Goal, type GoalStatus, deleteGoalAction } from "@/lib/actions/goals";
+import { getMyGoals } from "@/lib/api/goals";
 
 const PAGE_SIZE = 6;
 
@@ -27,12 +29,36 @@ const statusLabels: Record<GoalStatus, string> = {
 };
 
 export default function MyGoalsPage() {
-  const [goals, setGoals] = useState<Goal[]>(initialGoals);
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<"latest" | "deadline" | "progress">("latest");
   const [page, setPage] = useState(1);
   const [pendingDelete, setPendingDelete] = useState<Goal | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getMyGoals()
+      .then((data) => {
+        if (!cancelled) setGoals(data);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setErrorMsg(err instanceof Error ? err.message : "Failed to load your goals.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const categories = useMemo(
     () => ["all", ...Array.from(new Set(goals.map((g) => g.category)))],
@@ -60,11 +86,27 @@ export default function MyGoalsPage() {
     setPage(1);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!pendingDelete) return;
-    setGoals((prev) => prev.filter((g) => g.id !== pendingDelete.id));
-    setPendingDelete(null);
+    setIsDeleting(true);
+    try {
+      await deleteGoalAction(pendingDelete._id);
+      setGoals((prev) => prev.filter((g) => g._id !== pendingDelete._id));
+      setPendingDelete(null);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to delete this goal.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -81,6 +123,12 @@ export default function MyGoalsPage() {
           Create Goal
         </Link>
       </div>
+
+      {errorMsg && (
+        <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {errorMsg}
+        </div>
+      )}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative max-w-md flex-1">
@@ -125,7 +173,9 @@ export default function MyGoalsPage() {
           </div>
           <h3 className="mt-4 text-base font-bold text-gray-900">No goals found</h3>
           <p className="mt-1 max-w-sm text-sm text-gray-500">
-            Try a different search or create your first learning goal to get started.
+            {goals.length === 0
+              ? "You haven't created any learning goals yet."
+              : "Try a different search or category."}
           </p>
           <Link
             href="/dashboard/goals/create"
@@ -138,7 +188,7 @@ export default function MyGoalsPage() {
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {paginated.map((goal) => (
             <div
-              key={goal.id}
+              key={goal._id}
               className="flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="flex items-start justify-between gap-2">
@@ -170,7 +220,7 @@ export default function MyGoalsPage() {
 
               <div className="mt-5 flex items-center gap-2 border-t border-gray-100 pt-4">
                 <Link
-                  href={`/dashboard/goals/${goal.id}`}
+                  href={`/dashboard/goals/${goal._id}`}
                   className="flex-1 rounded-xl bg-gray-50 px-3 py-2 text-center text-xs font-bold text-gray-700 hover:bg-gray-100"
                 >
                   View Details
@@ -236,14 +286,17 @@ export default function MyGoalsPage() {
             <div className="mt-6 flex justify-end gap-3">
               <button
                 onClick={() => setPendingDelete(null)}
-                className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-100"
+                disabled={isDeleting}
+                className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-100 disabled:opacity-60"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="rounded-xl bg-red-500 px-4 py-2 text-sm font-bold text-white hover:bg-red-600"
+                disabled={isDeleting}
+                className="inline-flex items-center gap-2 rounded-xl bg-red-500 px-4 py-2 text-sm font-bold text-white hover:bg-red-600 disabled:opacity-60"
               >
+                {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
                 Delete
               </button>
             </div>

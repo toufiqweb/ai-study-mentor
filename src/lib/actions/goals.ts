@@ -23,6 +23,15 @@ export type GeneratedStudyPlan = {
   tips: string[];
 };
 
+export type GoalStatus = "on-track" | "at-risk" | "completed";
+
+export type Goal = GoalInput & {
+  _id: string;
+  createdAt: string;
+  progress: number;
+  status: GoalStatus;
+};
+
 /**
  * Calls the AI mentor to generate a study plan preview — does not save anything.
  */
@@ -41,4 +50,11 @@ export const generateStudyPlanAction = async (goalInput: GoalInput): Promise<Gen
  */
 export const createGoalAction = async (goalInput: GoalInput, studyPlan?: GeneratedStudyPlan) => {
   return serverMutation("/api/goals", { ...goalInput, studyPlan }, "POST");
+};
+
+/**
+ * Protected mutation to delete a learning goal (and its linked study plan).
+ */
+export const deleteGoalAction = async (goalId: string) => {
+  return serverMutation(`/api/goals/${goalId}`, {}, "DELETE");
 };

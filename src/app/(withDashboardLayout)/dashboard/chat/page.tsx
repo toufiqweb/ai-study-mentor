@@ -1,67 +1,147 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Sparkles, GraduationCap } from "lucide-react";
-import { goals } from "@/lib/mock/goals";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Send, Sparkles, GraduationCap, Loader2, PlusCircle } from "lucide-react";
+import { getMyGoals } from "@/lib/api/goals";
+import type { Goal } from "@/lib/actions/goals";
+import { getChatHistory } from "@/lib/api/chat";
+import type { ChatMessage } from "@/lib/api/chat";
+import { sendChatMessageAction } from "@/lib/actions/chat";
 import TypingIndicator from "@/components/dashboard/TypingIndicator";
 
-type Message = { role: "user" | "assistant"; content: string };
-
-const activeGoals = goals.filter((g) => g.status !== "completed");
-
-function buildReply(question: string, goalTitle: string, weakTopics: string[]): string {
-  const q = question.toLowerCase();
-  if (q.includes("today") || q.includes("what should i study")) {
-    return `For "${goalTitle}", I'd focus today's session on your weekly roadmap item and spend 15 minutes reviewing ${
-      weakTopics[0] ?? "your last weak topic"
-    }. Want me to break that into smaller steps?`;
-  }
-  if (q.includes("weak") || q.includes("quiz")) {
-    return `Let's work on ${weakTopics[0] ?? "a weak topic"}. Quick check: can you explain it in your own words first? That tells me where to start.`;
-  }
-  if (q.includes("easier") || q.includes("simpler") || q.includes("example")) {
-    return "Sure — let's use a simpler, more concrete example and build up from there. Tell me which part felt confusing and I'll re-explain just that piece.";
-  }
-  return `Good question about "${goalTitle}". Based on your roadmap and current level, here's how I'd approach it — want the short version or a deeper walkthrough?`;
-}
-
 export default function AIChatPage() {
-  const [selectedGoalId, setSelectedGoalId] = useState(activeGoals[0]?.id ?? "");
-  const selectedGoal = goals.find((g) => g.id === selectedGoalId) ?? goals[0];
+  const searchParams = useSearchParams();
+  const requestedGoalId = searchParams.get("goalId");
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: `Hi! I'm your AI mentor. I can see you're working on "${selectedGoal.title}" — ask me anything about your plan, or pick a suggested question below.`,
-    },
-  ]);
+  const [goals, setGoals] = useState<Goal[]>([]);
+  const [isLoadingGoals, setIsLoadingGoals] = useState(true);
+  const [selectedGoalId, setSelectedGoalId] = useState("");
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    getMyGoals()
+      .then((data) => {
+        if (cancelled) return;
+        setGoals(data);
+        if (data.length > 0) {
+          const preselected = requestedGoalId && data.some((g) => g._id === requestedGoalId);
+          setSelectedGoalId(preselected ? (requestedGoalId as string) : data[0]._id);
+          setIsLoadingHistory(true);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load your goals.");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingGoals(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [requestedGoalId]);
+
+  useEffect(() => {
+    if (!selectedGoalId) return;
+    let cancelled = false;
+
+    getChatHistory(selectedGoalId)
+      .then((data) => {
+        if (!cancelled) setMessages(data);
+      })
+      .catch((err) => {
+        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load chat history.");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoadingHistory(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedGoalId]);
+
+  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isTyping]);
 
+  const selectedGoal = goals.find((g) => g._id === selectedGoalId);
+
   const sendMessage = async (text: string) => {
-    if (!text.trim()) return;
-    setMessages((prev) => [...prev, { role: "user", content: text }]);
+    const trimmed = text.trim();
+    if (!trimmed || !selectedGoalId || isTyping) return;
+
+    const optimisticUserMessage: ChatMessage = {
+      _id: `pending-${crypto.randomUUID()}`,
+      goalId: selectedGoalId,
+      userId: "",
+      role: "user",
+      content: trimmed,
+      createdAt: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, optimisticUserMessage]);
     setInput("");
     setIsTyping(true);
-    // Simulated response — wire this up once POST /chat exists on the backend.
-    await new Promise((resolve) => setTimeout(resolve, 1100));
-    setIsTyping(false);
-    setMessages((prev) => [
-      ...prev,
-      { role: "assistant", content: buildReply(text, selectedGoal.title, selectedGoal.weakTopics) },
-    ]);
+    setErrorMsg("");
+
+    try {
+      const { assistantMessage } = await sendChatMessageAction(selectedGoalId, trimmed);
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to get a response from your AI mentor.");
+    } finally {
+      setIsTyping(false);
+    }
   };
 
-  const suggestedQuestions = [
-    "What should I study today?",
-    `Can you quiz me on ${selectedGoal.weakTopics[0] ?? "a weak topic"}?`,
-    "Can you explain it with an easier example?",
-  ];
+  const suggestedQuestions = selectedGoal
+    ? [
+        "What should I study today?",
+        `Can you quiz me on ${selectedGoal.weakTopics[0] ?? "a weak topic"}?`,
+        "Can you explain it with an easier example?",
+      ]
+    : [];
+
+  if (isLoadingGoals) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-(--primary)" />
+      </div>
+    );
+  }
+
+  if (goals.length === 0) {
+    return (
+      <div className="flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--primary)/10 text-(--primary)">
+          <GraduationCap className="h-7 w-7" />
+        </div>
+        <h3 className="mt-4 text-base font-bold text-gray-900">No goals to chat about yet</h3>
+        <p className="mt-1 max-w-sm text-sm text-gray-500">
+          Create a learning goal first — your AI mentor uses it to tailor every answer.
+        </p>
+        <Link
+          href="/dashboard/goals/create"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--primary) px-5 py-2.5 text-sm font-bold text-white hover:bg-(--secondary)"
+        >
+          <PlusCircle className="h-4 w-4" />
+          Create Goal
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-[calc(100vh-8rem)] flex-col rounded-2xl border border-gray-100 bg-white shadow-sm">
@@ -77,30 +157,51 @@ export default function AIChatPage() {
         </div>
         <select
           value={selectedGoalId}
-          onChange={(e) => setSelectedGoalId(e.target.value)}
+          onChange={(e) => {
+            setSelectedGoalId(e.target.value);
+            setIsLoadingHistory(true);
+          }}
           className="h-9 rounded-xl border border-gray-200 bg-gray-50 px-3 text-xs font-semibold text-gray-700 focus:border-(--primary) focus:outline-none"
         >
           {goals.map((g) => (
-            <option key={g.id} value={g.id}>
+            <option key={g._id} value={g._id}>
               Chatting about: {g.title}
             </option>
           ))}
         </select>
       </div>
 
+      {errorMsg && (
+        <div className="mx-6 mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {errorMsg}
+        </div>
+      )}
+
       <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm leading-6 ${
-              msg.role === "user"
-                ? "ml-auto bg-(--primary) text-white"
-                : "bg-gray-100 text-gray-700"
-            }`}
-          >
-            {msg.content}
+        {isLoadingHistory ? (
+          <div className="flex h-full items-center justify-center">
+            <Loader2 className="h-6 w-6 animate-spin text-(--primary)" />
           </div>
-        ))}
+        ) : (
+          <>
+            {selectedGoal && messages.length === 0 && (
+              <div className="max-w-lg rounded-2xl bg-gray-100 px-4 py-2.5 text-sm leading-6 text-gray-700">
+                Hi! I&apos;m your AI mentor. I can see you&apos;re working on &ldquo;{selectedGoal.title}
+                &rdquo; — ask me anything about your plan, or pick a suggested question below.
+              </div>
+            )}
+            {messages.map((msg) => (
+              <div
+                key={msg._id}
+                className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm leading-6 ${
+                  msg.role === "user" ? "ml-auto bg-(--primary) text-white" : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                {msg.content}
+              </div>
+            ))}
+          </>
+        )}
         {isTyping && <TypingIndicator />}
       </div>
 
@@ -110,7 +211,8 @@ export default function AIChatPage() {
             <button
               key={q}
               onClick={() => sendMessage(q)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-(--primary)/20 bg-(--primary)/5 px-3 py-1.5 text-xs font-medium text-(--primary) hover:bg-(--primary)/10"
+              disabled={isTyping}
+              className="inline-flex items-center gap-1.5 rounded-full border border-(--primary)/20 bg-(--primary)/5 px-3 py-1.5 text-xs font-medium text-(--primary) hover:bg-(--primary)/10 disabled:opacity-50"
             >
               <Sparkles className="h-3 w-3" />
               {q}
@@ -129,15 +231,16 @@ export default function AIChatPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask your AI mentor anything..."
-            className="h-11 flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+            disabled={isTyping}
+            className="h-11 flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary) disabled:opacity-60"
           />
           <button
             type="submit"
-            disabled={!input.trim()}
+            disabled={!input.trim() || isTyping}
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--primary) text-white transition-colors hover:bg-(--secondary) disabled:opacity-40"
             aria-label="Send message"
           >
-            <Send className="h-4 w-4" />
+            {isTyping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </button>
         </form>
       </div>

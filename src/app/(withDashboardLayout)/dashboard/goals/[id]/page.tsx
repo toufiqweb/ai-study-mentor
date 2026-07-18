@@ -10,7 +10,8 @@ import {
   ListChecks,
   Map,
 } from "lucide-react";
-import { getGoalById } from "@/lib/mock/goals";
+import { getGoalById } from "@/lib/api/goals";
+import { getChatHistory } from "@/lib/api/chat";
 
 const statusStyles = {
   "on-track": "bg-(--primary)/10 text-(--primary)",
@@ -24,14 +25,9 @@ const statusLabels = {
   completed: "Completed",
 } as const;
 
-const mockChatHistory = [
-  { role: "user" as const, message: "Can you explain this week's focus topic with an easier example?" },
-  { role: "assistant" as const, message: "Sure — let's break it down step by step using something you already know." },
-];
-
 export default async function GoalDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const goal = getGoalById(id);
+  const [goal, chatHistory] = await Promise.all([getGoalById(id), getChatHistory(id)]);
 
   if (!goal) {
     notFound();
@@ -62,7 +58,7 @@ export default async function GoalDetailsPage({ params }: { params: Promise<{ id
             <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">{goal.description}</p>
           </div>
           <Link
-            href="/dashboard/chat"
+            href={`/dashboard/chat?goalId=${goal._id}`}
             className="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-(--secondary)"
           >
             <MessagesSquare className="h-4 w-4" />
@@ -204,23 +200,30 @@ export default async function GoalDetailsPage({ params }: { params: Promise<{ id
             <MessagesSquare className="h-4 w-4 text-(--secondary)" />
             Chat History
           </h2>
-          <Link href="/dashboard/chat" className="text-xs font-bold text-(--primary) hover:underline">
+          <Link
+            href={`/dashboard/chat?goalId=${goal._id}`}
+            className="text-xs font-bold text-(--primary) hover:underline"
+          >
             Open full chat
           </Link>
         </div>
         <div className="mt-4 space-y-3">
-          {mockChatHistory.map((msg, i) => (
-            <div
-              key={i}
-              className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm ${
-                msg.role === "user"
-                  ? "ml-auto bg-(--primary) text-white"
-                  : "bg-gray-100 text-gray-700"
-              }`}
-            >
-              {msg.message}
-            </div>
-          ))}
+          {chatHistory.length === 0 ? (
+            <p className="text-sm text-gray-500">
+              No conversation yet — ask your AI mentor a question to get started.
+            </p>
+          ) : (
+            chatHistory.map((msg) => (
+              <div
+                key={msg._id}
+                className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm ${
+                  msg.role === "user" ? "ml-auto bg-(--primary) text-white" : "bg-gray-100 text-gray-700"
+                }`}
+              >
+                {msg.content}
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>
