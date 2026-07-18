@@ -1,16 +1,24 @@
 "use client";
-
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, ChevronLeft, ChevronRight, Compass, Loader2 } from "lucide-react";
-import { getRoadmaps, type RoadmapSummary, type RoadmapSort } from "@/lib/api/roadmaps";
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Compass,
+  Loader2,
+} from "lucide-react";
+import {
+  getRoadmaps,
+  type RoadmapSummary,
+  type RoadmapSort,
+} from "@/lib/api/roadmaps";
 import { CATEGORIES, SKILL_LEVELS } from "@/lib/constants";
 import RoadmapCard from "@/components/shared/RoadmapCard";
 import RoadmapCardSkeleton from "@/components/shared/RoadmapCardSkeleton";
 import SectionContainer from "@/components/shared/SectionContainer";
 import SectionTitle from "@/components/shared/SectionTitle";
 import SectionDescription from "@/components/shared/SectionDescription";
-import CTA from "@/components/home/CTA";
 
 const DURATION_OPTIONS = [
   { value: "any", label: "Any Duration" },
@@ -83,7 +91,10 @@ function ExploreRoadmapsContent() {
         setTotalPages(result.totalPages);
       })
       .catch((err) => {
-        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load roadmaps.");
+        if (!cancelled)
+          setErrorMsg(
+            err instanceof Error ? err.message : "Failed to load roadmaps.",
+          );
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
@@ -94,12 +105,13 @@ function ExploreRoadmapsContent() {
     };
   }, [debouncedSearch, category, difficulty, duration, sort, page]);
 
-  const handleFilterChange = (setter: (value: string) => void) => (value: string) => {
-    setter(value);
-    setPage(1);
-    setIsLoading(true);
-    setErrorMsg("");
-  };
+  const handleFilterChange =
+    (setter: (value: string) => void) => (value: string) => {
+      setter(value);
+      setPage(1);
+      setIsLoading(true);
+      setErrorMsg("");
+    };
 
   const handleSearchChange = (value: string) => {
     setSearchInput(value);
@@ -115,12 +127,16 @@ function ExploreRoadmapsContent() {
 
   return (
     <div>
-      <SectionContainer className="bg-gray-50 py-20" containerClassName="max-w-6xl text-center">
+      <SectionContainer
+        className="bg-gray-50 py-20"
+        containerClassName="max-w-6xl text-center"
+      >
         <SectionTitle as="h1" eyebrow="Explore Roadmaps">
           Find your next learning path
         </SectionTitle>
         <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
-          Browse AI-crafted roadmaps across every subject, then personalize one into your own learning goal.
+          Browse AI-crafted roadmaps across every subject, then personalize one
+          into your own learning goal.
         </SectionDescription>
 
         <div className="mx-auto mt-10 max-w-3xl">
@@ -151,7 +167,9 @@ function ExploreRoadmapsContent() {
 
             <select
               value={difficulty}
-              onChange={(e) => handleFilterChange(setDifficulty)(e.target.value)}
+              onChange={(e) =>
+                handleFilterChange(setDifficulty)(e.target.value)
+              }
               className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
             >
               <option value="all">All Difficulties</option>
@@ -176,7 +194,11 @@ function ExploreRoadmapsContent() {
 
             <select
               value={sort}
-              onChange={(e) => handleFilterChange((v) => setSort(v as RoadmapSort))(e.target.value)}
+              onChange={(e) =>
+                handleFilterChange((v) => setSort(v as RoadmapSort))(
+                  e.target.value,
+                )
+              }
               className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
             >
               {SORT_OPTIONS.map((s) => (
@@ -208,7 +230,9 @@ function ExploreRoadmapsContent() {
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-gray-400">
                 <Compass className="h-7 w-7" />
               </div>
-              <h3 className="mt-4 text-base font-bold text-gray-900">No roadmaps found</h3>
+              <h3 className="mt-4 text-base font-bold text-gray-900">
+                No roadmaps found
+              </h3>
               <p className="mt-1 max-w-sm text-sm text-gray-500">
                 Try a different search term, category, or filter combination.
               </p>
@@ -224,7 +248,8 @@ function ExploreRoadmapsContent() {
               {totalPages > 1 && (
                 <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-gray-100 pt-6 sm:flex-row">
                   <p className="text-sm text-gray-500">
-                    Showing {(page - 1) * items.length + 1}–{(page - 1) * items.length + items.length} of {total}
+                    Showing {(page - 1) * items.length + 1}–
+                    {(page - 1) * items.length + items.length} of {total}
                   </p>
                   <div className="flex items-center gap-2">
                     <button
@@ -249,7 +274,9 @@ function ExploreRoadmapsContent() {
                       </button>
                     ))}
                     <button
-                      onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
+                      onClick={() =>
+                        handlePageChange(Math.min(totalPages, page + 1))
+                      }
                       disabled={page === totalPages}
                       className="rounded-xl border border-gray-200 p-2 disabled:opacity-40"
                       aria-label="Next page"
@@ -263,8 +290,6 @@ function ExploreRoadmapsContent() {
           )}
         </div>
       </section>
-
-      <CTA />
     </div>
   );
 }

@@ -26,9 +26,9 @@ const categories = [
 
 export default function LearningCategories() {
   return (
-    <SectionContainer id="learning-categories" className="bg-gray-50 py-24">
+    <SectionContainer id="learning-categories" className="bg-(--background) py-24">
       <AnimatedSection className="mx-auto max-w-2xl text-center">
-        <SectionTitle eyebrow="Learning Categories" eyebrowClassName="text-(--ternary)">
+        <SectionTitle eyebrow="Learning Categories" eyebrowClassName="text-(--secondary)">
           Set a goal in any subject
         </SectionTitle>
         <SectionDescription>
@@ -43,7 +43,7 @@ export default function LearningCategories() {
               <div className="rounded-2xl bg-(--ternary)/10 p-3.5 transition-colors group-hover:bg-(--ternary)/15">
                 <category.icon className="h-6 w-6 text-(--ternary)" />
               </div>
-              <p className="text-sm font-bold text-gray-900">{category.name}</p>
+              <p className="text-sm font-bold text-(--primary)">{category.name}</p>
             </div>
           </AnimatedSection>
         ))}

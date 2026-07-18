@@ -18,8 +18,8 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 const inputStyles =
-  "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)";
-const labelStyles = "text-sm font-medium text-gray-700";
+  "w-full rounded-xl border border-gray-200 bg-(--background) px-4 py-2.5 text-sm text-(--primary) placeholder-gray-400 transition-colors focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)";
+const labelStyles = "text-sm font-medium text-(--primary)";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "hello@aistudymentor.com" },
@@ -48,12 +48,12 @@ export default function ContactPage() {
   });
 
   return (
-    <SectionContainer className="bg-gray-50 py-20" containerClassName="max-w-5xl">
+    <SectionContainer className="bg-(--background) py-20" containerClassName="max-w-5xl">
       <div className="text-center">
         <SectionTitle as="h1" eyebrow="Contact">
           Get in touch
         </SectionTitle>
-        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-(--secondary)">
           Questions, feedback, or partnership ideas — we&apos;d love to hear from you.
         </SectionDescription>
       </div>
@@ -113,7 +113,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 rounded-xl bg-(--primary) px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-(--secondary) disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-6 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-60"
             >
               {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               Send Message
@@ -123,16 +123,16 @@ export default function ContactPage() {
 
         <div className="space-y-6">
           <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-bold text-gray-900">Contact Information</h2>
+            <h2 className="text-base font-bold text-(--primary)">Contact Information</h2>
             <div className="mt-5 space-y-4">
               {contactInfo.map((item) => (
                 <div key={item.label} className="flex items-start gap-3">
-                  <div className="rounded-xl bg-(--primary)/10 p-2.5">
-                    <item.icon className="h-4 w-4 text-(--primary)" />
+                  <div className="rounded-xl bg-(--ternary)/10 p-2.5">
+                    <item.icon className="h-4 w-4 text-(--ternary)" />
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-gray-400">{item.label}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.value}</p>
+                    <p className="text-xs font-medium text-(--secondary)">{item.label}</p>
+                    <p className="text-sm font-semibold text-(--primary)">{item.value}</p>
                   </div>
                 </div>
               ))}
@@ -140,14 +140,14 @@ export default function ContactPage() {
           </div>
 
           <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
-            <h2 className="text-base font-bold text-gray-900">Follow Along</h2>
+            <h2 className="text-base font-bold text-(--primary)">Follow Along</h2>
             <div className="mt-4 flex items-center gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-(--primary)/10 hover:text-(--primary)"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-(--secondary)/10 text-(--secondary) transition-colors hover:bg-(--ternary)/10 hover:text-(--ternary)"
                 >
                   <social.icon className="h-4 w-4" />
                 </a>
