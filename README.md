@@ -4,6 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![TanStack Query](https://img.shields.io/badge/-TanStack%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)](https://tanstack.com/query/latest)
 [![Better-Auth](https://img.shields.io/badge/Better--Auth-1.6-red?style=for-the-badge)](https://better-auth.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -47,7 +48,8 @@ An intelligent, interactive, and personalized educational study platform built u
 - **UI & Styles:** [Tailwind CSS v4](https://tailwindcss.com/), [Lucide React](https://lucide.dev/) (Icons)
 - **Authentication:** [Better-Auth v1.6](https://better-auth.com/) (with MongoDB Client Adapter)
 - **Animations:** [Framer Motion v12](https://www.framer.com/motion/)
-- **State Management & Forms:** [React Hook Form](https://react-hook-form.com/), [Zod Schema Validation](https://zod.dev/)
+- **Data Fetching & State:** [TanStack Query v5](https://tanstack.com/query/latest)
+- **Forms & Validation:** [React Hook Form](https://react-hook-form.com/), [Zod Schema Validation](https://zod.dev/)
 - **Charts & Visuals:** [Recharts](https://recharts.org/)
 
 ---
