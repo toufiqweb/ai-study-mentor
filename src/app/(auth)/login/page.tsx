@@ -59,6 +59,58 @@ export default function LoginPage() {
     }
   };
 
+  const handleDemoLogin = async () => {
+    const demoEmail = "demo@studymentor.com";
+    const demoPassword = "password123";
+    const demoName = "Demo Student";
+
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setErrorMsg("");
+    setLoading(true);
+
+    try {
+      await authClient.signIn.email(
+        {
+          email: demoEmail,
+          password: demoPassword,
+          callbackURL: "/",
+          rememberMe: true,
+        },
+        {
+          onSuccess: () => {
+            setLoading(false);
+            router.push("/");
+          },
+          onError: async () => {
+            // Self-heal: If sign-in fails (e.g. user doesn't exist), register user automatically
+            await authClient.signUp.email(
+              {
+                email: demoEmail,
+                password: demoPassword,
+                name: demoName,
+                callbackURL: "/",
+              },
+              {
+                onSuccess: () => {
+                  setLoading(false);
+                  router.push("/");
+                },
+                onError: (ctx) => {
+                  setLoading(false);
+                  setErrorMsg(ctx.error.message || "Demo login failed");
+                },
+              }
+            );
+          },
+        }
+      );
+    } catch (err: any) {
+      setLoading(false);
+      setErrorMsg(err?.message || "Demo login encountered an error.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gray-50/50">
       {/* Background Decorative Elements */}
@@ -87,15 +139,25 @@ export default function LoginPage() {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          {/* Social Auth */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 border border-gray-200 bg-white hover:bg-gray-50 text-(--primary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-gray-200"
-          >
-            <FcGoogle className="text-xl" />
-            <span>Continue with Google</span>
-          </button>
+          {/* Social & Demo Auth */}
+          <div className="space-y-3">
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center gap-3 border border-gray-200 bg-white hover:bg-gray-50 text-(--primary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-gray-200 cursor-pointer"
+            >
+              <FcGoogle className="text-xl" />
+              <span>Continue with Google</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              className="w-full flex items-center justify-center gap-2 border border-(--ternary)/20 bg-(--ternary)/5 hover:bg-(--ternary)/10 text-(--ternary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-(--ternary)/20 cursor-pointer"
+            >
+              <span>Try Demo Login (Auto-fill)</span>
+            </button>
+          </div>
 
           {/* Divider */}
           <div className="relative flex items-center justify-center py-2">
