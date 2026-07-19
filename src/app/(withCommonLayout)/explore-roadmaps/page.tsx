@@ -9,11 +9,7 @@ import {
   Compass,
   Loader2,
 } from "lucide-react";
-import {
-  getRoadmaps,
-  type RoadmapSummary,
-  type RoadmapSort,
-} from "@/lib/api/roadmaps";
+import { getRoadmaps, type RoadmapSort } from "@/lib/api/roadmaps";
 import { CATEGORIES, SKILL_LEVELS } from "@/lib/constants";
 import RoadmapCard from "@/components/shared/RoadmapCard";
 import RoadmapCardSkeleton from "@/components/shared/RoadmapCardSkeleton";
@@ -39,7 +35,7 @@ const SORT_OPTIONS: { value: RoadmapSort; label: string }[] = [
 export default function ExploreRoadmapsPage() {
   return (
     <Suspense
-      fallback = {
+      fallback={
         <div className="flex h-[60vh] items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
         </div>
@@ -71,7 +67,7 @@ function ExploreRoadmapsContent() {
   const { data, isLoading, error } = useQuery({
     queryKey: [
       "roadmaps",
-      { search: debouncedSearch, category, difficulty, duration, sort, page },
+      { search: debouncedSearch, category, difficulty, duration, sort, page, limit: 8 },
     ],
     queryFn: () =>
       getRoadmaps({
@@ -81,6 +77,7 @@ function ExploreRoadmapsContent() {
         duration: duration !== "any" ? Number(duration) : undefined,
         sort,
         page,
+        limit: 8,
       }),
     enabled: typeof window !== "undefined",
   });
@@ -200,8 +197,8 @@ function ExploreRoadmapsContent() {
           )}
 
           {isLoading ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {Array.from({ length: 8 }).map((_, i) => (
                 <RoadmapCardSkeleton key={i} />
               ))}
             </div>
@@ -219,7 +216,7 @@ function ExploreRoadmapsContent() {
             </div>
           ) : (
             <>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {items.map((roadmap) => (
                   <RoadmapCard key={roadmap._id} roadmap={roadmap} />
                 ))}
