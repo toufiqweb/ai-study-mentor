@@ -64,7 +64,11 @@ export default function AIChatPage() {
 
   // Send Message Mutation with optimistic update
   const sendMutation = useMutation({
-    mutationFn: (text: string) => sendChatMessageAction(selectedGoalId, text),
+    mutationFn: async (text: string) => {
+      const res = await sendChatMessageAction(selectedGoalId, text);
+      if (!res.success) throw new Error(res.error);
+      return res.data;
+    },
     onMutate: async (text: string) => {
       const optimisticUserMessage: ChatMessage = {
         _id: `pending-${crypto.randomUUID()}`,

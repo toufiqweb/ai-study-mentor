@@ -45,7 +45,11 @@ export default function MyGoalsPage() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (goalId: string) => deleteGoalAction(goalId),
+    mutationFn: async (goalId: string) => {
+      const res = await deleteGoalAction(goalId);
+      if (!res.success) throw new Error(res.error);
+      return res;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       setPendingDelete(null);

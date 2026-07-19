@@ -11,10 +11,20 @@ import type { ChatMessage } from "../api/chat";
 export const sendChatMessageAction = async (
   goalId: string,
   message: string
-): Promise<{ userMessage: ChatMessage; assistantMessage: ChatMessage }> => {
-  const res = await serverMutation<{
-    success: boolean;
-    data: { userMessage: ChatMessage; assistantMessage: ChatMessage };
-  }>(`/api/chat/${goalId}`, { message }, "POST");
-  return res.data;
+): Promise<
+  | { success: true; data: { userMessage: ChatMessage; assistantMessage: ChatMessage } }
+  | { success: false; error: string }
+> => {
+  try {
+    const res = await serverMutation<{
+      success: boolean;
+      data: { userMessage: ChatMessage; assistantMessage: ChatMessage };
+    }>(`/api/chat/${goalId}`, { message }, "POST");
+    return { success: true, data: res.data };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to send message.",
+    };
+  }
 };

@@ -79,8 +79,12 @@ export default function GoalDetailsPage() {
     setErrorMsg("");
 
     try {
-      const updated = await toggleTaskAction(goal._id, taskKey, nextCompleted);
-      setGoal((prev) => (prev ? { ...prev, ...updated, studyPlan: prev.studyPlan } : prev));
+      const res = await toggleTaskAction(goal._id, taskKey, nextCompleted);
+      if (res.success) {
+        setGoal((prev) => (prev ? { ...prev, ...res.data, studyPlan: prev.studyPlan } : prev));
+      } else {
+        throw new Error(res.error);
+      }
     } catch (err) {
       setGoal(previousGoal);
       setErrorMsg(err instanceof Error ? err.message : "Failed to update this task.");

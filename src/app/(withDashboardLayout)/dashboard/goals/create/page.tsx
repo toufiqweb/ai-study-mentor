@@ -79,30 +79,29 @@ export default function CreateGoalPage() {
     setIsGenerating(true);
     setErrorMsg("");
     setGeneratedPlan(null);
-    try {
-      const plan = await generateStudyPlanAction({
-        ...values,
-        weakTopics: toWeakTopicsArray(values.weakTopics),
-      });
-      setGeneratedPlan(plan);
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Failed to generate a study plan.");
-    } finally {
-      setIsGenerating(false);
+    const res = await generateStudyPlanAction({
+      ...values,
+      weakTopics: toWeakTopicsArray(values.weakTopics),
+    });
+    if (res.success) {
+      setGeneratedPlan(res.data);
+    } else {
+      setErrorMsg(res.error);
     }
+    setIsGenerating(false);
   });
 
   const onSave = handleSubmit(async (values) => {
     setIsSaving(true);
     setErrorMsg("");
-    try {
-      await createGoalAction(
-        { ...values, weakTopics: toWeakTopicsArray(values.weakTopics) },
-        generatedPlan ?? undefined
-      );
+    const res = await createGoalAction(
+      { ...values, weakTopics: toWeakTopicsArray(values.weakTopics) },
+      generatedPlan ?? undefined
+    );
+    if (res.success) {
       router.push("/dashboard/goals");
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Failed to save this goal.");
+    } else {
+      setErrorMsg(res.error);
       setIsSaving(false);
     }
   });
