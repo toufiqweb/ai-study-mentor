@@ -12,12 +12,15 @@ An intelligent, interactive, and personalized educational study platform built u
 ---
 
 ## 🔗 Live Demo
-🚀 **Explore the live version here:** [AI Study Mentor Deployment](https://ai-study-mentor-client.vercel.app) *(Link placeholder)*
+
+🚀 **Explore the live version here:** [AI Study Mentor Deployment](https://ai-study-mentor-ten.vercel.app) \*
 
 ---
 
 ## 📋 Project Overview
+
 **AI Study Mentor** is a full-stack platform designed to revolutionize the way students and professionals learn. Self-studying is often overwhelming due to a lack of structure and immediate guidance. This frontend client addresses these problems by providing:
+
 1. **Interactive AI Roadmaps:** Customized paths for multiple skill levels and subjects.
 2. **Context-Aware AI Mentor:** A dedicated chatbot powered by advanced LLMs that is aware of your study goals and assists you in real-time.
 3. **Goal & Milestone Tracking:** Break down complex topics into atomic, trackable milestones.
@@ -26,6 +29,7 @@ An intelligent, interactive, and personalized educational study platform built u
 ---
 
 ## ✨ Key Features
+
 - 🔐 **Secure Session Management:** Email & Password signup/login alongside Google Social OAuth login powered by **Better-Auth**.
 - 🛠️ **Next.js 16 Proxy Security:** Protected route boundary patterns using the new Next.js 16 `proxy.ts` system to safeguard private user dashboards.
 - 🗺️ **Roadmap Hub:** Dynamic filters for finding roadmaps based on duration, category, difficulty, or search terms.
@@ -37,6 +41,7 @@ An intelligent, interactive, and personalized educational study platform built u
 ---
 
 ## 🛠️ Technologies Used
+
 - **Core Framework:** [Next.js 16](https://nextjs.org/) (App Router, Server Actions, Client Components)
 - **Programming Language:** [TypeScript](https://www.typescriptlang.org/)
 - **UI & Styles:** [Tailwind CSS v4](https://tailwindcss.com/), [Lucide React](https://lucide.dev/) (Icons)
@@ -48,7 +53,9 @@ An intelligent, interactive, and personalized educational study platform built u
 ---
 
 ## 🏗️ Project Architecture (Frontend)
+
 The frontend utilizes Next.js's modern **App Router** layout. It separates layouts to optimize performance and keep code dry:
+
 - **Common Layout (`(withCommonLayout)`)**: Contains public routes like `/about`, `/blog`, `/contact`, and `/explore-roadmaps`, wrapping them with the global public Navigation Bar and Footer.
 - **Dashboard Layout (`(withDashboardLayout)`)**: Houses protected endpoints (e.g. `/dashboard`, `/dashboard/chat`) wrapped in a sticky sidebar navigation context.
 - **Auth Routes (`(auth)`)**: Provides dedicated pages for `/login` and `/register`.
@@ -76,6 +83,7 @@ The frontend utilizes Next.js's modern **App Router** layout. It separates layou
 ---
 
 ## 📂 Folder Structure
+
 Below is an overview of the key directories within `client/src`:
 
 ```
@@ -115,24 +123,29 @@ src/
 Follow these steps to run the frontend application locally:
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/your-username/ai-study-mentor.git
    cd ai-study-mentor/client
    ```
 
 2. **Install the dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Configure Environment Variables:**
    Create a `.env` file in the root of the `client` directory:
+
    ```bash
    cp .env.example .env
    ```
-   *Fill in your MongoDB connection details, Better-Auth secrets, and Google credentials.*
+
+   _Fill in your MongoDB connection details, Better-Auth secrets, and Google credentials._
 
 4. **Run the local development server:**
+
    ```bash
    npm run dev
    ```
@@ -143,6 +156,7 @@ Follow these steps to run the frontend application locally:
 ---
 
 ## 🔒 Environment Variables (.env.example)
+
 The frontend application requires the following environment variables to run correctly. Make sure to define these in your `.env` file:
 
 ```env
@@ -166,6 +180,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret_here
 ---
 
 ## ⚙️ Available Scripts
+
 Inside `package.json`, the following scripts are defined:
 
 - `npm run dev`: Boots the development server with Next.js Turbopack.
@@ -176,6 +191,7 @@ Inside `package.json`, the following scripts are defined:
 ---
 
 ## 🔑 Authentication Flow
+
 The application's authentication architecture utilizes **Better-Auth** for secure session handling:
 
 1. **Sign-up / Login:** Users register or log in using email credentials (validated client-side via Zod).
@@ -188,11 +204,13 @@ The application's authentication architecture utilizes **Better-Auth** for secur
 ## 🚏 Main Pages & Routes
 
 ### Public Pages
+
 - **`src/app/(withCommonLayout)/page.tsx`**: Landing screen with features overview, student statistics, and testimonials.
 - **`src/app/(withCommonLayout)/explore-roadmaps/page.tsx`**: Catalog of standard learning roadmaps (e.g. Frontend, Backend, Machine Learning) with custom search and filtering.
 - **`src/app/unauthorized/page.tsx`**: Styled landing page explaining why access was blocked, with clear login redirection prompts.
 
 ### Protected Portal
+
 - **`src/app/(withDashboardLayout)/dashboard/page.tsx`**: Main student portal dashboard presenting ongoing goals, completed tasks, and analytics.
 - **`src/app/(withDashboardLayout)/dashboard/chat/page.tsx`**: Conversation interface connecting to the AI Mentor chatbot contextually based on the user's active goal.
 - **`src/app/(withDashboardLayout)/dashboard/goals/page.tsx`**: Management page for setting up roadmap milestones, adding items, and updating status.
@@ -200,6 +218,7 @@ The application's authentication architecture utilizes **Better-Auth** for secur
 ---
 
 ## 🤖 AI Features
+
 - **Context-Aware Study Assistant:** Unlike generic chatbots, the AI Mentor Chat targets a specific goal context. Prompt inputs automatically payload the active goal's details, making answers highly personalized.
 - **Dynamic Typing Indicators:** Provides immediate visual feedback when the AI is processing study requests.
 - **Roadmap Integration:** Generate, modify, and update custom milestones using intelligent LLM assistance on the backend.
@@ -207,7 +226,9 @@ The application's authentication architecture utilizes **Better-Auth** for secur
 ---
 
 ## 📱 Responsive Design
+
 The entire application has been built from the ground up to support modern viewing devices:
+
 - **Mobile First Navigation:** Incorporates clean collapsible mobile drawer navigation on dashboards and responsive headers.
 - **Fluid Layouts:** Flexbox and CSS Grid adapt layouts from dynamic double columns (large viewports) to stacked viewports (tablets and smartphones).
 - **Responsive Charts:** The Recharts analytical components automatically auto-scale to their container boundaries.
@@ -215,6 +236,7 @@ The entire application has been built from the ground up to support modern viewi
 ---
 
 ## ⚡ Performance Optimizations
+
 - **Next.js Turbopack:** Utilizes next-gen compilation assets for super fast Hot Module Replacement during development.
 - **Framer Motion Optimization:** Strict CSS transitions and layout transitions using framer-motion keep browser paint overhead minimal.
 - **Debounced Exploration Search:** Input fields for roadmaps filter via debounced inputs to reduce redundant API fetches.
@@ -223,6 +245,7 @@ The entire application has been built from the ground up to support modern viewi
 ---
 
 ## 🛡️ Security Considerations
+
 - **Secure Proxies:** Protects administrative routes on the server network level using the new Next.js 16 `proxy.ts` convention, resolving access permissions BEFORE page generation.
 - **Form Sanitization:** Zod schemas validate forms on the front boundary to ensure no corrupted payloads reach database interfaces.
 - **Secure Token Cache:** Uses HTTPOnly cookie caching mechanism for active sessions.
@@ -230,6 +253,7 @@ The entire application has been built from the ground up to support modern viewi
 ---
 
 ## 🔮 Future Improvements
+
 - [ ] **Custom AI Roadmap Generation:** Let users query the AI to create unique milestones from scratch instead of choosing existing catalog roadmaps.
 - [ ] **Gamified Streaks:** Visual display of daily study accomplishments to encourage student habit building.
 - [ ] **Collaborative Study Rooms:** Real-time peer learning rooms using WebSockets.
@@ -237,7 +261,8 @@ The entire application has been built from the ground up to support modern viewi
 ---
 
 ## 📸 Screenshots
-*(Screenshots will be added upon deployment)*
+
+_(Screenshots will be added upon deployment)_
 | Public Home Landing | AI Mentor Chat | Student Analytics Dashboard |
 |---|---|---|
 | ![Landing Placeholder](public/logo.png) | ![Chat Placeholder](public/logo.png) | ![Analytics Placeholder](public/logo.png) |
@@ -245,11 +270,14 @@ The entire application has been built from the ground up to support modern viewi
 ---
 
 ## 👤 Author
+
 **Your Name**
+
 - GitHub: [@your-username](https://github.com/your-username)
 - LinkedIn: [Your Profile](https://linkedin.com/in/your-profile)
 
 ---
 
 ## 📄 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
