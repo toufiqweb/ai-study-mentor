@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  GraduationCap,
-  LogOut,
-  LayoutDashboard,
-  ChevronDown,
-} from "lucide-react";
+import { LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 const publicLinks = [
@@ -52,7 +47,13 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2 text-lg font-bold text-(--primary)"
         >
-          <Image src="/logo.png" alt="AI Study Mentor" width={28} height={28} className="object-contain" />
+          <Image
+            src="/logo.png"
+            alt="AI Study Mentor"
+            width={28}
+            height={28}
+            className="object-contain"
+          />
           AI Study Mentor
         </Link>
 
@@ -83,17 +84,17 @@ export default function Navbar() {
               {session.user.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={session.user.image}
-                  alt={session.user.name}
+                  src={session?.user?.image}
+                  alt={session?.user?.name || "user"}
                   className="h-8 w-8 rounded-full object-cover"
                 />
               ) : (
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--primary)/10 text-sm font-bold text-(--primary)">
-                  {session.user.name?.charAt(0).toUpperCase() ?? "S"}
+                  {session?.user?.name?.charAt(0).toUpperCase() ?? "S"}
                 </div>
               )}
               <span className="hidden text-sm font-semibold text-(--primary) sm:block">
-                {session.user.name}
+                {session?.user?.name}
               </span>
               <ChevronDown className="hidden h-4 w-4 text-(--secondary) sm:block" />
             </button>

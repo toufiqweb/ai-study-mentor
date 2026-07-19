@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import {
-  GraduationCap,
   Mail,
   Lock,
   User,
   Loader2,
   Eye,
   EyeOff,
+  AlertCircle,
 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -50,25 +52,71 @@ export default function RegisterPage() {
     );
   };
 
-  return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-(--ternary) opacity-[0.08] rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-(--primary) opacity-[0.05] rounded-full blur-3xl"></div>
+  const handleGoogleLogin = async () => {
+    try {
+      const data = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
 
-      <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 z-10 relative">
-        <div className="text-center">
-          <div className="mx-auto h-14 w-14 bg-(--ternary) rounded-2xl flex items-center justify-center shadow-lg transform rotate-3">
-            <GraduationCap className="w-7 h-7 text-white" />
+      if (!data) {
+        setErrorMsg("Something went wrong with Google authentication.");
+      }
+    } catch (err: any) {
+      console.error("Google login error:", err);
+      setErrorMsg(String(err?.message || err || "Something went wrong"));
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gray-50/50">
+      {/* Background Decorative Elements */}
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-(--ternary) opacity-[0.06] rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-(--primary) opacity-[0.04] rounded-full blur-3xl pointer-events-none"></div>
+
+      {/* Main Register Card */}
+      <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 z-10 relative">
+        {/* Header Section */}
+        <div className="text-center flex flex-col items-center">
+          <div className="mb-6 relative w-16 h-16 sm:w-20 sm:h-20 drop-shadow-sm">
+            <Image
+              src="/logo.png"
+              alt="AI Study Mentor Logo"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
-          <h2 className="mt-6 text-3xl font-extrabold text-(--primary) tracking-tight">
-            Create Account
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-(--primary) tracking-tight">
+            Create an account
           </h2>
-          <p className="mt-2 text-sm text-(--secondary)">
+          <p className="mt-2 text-sm text-(--secondary) font-medium">
             Join AI Study Mentor today
           </p>
         </div>
-        <form className="mt-8 space-y-5" onSubmit={handleRegister}>
-          <div className="space-y-4">
+
+        <form className="mt-8 space-y-6" onSubmit={handleRegister}>
+          {/* Social Auth */}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-3 border border-gray-200 bg-white hover:bg-gray-50 text-(--primary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-gray-200"
+          >
+            <FcGoogle className="text-xl" />
+            <span>Continue with Google</span>
+          </button>
+
+          {/* Divider */}
+          <div className="relative flex items-center justify-center py-2">
+            <div className="border-t border-gray-200 w-full"></div>
+            <span className="absolute bg-white px-4 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+              Or continue with email
+            </span>
+          </div>
+
+          {/* Form Fields */}
+          <div className="space-y-5">
+            {/* Name Field */}
             <div>
               <label
                 className="block text-sm font-semibold text-(--primary) mb-1.5"
@@ -76,9 +124,9 @@ export default function RegisterPage() {
               >
                 Full Name
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+                  <User className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="name"
@@ -87,12 +135,13 @@ export default function RegisterPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-3 py-3 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary) focus:border-transparent sm:text-sm transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
                   placeholder="John Doe"
                 />
               </div>
             </div>
 
+            {/* Email Field */}
             <div>
               <label
                 className="block text-sm font-semibold text-(--primary) mb-1.5"
@@ -100,9 +149,9 @@ export default function RegisterPage() {
               >
                 Email Address
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="email"
@@ -112,12 +161,13 @@ export default function RegisterPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-3 py-3 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary) focus:border-transparent sm:text-sm transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
+            {/* Password Field */}
             <div>
               <label
                 className="block text-sm font-semibold text-(--primary) mb-1.5"
@@ -125,9 +175,9 @@ export default function RegisterPage() {
               >
                 Password
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="password"
@@ -138,13 +188,13 @@ export default function RegisterPage() {
                   minLength={8}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-11 py-3 border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary) focus:border-transparent sm:text-sm transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-11 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -156,21 +206,26 @@ export default function RegisterPage() {
             </div>
           </div>
 
+          {/* Error Message */}
           {errorMsg && (
-            <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-xl border border-red-100 flex items-center shadow-sm">
-              <span className="shrink-0 mr-2 text-lg">⚠️</span>
-              {errorMsg}
+            <div className="animate-in fade-in slide-in-from-top-1 text-red-600 text-sm font-medium bg-red-50 p-3.5 rounded-xl border border-red-100 flex items-start gap-2.5 shadow-sm">
+              <AlertCircle className="w-5 h-5 shrink-0 text-red-500" />
+              <span className="leading-tight pt-0.5">{errorMsg}</span>
             </div>
           )}
 
+          {/* Submit Button */}
           <div className="pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--ternary) hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--ternary) hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Creating account...</span>
+                </>
               ) : (
                 "Create Account"
               )}
@@ -178,26 +233,17 @@ export default function RegisterPage() {
           </div>
         </form>
 
-        <div className="mt-8">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-(--secondary) font-medium">
-                Already have an account?
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6">
+        {/* Footer Link */}
+        <div className="pt-6 mt-6 border-t border-gray-100 text-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?{" "}
             <Link
               href="/login"
-              className="w-full flex justify-center py-3.5 px-4 border-2 border-gray-200 rounded-xl shadow-sm bg-white text-sm font-bold text-(--ternary) hover:bg-gray-50 hover:border-gray-300 transition-all"
+              className="font-bold text-(--ternary) hover:text-(--primary) transition-colors"
             >
-              Log in instead
+              Sign in
             </Link>
-          </div>
+          </p>
         </div>
       </div>
     </div>
