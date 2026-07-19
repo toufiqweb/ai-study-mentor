@@ -18,7 +18,6 @@ export default function AIChatPage() {
   const queryClient = useQueryClient();
 
   const [selectedGoalId, setSelectedGoalId] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [errorMsg, setErrorMsg] = useState("");
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -39,20 +38,11 @@ export default function AIChatPage() {
   }, [goals, requestedGoalId, selectedGoalId]);
 
   // Fetch Chat History
-  const { data: serverMessages = [], isLoading: isLoadingHistory, error: historyError } = useQuery({
+  const { data: messages = [], isLoading: isLoadingHistory, error: historyError } = useQuery({
     queryKey: ["chatHistory", selectedGoalId],
     queryFn: () => getChatHistory(selectedGoalId),
     enabled: !!selectedGoalId && typeof window !== "undefined",
   });
-
-  // Copy query history to state for optimistic updates
-  useEffect(() => {
-    if (serverMessages.length > 0) {
-      setMessages(serverMessages);
-    } else {
-      setMessages([]);
-    }
-  }, [serverMessages]);
 
   // Display errors if querying fails
   useEffect(() => {
@@ -62,7 +52,7 @@ export default function AIChatPage() {
     }
   }, [goalsError, historyError]);
 
-  // Send Message Mutation with optimistic update
+  // Send Message Mutation with optimistic query cache update
   const sendMutation = useMutation({
     mutationFn: async (text: string) => {
       const res = await sendChatMessageAction(selectedGoalId, text);
@@ -70,6 +60,9 @@ export default function AIChatPage() {
       return res.data;
     },
     onMutate: async (text: string) => {
+      await queryClient.cancelQueries({ queryKey: ["chatHistory", selectedGoalId] });
+      const previousMessages = queryClient.getQueryData<ChatMessage[]>(["chatHistory", selectedGoalId]) || [];
+
       const optimisticUserMessage: ChatMessage = {
         _id: `pending-${crypto.randomUUID()}`,
         goalId: selectedGoalId,
@@ -78,30 +71,42 @@ export default function AIChatPage() {
         content: text.trim(),
         createdAt: new Date().toISOString(),
       };
-      setMessages((prev) => [...prev, optimisticUserMessage]);
+
+      queryClient.setQueryData<ChatMessage[]>(
+        ["chatHistory", selectedGoalId],
+        (old) => [...(old || []), optimisticUserMessage]
+      );
+
       setInput("");
       setErrorMsg("");
+
+      return { previousMessages };
     },
     onSuccess: (data) => {
       if (data?.assistantMessage) {
-        setMessages((prev) => {
-          const cleanHistory = prev.filter(m => !m._id.startsWith("pending-"));
-          const userMsg = {
-            _id: data.userMessage._id,
-            goalId: selectedGoalId,
-            userId: "",
-            role: "user" as const,
-            content: data.userMessage.content,
-            createdAt: data.userMessage.createdAt,
-          };
-          return [...cleanHistory, userMsg, data.assistantMessage];
-        });
+        queryClient.setQueryData<ChatMessage[]>(
+          ["chatHistory", selectedGoalId],
+          (old) => {
+            const cleanHistory = (old || []).filter(m => !m._id.startsWith("pending-"));
+            const userMsg = {
+              _id: data.userMessage._id,
+              goalId: selectedGoalId,
+              userId: "",
+              role: "user" as const,
+              content: data.userMessage.content,
+              createdAt: data.userMessage.createdAt,
+            };
+            return [...cleanHistory, userMsg, data.assistantMessage];
+          }
+        );
         queryClient.invalidateQueries({ queryKey: ["chatHistory", selectedGoalId] });
       }
     },
-    onError: (err) => {
+    onError: (err, text, context) => {
+      if (context?.previousMessages) {
+        queryClient.setQueryData(["chatHistory", selectedGoalId], context.previousMessages);
+      }
       setErrorMsg(err instanceof Error ? err.message : "Failed to get a response from your AI mentor.");
-      setMessages((prev) => prev.filter(m => !m._id.startsWith("pending-")));
     }
   });
 
