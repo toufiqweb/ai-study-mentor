@@ -11,6 +11,7 @@ import {
   PlusCircle,
   Loader2,
 } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { type Goal, type GoalStatus, deleteGoalAction } from "@/lib/actions/goals";
 import { getMyGoals } from "@/lib/api/goals";
 
@@ -29,36 +30,38 @@ const statusLabels: Record<GoalStatus, string> = {
 };
 
 export default function MyGoalsPage() {
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<"latest" | "deadline" | "progress">("latest");
   const [page, setPage] = useState(1);
   const [pendingDelete, setPendingDelete] = useState<Goal | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
+
+  const { data: goals = [], isLoading, error } = useQuery({
+    queryKey: ["goals"],
+    queryFn: getMyGoals,
+    enabled: typeof window !== "undefined",
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (goalId: string) => deleteGoalAction(goalId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["goals"] });
+      setPendingDelete(null);
+    },
+    onError: (err) => {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to delete this goal.");
+    },
+  });
+
+  const isDeleting = deleteMutation.isPending;
 
   useEffect(() => {
-    let cancelled = false;
-
-    getMyGoals()
-      .then((data) => {
-        if (!cancelled) setGoals(data);
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setErrorMsg(err instanceof Error ? err.message : "Failed to load your goals.");
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    if (error) {
+      setErrorMsg(error instanceof Error ? error.message : "Failed to load your goals.");
+    }
+  }, [error]);
 
   const categories = useMemo(
     () => ["all", ...Array.from(new Set(goals.map((g) => g.category)))],
@@ -88,16 +91,7 @@ export default function MyGoalsPage() {
 
   const confirmDelete = async () => {
     if (!pendingDelete) return;
-    setIsDeleting(true);
-    try {
-      await deleteGoalAction(pendingDelete._id);
-      setGoals((prev) => prev.filter((g) => g._id !== pendingDelete._id));
-      setPendingDelete(null);
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Failed to delete this goal.");
-    } finally {
-      setIsDeleting(false);
-    }
+    deleteMutation.mutate(pendingDelete._id);
   };
 
   if (isLoading) {

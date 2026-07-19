@@ -1,6 +1,7 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import {
   Search,
   ChevronLeft,
@@ -38,7 +39,7 @@ const SORT_OPTIONS: { value: RoadmapSort; label: string }[] = [
 export default function ExploreRoadmapsPage() {
   return (
     <Suspense
-      fallback={
+      fallback = {
         <div className="flex h-[60vh] items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-(--ternary)" />
         </div>
@@ -62,67 +63,46 @@ function ExploreRoadmapsContent() {
   const [sort, setSort] = useState<RoadmapSort>("latest");
   const [page, setPage] = useState(1);
 
-  const [items, setItems] = useState<RoadmapSummary[]>([]);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
-
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearch(searchInput), 300);
     return () => clearTimeout(timeout);
   }, [searchInput]);
 
-  useEffect(() => {
-    let cancelled = false;
+  const { data, isLoading, error } = useQuery({
+    queryKey: [
+      "roadmaps",
+      { search: debouncedSearch, category, difficulty, duration, sort, page },
+    ],
+    queryFn: () =>
+      getRoadmaps({
+        search: debouncedSearch || undefined,
+        category: category !== "all" ? category : undefined,
+        difficulty: difficulty !== "all" ? difficulty : undefined,
+        duration: duration !== "any" ? Number(duration) : undefined,
+        sort,
+        page,
+      }),
+    enabled: typeof window !== "undefined",
+  });
 
-    getRoadmaps({
-      search: debouncedSearch || undefined,
-      category: category !== "all" ? category : undefined,
-      difficulty: difficulty !== "all" ? difficulty : undefined,
-      duration: duration !== "any" ? Number(duration) : undefined,
-      sort,
-      page,
-    })
-      .then((result) => {
-        if (cancelled) return;
-        setItems(result.items);
-        setTotal(result.total);
-        setTotalPages(result.totalPages);
-      })
-      .catch((err) => {
-        if (!cancelled)
-          setErrorMsg(
-            err instanceof Error ? err.message : "Failed to load roadmaps.",
-          );
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [debouncedSearch, category, difficulty, duration, sort, page]);
+  const items = data?.items ?? [];
+  const total = data?.total ?? 0;
+  const totalPages = data?.totalPages ?? 1;
+  const errorMsg = error instanceof Error ? error.message : "";
 
   const handleFilterChange =
     (setter: (value: string) => void) => (value: string) => {
       setter(value);
       setPage(1);
-      setIsLoading(true);
-      setErrorMsg("");
     };
 
   const handleSearchChange = (value: string) => {
     setSearchInput(value);
     setPage(1);
-    setIsLoading(true);
-    setErrorMsg("");
   };
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
-    setIsLoading(true);
   };
 
   return (

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Send, Sparkles, GraduationCap, Loader2, PlusCircle } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMyGoals } from "@/lib/api/goals";
 import type { Goal } from "@/lib/actions/goals";
 import { getChatHistory } from "@/lib/api/chat";
@@ -14,63 +15,93 @@ import TypingIndicator from "@/components/dashboard/TypingIndicator";
 export default function AIChatPage() {
   const searchParams = useSearchParams();
   const requestedGoalId = searchParams.get("goalId");
+  const queryClient = useQueryClient();
 
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [isLoadingGoals, setIsLoadingGoals] = useState(true);
   const [selectedGoalId, setSelectedGoalId] = useState("");
-
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Fetch Goals list
+  const { data: goals = [], isLoading: isLoadingGoals, error: goalsError } = useQuery({
+    queryKey: ["goals"],
+    queryFn: getMyGoals,
+    enabled: typeof window !== "undefined",
+  });
+
+  // Pre-select active goal
   useEffect(() => {
-    let cancelled = false;
+    if (goals.length > 0 && !selectedGoalId) {
+      const preselected = requestedGoalId && goals.some((g) => g._id === requestedGoalId);
+      setSelectedGoalId(preselected ? (requestedGoalId as string) : goals[0]._id);
+    }
+  }, [goals, requestedGoalId, selectedGoalId]);
 
-    getMyGoals()
-      .then((data) => {
-        if (cancelled) return;
-        setGoals(data);
-        if (data.length > 0) {
-          const preselected = requestedGoalId && data.some((g) => g._id === requestedGoalId);
-          setSelectedGoalId(preselected ? (requestedGoalId as string) : data[0]._id);
-          setIsLoadingHistory(true);
-        }
-      })
-      .catch((err) => {
-        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load your goals.");
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoadingGoals(false);
-      });
+  // Fetch Chat History
+  const { data: serverMessages = [], isLoading: isLoadingHistory, error: historyError } = useQuery({
+    queryKey: ["chatHistory", selectedGoalId],
+    queryFn: () => getChatHistory(selectedGoalId),
+    enabled: !!selectedGoalId && typeof window !== "undefined",
+  });
 
-    return () => {
-      cancelled = true;
-    };
-  }, [requestedGoalId]);
-
+  // Copy query history to state for optimistic updates
   useEffect(() => {
-    if (!selectedGoalId) return;
-    let cancelled = false;
+    if (serverMessages.length > 0) {
+      setMessages(serverMessages);
+    } else {
+      setMessages([]);
+    }
+  }, [serverMessages]);
 
-    getChatHistory(selectedGoalId)
-      .then((data) => {
-        if (!cancelled) setMessages(data);
-      })
-      .catch((err) => {
-        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : "Failed to load chat history.");
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoadingHistory(false);
-      });
+  // Display errors if querying fails
+  useEffect(() => {
+    const err = goalsError || historyError;
+    if (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to load chat parameters.");
+    }
+  }, [goalsError, historyError]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedGoalId]);
+  // Send Message Mutation with optimistic update
+  const sendMutation = useMutation({
+    mutationFn: (text: string) => sendChatMessageAction(selectedGoalId, text),
+    onMutate: async (text: string) => {
+      const optimisticUserMessage: ChatMessage = {
+        _id: `pending-${crypto.randomUUID()}`,
+        goalId: selectedGoalId,
+        userId: "",
+        role: "user",
+        content: text.trim(),
+        createdAt: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, optimisticUserMessage]);
+      setInput("");
+      setErrorMsg("");
+    },
+    onSuccess: (data) => {
+      if (data?.assistantMessage) {
+        setMessages((prev) => {
+          const cleanHistory = prev.filter(m => !m._id.startsWith("pending-"));
+          const userMsg = {
+            _id: data.userMessage._id,
+            goalId: selectedGoalId,
+            userId: "",
+            role: "user" as const,
+            content: data.userMessage.content,
+            createdAt: data.userMessage.createdAt,
+          };
+          return [...cleanHistory, userMsg, data.assistantMessage];
+        });
+        queryClient.invalidateQueries({ queryKey: ["chatHistory", selectedGoalId] });
+      }
+    },
+    onError: (err) => {
+      setErrorMsg(err instanceof Error ? err.message : "Failed to get a response from your AI mentor.");
+      setMessages((prev) => prev.filter(m => !m._id.startsWith("pending-")));
+    }
+  });
+
+  const isTyping = sendMutation.isPending;
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -81,29 +112,7 @@ export default function AIChatPage() {
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || !selectedGoalId || isTyping) return;
-
-    const optimisticUserMessage: ChatMessage = {
-      _id: `pending-${crypto.randomUUID()}`,
-      goalId: selectedGoalId,
-      userId: "",
-      role: "user",
-      content: trimmed,
-      createdAt: new Date().toISOString(),
-    };
-
-    setMessages((prev) => [...prev, optimisticUserMessage]);
-    setInput("");
-    setIsTyping(true);
-    setErrorMsg("");
-
-    try {
-      const { assistantMessage } = await sendChatMessageAction(selectedGoalId, trimmed);
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Failed to get a response from your AI mentor.");
-    } finally {
-      setIsTyping(false);
-    }
+    sendMutation.mutate(trimmed);
   };
 
   const suggestedQuestions = selectedGoal
@@ -159,7 +168,6 @@ export default function AIChatPage() {
           value={selectedGoalId}
           onChange={(e) => {
             setSelectedGoalId(e.target.value);
-            setIsLoadingHistory(true);
           }}
           className="h-9 rounded-xl border border-gray-200 bg-gray-50 px-3 text-xs font-semibold text-gray-700 focus:border-(--primary) focus:outline-none"
         >
