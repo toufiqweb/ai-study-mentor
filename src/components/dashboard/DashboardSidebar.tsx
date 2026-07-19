@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
@@ -42,8 +43,15 @@ export default function DashboardSidebar() {
     router.refresh();
   };
 
-  const isActive = (href: string) =>
-    href === "/dashboard" ? pathname === href : pathname === href || pathname.startsWith(href + "/");
+  const activeHref = useMemo(() => {
+    const matches = navLinks.filter((link) =>
+      link.href === "/dashboard" ? pathname === link.href : pathname === link.href || pathname.startsWith(link.href + "/")
+    );
+    if (matches.length === 0) return null;
+    return matches.reduce((longest, link) => (link.href.length > longest.href.length ? link : longest)).href;
+  }, [pathname]);
+
+  const isActive = (href: string) => href === activeHref;
 
   return (
     <>
@@ -62,7 +70,7 @@ export default function DashboardSidebar() {
         <div className="flex h-16 items-center justify-between border-b border-gray-100 px-4">
           {!isCollapsed && (
             <Link href="/" className="flex items-center gap-2 font-bold text-gray-900">
-              <GraduationCap className="h-6 w-6 text-(--ternary)" />
+              <Image src="/logo.png" alt="AI Study Mentor" width={28} height={28} className="object-contain" />
               AI Study Mentor
             </Link>
           )}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { GraduationCap, Globe, MessageCircle, Rss, Mail } from "lucide-react";
 
 const linkGroups = [
@@ -35,7 +36,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 text-lg font-bold text-gray-900">
-              <GraduationCap className="h-6 w-6 text-(--ternary)" />
+              <Image src="/logo.png" alt="AI Study Mentor" width={28} height={28} className="object-contain" />
               AI Study Mentor
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-gray-600">

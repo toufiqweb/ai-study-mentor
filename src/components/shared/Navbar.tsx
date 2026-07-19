@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   GraduationCap,
@@ -51,7 +52,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-2 text-lg font-bold text-(--primary)"
         >
-          <GraduationCap className="h-6 w-6 text-(--ternary)" />
+          <Image src="/logo.png" alt="AI Study Mentor" width={28} height={28} className="object-contain" />
           AI Study Mentor
         </Link>
 
