@@ -30,7 +30,7 @@ export default function Navbar() {
   // the active language across reloads. Read only on the client (falls back to
   // "en" during SSR), so the two buttons below carry `suppressHydrationWarning`.
   const [language, setLanguage] = useState<GoogleTranslateLanguage>(() =>
-    getGoogleTranslateLanguage()
+    getGoogleTranslateLanguage(),
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -222,7 +222,9 @@ export default function Navbar() {
 
             <div className="my-1 border-t border-(--border-subtle) pt-3">
               <div className="flex items-center justify-between px-3 py-1">
-                <span className="text-sm font-medium text-(--text-muted)">Language</span>
+                <span className="text-sm font-medium text-(--text-muted)">
+                  Language
+                </span>
                 <div
                   className="notranslate flex items-center gap-1 rounded-full border border-(--border-default) p-1"
                   translate="no"

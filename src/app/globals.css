@@ -31,6 +31,19 @@
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
 
+  /* Map standard Tailwind gray scale to our pure monochrome variables */
+  --color-gray-50: var(--neutral-50);
+  --color-gray-100: var(--neutral-100);
+  --color-gray-200: var(--neutral-200);
+  --color-gray-300: var(--neutral-300);
+  --color-gray-400: var(--neutral-400);
+  --color-gray-500: var(--neutral-500);
+  --color-gray-600: var(--neutral-600);
+  --color-gray-700: var(--neutral-700);
+  --color-gray-800: var(--neutral-800);
+  --color-gray-900: var(--neutral-900);
+  --color-gray-950: #222222;
+
   /* Text */
   --color-text-strong: var(--text-strong);
   --color-text-body: var(--text-body);
@@ -114,45 +127,40 @@
   color-scheme: light;
 
   /* Surfaces */
-  --background: #ffffff;
-  --foreground: #111827;
+  --background: #FEFEFE;
+  --foreground: #1B1B1B;
 
   /* The 3 Core Colors */
-  --primary: #111827;
-  --secondary: #334155;
-  --ternary: #2563eb;
+  --primary: #1B1B1B;
+  --secondary: #4c4c4c;
+  --ternary: #1B1B1B;
 
   /* Theme Surfaces */
-  --card-bg: #ffffff;
-  --card-border: #e2e8f0;
-  --nav-bg: rgba(255, 255, 255, 0.85);
-  --nav-border: #e2e8f0;
+  --card-bg: #FEFEFE;
+  --card-border: #e5e5e5;
+  --nav-bg: rgba(254, 254, 254, 0.85);
+  --nav-border: #e5e5e5;
 
-  /* Hover state for buttons on --ternary (static — does not shift with theme) */
-  --primary-hover: #1d4ed8;
+  /* Hover state for buttons on --ternary */
+  --primary-hover: #2c2c2c;
 
   /* =========================
      STATIC TOKENS
-     These do not change between light/dark — they back the plain
-     Tailwind gray/red/emerald/amber/indigo utility classes that were
-     used throughout the app without dark: variants. Defined once here
-     (not repeated under .dark) so they inherit unchanged in both themes,
-     preserving the app's existing (theme-independent) appearance.
   ========================= */
 
   /* Neutral scale */
-  --white: #ffffff;
-  --black: #000000;
-  --neutral-50: #f9fafb;
-  --neutral-100: #f3f4f6;
-  --neutral-200: #e5e7eb;
-  --neutral-300: #d1d5db;
-  --neutral-400: #9ca3af;
-  --neutral-500: #6b7280;
-  --neutral-600: #4b5563;
-  --neutral-700: #374151;
-  --neutral-800: #1f2937;
-  --neutral-900: #111827;
+  --white: #FEFEFE;
+  --black: #1B1B1B;
+  --neutral-50: #f9f9f9;
+  --neutral-100: #f2f2f2;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #cccccc;
+  --neutral-400: #999999;
+  --neutral-500: #7f7f7f;
+  --neutral-600: #666666;
+  --neutral-700: #4c4c4c;
+  --neutral-800: #2c2c2c;
+  --neutral-900: #1B1B1B;
 
   /* Text */
   --text-strong: var(--neutral-900);
@@ -175,52 +183,52 @@
   --border-strong: var(--neutral-300);
 
   /* Accent (indigo brand accent used in forms/stat cards/CTAs) */
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-active: #3730a3;
-  --accent-active-strong: #312e81;
-  --accent-subtle: #eef2ff;
-  --accent-subtle-strong: #e0e7ff;
-  --accent-border: #6366f1;
+  --accent: #1B1B1B;
+  --accent-hover: #2c2c2c;
+  --accent-active: #000000;
+  --accent-active-strong: #000000;
+  --accent-subtle: #f5f5f5;
+  --accent-subtle-strong: #e5e5e5;
+  --accent-border: #7f7f7f;
 
   /* Decorative one-off icon/gradient colors */
-  --info: #2563eb;
-  --info-subtle: #60a5fa;
-  --info-alt: #9333ea;
-  --decorative-purple-subtle: #faf5ff;
+  --info: #1B1B1B;
+  --info-subtle: #7f7f7f;
+  --info-alt: #666666;
+  --decorative-purple-subtle: #f9f9f9;
 
   /* Status */
-  --success: #059669;
-  --success-icon: #10b981;
-  --success-subtle: #ecfdf5;
+  --success: #1B1B1B;
+  --success-icon: #4c4c4c;
+  --success-subtle: #f2f2f2;
 
-  --warning: #d97706;
-  --warning-icon: #f59e0b;
-  --warning-subtle: #fffbeb;
-  --star: #fbbf24;
+  --warning: #2c2c2c;
+  --warning-icon: #666666;
+  --warning-subtle: #f9f9f9;
+  --star: #1B1B1B;
 
-  --error: #ef4444;
-  --error-strong: #dc2626;
-  --error-subtle: #fef2f2;
-  --error-border: #fee2e2;
-  --error-border-strong: #fecaca;
+  --error: #1B1B1B;
+  --error-strong: #000000;
+  --error-subtle: #f9f9f9;
+  --error-border: #e5e5e5;
+  --error-border-strong: #cccccc;
 
   /* Brand */
   --whatsapp: #25d366;
   --whatsapp-hover: #20bd5a;
 
   /* Chart palette */
-  --chart-1: var(--accent);
-  --chart-2: #7c3aed;
-  --chart-3: #06b6d4;
-  --chart-4: #a5b4fc;
-  --chart-5: var(--warning-icon);
-  --chart-6: var(--success-icon);
-  --chart-grid: #f1f5f9;
+  --chart-1: var(--neutral-900);
+  --chart-2: var(--neutral-700);
+  --chart-3: var(--neutral-500);
+  --chart-4: var(--neutral-400);
+  --chart-5: var(--neutral-300);
+  --chart-6: var(--neutral-200);
+  --chart-grid: var(--neutral-100);
 
   /* One-off shadow colors */
   --shadow-soft: rgba(0, 0, 0, 0.04);
-  --shadow-accent-glow: rgba(37, 99, 235, 0.15);
+  --shadow-accent-glow: rgba(0, 0, 0, 0.05);
 }
 
 /* =========================
@@ -230,36 +238,36 @@
   color-scheme: dark;
 
   /* Surfaces */
-  --background: #0b0f19;
-  --foreground: #f8fafc;
+  --background: #1B1B1B;
+  --foreground: #FEFEFE;
 
   /* The 3 Core Colors adapted for dark mode */
-  --primary: #f8fafc;
-  --secondary: #cbd5e1;
-  --ternary: #3b82f6;
+  --primary: #FEFEFE;
+  --secondary: #cccccc;
+  --ternary: #FEFEFE;
 
   /* Theme Surfaces */
-  --card-bg: #111827;
-  --card-border: #1e293b;
-  --nav-bg: rgba(11, 15, 25, 0.85);
-  --nav-border: #1e293b;
+  --card-bg: #1c1c1c;
+  --card-border: #2c2c2c;
+  --nav-bg: rgba(27, 27, 27, 0.85);
+  --nav-border: #2c2c2c;
 
   /* Overrides for semantic tokens in dark mode */
   --surface: var(--card-bg);
-  --surface-muted: #1e293b;
-  --surface-subtle: #0f172a;
+  --surface-muted: #2c2c2c;
+  --surface-subtle: #1B1B1B;
   --surface-strong: var(--foreground);
-  --surface-inverse: #ffffff;
+  --surface-inverse: #1B1B1B;
 
   --border-subtle: var(--card-border);
-  --border-default: #334155;
-  --border-strong: #475569;
+  --border-default: #383838;
+  --border-strong: #4c4c4c;
 
   --text-strong: var(--primary);
   --text-body: var(--secondary);
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-subtle: #475569;
+  --text-secondary: #999999;
+  --text-muted: #7f7f7f;
+  --text-subtle: #4c4c4c;
 }
 
 /* =========================
