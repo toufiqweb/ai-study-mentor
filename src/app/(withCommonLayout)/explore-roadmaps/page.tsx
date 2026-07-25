@@ -105,26 +105,26 @@ function ExploreRoadmapsContent() {
   return (
     <div>
       <SectionContainer
-        className="bg-gray-50 py-20"
+        className="bg-(--background) py-20 border-b border-(--card-border) transition-colors duration-300"
         containerClassName="max-w-6xl text-center"
       >
-        <SectionTitle as="h1" eyebrow="Explore Roadmaps">
+        <SectionTitle as="h1" eyebrow="Explore Roadmaps" eyebrowClassName="text-(--secondary)">
           Find your next learning path
         </SectionTitle>
-        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+        <SectionDescription className="mx-auto mt-4 max-w-2xl text-lg text-(--secondary)">
           Browse AI-crafted roadmaps across every subject, then personalize one
           into your own learning goal.
         </SectionDescription>
 
         <div className="mx-auto mt-10 max-w-3xl">
           <div className="relative">
-            <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-(--secondary)" />
             <input
               type="text"
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search roadmaps by title..."
-              className="h-11 w-full rounded-xl border border-gray-200 bg-white py-1.5 pr-4 pl-11 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-11 w-full rounded-xl border border-(--card-border) bg-(--card-bg) py-1.5 pr-4 pl-11 text-sm text-(--foreground) shadow-sm focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             />
           </div>
 
@@ -132,7 +132,7 @@ function ExploreRoadmapsContent() {
             <select
               value={category}
               onChange={(e) => handleFilterChange(setCategory)(e.target.value)}
-              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-10 rounded-xl border border-(--card-border) bg-(--card-bg) px-3 text-sm text-(--foreground) shadow-sm focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             >
               <option value="all">All Categories</option>
               {CATEGORIES.map((c) => (
@@ -147,7 +147,7 @@ function ExploreRoadmapsContent() {
               onChange={(e) =>
                 handleFilterChange(setDifficulty)(e.target.value)
               }
-              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-10 rounded-xl border border-(--card-border) bg-(--card-bg) px-3 text-sm text-(--foreground) shadow-sm focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             >
               <option value="all">All Difficulties</option>
               {SKILL_LEVELS.map((level) => (
@@ -160,7 +160,7 @@ function ExploreRoadmapsContent() {
             <select
               value={duration}
               onChange={(e) => handleFilterChange(setDuration)(e.target.value)}
-              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-10 rounded-xl border border-(--card-border) bg-(--card-bg) px-3 text-sm text-(--foreground) shadow-sm focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             >
               {DURATION_OPTIONS.map((d) => (
                 <option key={d.value} value={d.value}>
@@ -176,7 +176,7 @@ function ExploreRoadmapsContent() {
                   e.target.value,
                 )
               }
-              className="h-10 rounded-xl border border-gray-200 bg-white px-3 text-sm shadow-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-10 rounded-xl border border-(--card-border) bg-(--card-bg) px-3 text-sm text-(--foreground) shadow-sm focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             >
               {SORT_OPTIONS.map((s) => (
                 <option key={s.value} value={s.value}>
@@ -188,10 +188,10 @@ function ExploreRoadmapsContent() {
         </div>
       </SectionContainer>
 
-      <section className="bg-white py-20">
+      <section className="bg-(--background) py-20 transition-colors duration-300">
         <div className="container mx-auto max-w-6xl px-4">
           {errorMsg && (
-            <div className="mb-8 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+            <div className="mb-8 rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
               {errorMsg}
             </div>
           )}
@@ -203,14 +203,14 @@ function ExploreRoadmapsContent() {
               ))}
             </div>
           ) : items.length === 0 ? (
-            <div className="flex flex-col items-center rounded-2xl border border-gray-100 bg-gray-50 py-20 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+            <div className="flex flex-col items-center rounded-2xl border border-(--card-border) bg-(--card-bg) py-20 text-center transition-colors duration-300">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--card-border)/50 text-(--secondary)">
                 <Compass className="h-7 w-7" />
               </div>
-              <h3 className="mt-4 text-base font-bold text-gray-900">
+              <h3 className="mt-4 text-base font-bold text-(--primary)">
                 No roadmaps found
               </h3>
-              <p className="mt-1 max-w-sm text-sm text-gray-500">
+              <p className="mt-1 max-w-sm text-sm text-(--secondary)">
                 Try a different search term, category, or filter combination.
               </p>
             </div>
@@ -223,8 +223,8 @@ function ExploreRoadmapsContent() {
               </div>
 
               {totalPages > 1 && (
-                <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-gray-100 pt-6 sm:flex-row">
-                  <p className="text-sm text-gray-500">
+                <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-(--card-border) pt-6 sm:flex-row">
+                  <p className="text-sm text-(--secondary)">
                     Showing {(page - 1) * items.length + 1}–
                     {(page - 1) * items.length + items.length} of {total}
                   </p>
@@ -232,7 +232,7 @@ function ExploreRoadmapsContent() {
                     <button
                       onClick={() => handlePageChange(Math.max(1, page - 1))}
                       disabled={page === 1}
-                      className="rounded-xl border border-gray-200 p-2 disabled:opacity-40"
+                      className="rounded-xl border border-(--card-border) p-2 text-(--foreground) disabled:opacity-40 cursor-pointer"
                       aria-label="Previous page"
                     >
                       <ChevronLeft className="h-4 w-4" />
@@ -241,10 +241,10 @@ function ExploreRoadmapsContent() {
                       <button
                         key={i}
                         onClick={() => handlePageChange(i + 1)}
-                        className={`h-9 w-9 rounded-xl border text-xs font-bold ${
+                        className={`h-9 w-9 rounded-xl border text-xs font-bold cursor-pointer transition-colors ${
                           page === i + 1
-                            ? "border-(--ternary) bg-(--ternary) text-white shadow-sm"
-                            : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                            ? "border-(--ternary) bg-(--ternary) text-(--white) shadow-sm"
+                            : "border-(--card-border) text-(--secondary) hover:bg-(--card-border)"
                         }`}
                       >
                         {i + 1}
@@ -255,7 +255,7 @@ function ExploreRoadmapsContent() {
                         handlePageChange(Math.min(totalPages, page + 1))
                       }
                       disabled={page === totalPages}
-                      className="rounded-xl border border-gray-200 p-2 disabled:opacity-40"
+                      className="rounded-xl border border-(--card-border) p-2 text-(--foreground) disabled:opacity-40 cursor-pointer"
                       aria-label="Next page"
                     >
                       <ChevronRight className="h-4 w-4" />

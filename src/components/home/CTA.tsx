@@ -7,9 +7,9 @@ const trustPoints = ["Free to start", "No credit card required", "Cancel anytime
 
 export default function CTA() {
   return (
-    <SectionContainer className="bg-white py-24">
+    <SectionContainer className="bg-(--background) py-24 transition-colors duration-300">
       <AnimatedSection>
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-gray-900 px-8 py-20 text-center ring-1 ring-white/10 sm:px-16">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-gray-900 dark:bg-gray-950 px-8 py-20 text-center ring-1 ring-white/10 sm:px-16">
           <div
             className="absolute inset-0 opacity-[0.06]"
             style={{
@@ -38,7 +38,7 @@ export default function CTA() {
             <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white leading-tight sm:text-5xl sm:leading-tight">
               Ready to study smarter?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg leading-7 text-gray-400">
+            <p className="mx-auto mt-4 max-w-xl text-lg leading-7 text-gray-300">
               Create your first learning goal and get a personalized AI study plan in minutes.
             </p>
 
@@ -60,7 +60,7 @@ export default function CTA() {
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
               {trustPoints.map((point) => (
-                <span key={point} className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                <span key={point} className="flex items-center gap-1.5 text-xs font-medium text-gray-400">
                   <CheckCircle2 className="h-3.5 w-3.5 text-(--ternary)" />
                   {point}
                 </span>

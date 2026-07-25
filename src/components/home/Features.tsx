@@ -52,9 +52,9 @@ const features = [
 
 export default function Features() {
   return (
-    <SectionContainer id="features" className="bg-gray-50 py-24">
+    <SectionContainer id="features" className="bg-(--background) py-24 transition-colors duration-300">
       <AnimatedSection className="mx-auto max-w-2xl text-center">
-        <SectionTitle eyebrow="Features">Everything you need to study smarter</SectionTitle>
+        <SectionTitle eyebrow="Features" eyebrowClassName="text-(--secondary)">Everything you need to study smarter</SectionTitle>
         <SectionDescription>
           AI Study Mentor combines planning, tracking, and guidance into one focused experience.
         </SectionDescription>
@@ -63,12 +63,12 @@ export default function Features() {
       <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, i) => (
           <AnimatedSection key={feature.title} delay={i * 0.08}>
-            <div className="h-full rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div className="h-full rounded-3xl border border-(--card-border) bg-(--card-bg) p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
               <div className="inline-flex rounded-2xl bg-linear-to-br from-(--ternary) to-(--secondary) p-3">
-                <feature.icon className="h-6 w-6 text-white" />
+                <feature.icon className="h-6 w-6 text-(--white)" />
               </div>
-              <h3 className="mt-5 text-lg font-bold text-gray-900">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-gray-600">{feature.description}</p>
+              <h3 className="mt-5 text-lg font-bold text-(--primary)">{feature.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-(--secondary)">{feature.description}</p>
             </div>
           </AnimatedSection>
         ))}

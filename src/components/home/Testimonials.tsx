@@ -40,7 +40,7 @@ function StarRow() {
 function Avatar({ initials, size = "md" }: { initials: string; size?: "md" | "lg" }) {
   return (
     <div
-      className={`flex shrink-0 items-center justify-center rounded-full bg-linear-to-br from-(--ternary) to-(--secondary) font-bold text-white ${
+      className={`flex shrink-0 items-center justify-center rounded-full bg-linear-to-br from-(--ternary) to-(--secondary) font-bold text-(--white) ${
         size === "lg" ? "h-12 w-12 text-base" : "h-10 w-10 text-sm"
       }`}
     >
@@ -53,30 +53,30 @@ export default function Testimonials() {
   const [featured, ...rest] = testimonials;
 
   return (
-    <SectionContainer className="bg-gray-50 py-24">
+    <SectionContainer className="bg-(--background) py-24 transition-colors duration-300">
       <AnimatedSection className="mx-auto max-w-2xl text-center">
-        <SectionTitle eyebrow="Testimonials">Loved by students building real skills</SectionTitle>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-sm text-gray-500">
+        <SectionTitle eyebrow="Testimonials" eyebrowClassName="text-(--secondary)">Loved by students building real skills</SectionTitle>
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-sm text-(--secondary)">
           <StarRow />
-          <span className="font-bold text-gray-900">4.9/5</span>
+          <span className="font-bold text-(--primary)">4.9/5</span>
           <span>from students learning with AI Study Mentor</span>
         </div>
       </AnimatedSection>
 
       <div className="mt-14 grid gap-6 lg:grid-cols-5">
         <AnimatedSection className="lg:col-span-3">
-          <figure className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white p-8 shadow-sm sm:p-10">
-            <Quote className="absolute top-6 right-6 h-20 w-20 text-gray-50" strokeWidth={1} aria-hidden />
+          <figure className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-(--card-border) bg-(--card-bg) p-8 shadow-sm sm:p-10 transition-colors duration-300">
+            <Quote className="absolute top-6 right-6 h-20 w-20 text-(--secondary)/5" strokeWidth={1} aria-hidden />
             <div className="relative flex h-full flex-col">
               <StarRow />
-              <blockquote className="mt-5 flex-1 text-xl leading-8 font-medium text-gray-900 sm:text-2xl">
+              <blockquote className="mt-5 flex-1 text-xl leading-8 font-medium text-(--primary) sm:text-2xl">
                 &ldquo;{featured.quote}&rdquo;
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-3">
                 <Avatar initials={featured.initials} size="lg" />
                 <div>
-                  <p className="text-sm font-bold text-gray-900">{featured.name}</p>
-                  <p className="text-xs text-gray-500">{featured.role}</p>
+                  <p className="text-sm font-bold text-(--primary)">{featured.name}</p>
+                  <p className="text-xs text-(--secondary)">{featured.role}</p>
                 </div>
               </figcaption>
             </div>
@@ -86,16 +86,16 @@ export default function Testimonials() {
         <div className="flex flex-col gap-6 lg:col-span-2">
           {rest.map((t, i) => (
             <AnimatedSection key={t.name} delay={(i + 1) * 0.1} className="flex flex-1">
-              <figure className="flex h-full flex-1 flex-col rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
+              <figure className="flex h-full flex-1 flex-col rounded-3xl border border-(--card-border) bg-(--card-bg) p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                 <StarRow />
-                <blockquote className="mt-3 flex-1 text-sm leading-6 text-gray-700">
+                <blockquote className="mt-3 flex-1 text-sm leading-6 text-(--secondary)">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-5 flex items-center gap-3">
                   <Avatar initials={t.initials} />
                   <div>
-                    <p className="text-sm font-bold text-gray-900">{t.name}</p>
-                    <p className="text-xs text-gray-500">{t.role}</p>
+                    <p className="text-sm font-bold text-(--primary)">{t.name}</p>
+                    <p className="text-xs text-(--secondary)">{t.role}</p>
                   </div>
                 </figcaption>
               </figure>

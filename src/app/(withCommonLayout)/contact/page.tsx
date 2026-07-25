@@ -38,7 +38,7 @@ export default function ContactPage() {
   return (
     <SectionContainer className="bg-(--background) py-16 md:py-24" containerClassName="max-w-6xl">
       <div className="text-center">
-        <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/70 px-4 py-1.5 text-xs font-semibold text-indigo-600 backdrop-blur-xs">
+        <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-(--accent-subtle-strong) bg-(--accent-subtle)/70 px-4 py-1.5 text-xs font-semibold text-(--accent) backdrop-blur-xs">
           <ShieldCheck className="h-3.5 w-3.5" />
           <span>We're Here to Help</span>
         </div>
@@ -58,13 +58,13 @@ export default function ContactPage() {
         {/* Sidebar Information */}
         <div className="space-y-6">
           {/* Direct Contact Card */}
-          <div className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md md:p-7">
-            <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-linear-to-bl from-indigo-50/60 to-transparent pointer-events-none" />
+          <div className="relative overflow-hidden rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm transition-all duration-300 hover:shadow-md md:p-7">
+            <div className="absolute top-0 right-0 h-24 w-24 rounded-bl-full bg-linear-to-bl from-(--accent-subtle)/60 to-transparent pointer-events-none" />
 
             <h2 className="text-base font-bold text-(--primary) flex items-center justify-between">
               <span>Contact Details</span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-(--success) bg-(--success-subtle) px-2.5 py-1 rounded-full">
+                <span className="h-1.5 w-1.5 rounded-full bg-(--success-icon) animate-pulse" />
                 Available
               </span>
             </h2>
@@ -72,7 +72,7 @@ export default function ContactPage() {
             <div className="mt-6 space-y-5">
               {contactInfo.map((item) => (
                 <div key={item.label} className="group flex items-start gap-4">
-                  <div className="rounded-2xl bg-indigo-50/80 p-3 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white">
+                  <div className="rounded-2xl bg-(--accent-subtle)/80 p-3 text-(--accent) transition-colors group-hover:bg-(--accent) group-hover:text-(--white)">
                     <item.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -80,14 +80,14 @@ export default function ContactPage() {
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="text-sm font-bold text-(--primary) transition-colors hover:text-indigo-600 block truncate"
+                        className="text-sm font-bold text-(--primary) transition-colors hover:text-(--accent) block truncate"
                       >
                         {item.value}
                       </a>
                     ) : (
                       <p className="text-sm font-bold text-(--primary) truncate">{item.value}</p>
                     )}
-                    <p className="text-[11px] text-gray-400 mt-0.5">{item.subtext}</p>
+                    <p className="text-[11px] text-(--text-subtle) mt-0.5">{item.subtext}</p>
                   </div>
                 </div>
               ))}
@@ -95,23 +95,23 @@ export default function ContactPage() {
           </div>
 
           {/* Response Promise Card */}
-          <div className="rounded-3xl border border-indigo-100 bg-linear-to-br from-indigo-50/40 to-purple-50/20 p-6 shadow-xs">
-            <div className="flex items-center gap-3 text-indigo-600">
-              <div className="rounded-xl bg-white p-2.5 shadow-xs">
-                <Clock className="h-5 w-5 text-indigo-600" />
+          <div className="rounded-3xl border border-(--accent-subtle-strong) bg-linear-to-br from-(--accent-subtle)/40 to-(--decorative-purple-subtle)/20 p-6 shadow-xs">
+            <div className="flex items-center gap-3 text-(--accent)">
+              <div className="rounded-xl bg-(--surface) p-2.5 shadow-xs">
+                <Clock className="h-5 w-5 text-(--accent)" />
               </div>
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-700">Quick Response</h3>
-                <p className="text-sm font-semibold text-gray-900 mt-0.5">Under 24 Hours</p>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-(--accent-hover)">Quick Response</h3>
+                <p className="text-sm font-semibold text-(--text-strong) mt-0.5">Under 24 Hours</p>
               </div>
             </div>
-            <p className="mt-3 text-xs text-gray-600 leading-relaxed">
+            <p className="mt-3 text-xs text-(--text-secondary) leading-relaxed">
               Every message goes directly to our core engineering team for quick and accurate resolution.
             </p>
           </div>
 
           {/* Social Links Card */}
-          <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-7">
+          <div className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm md:p-7">
             <h2 className="text-base font-bold text-(--primary)">Connect & Follow</h2>
             <p className="text-xs text-(--secondary) mt-1">Explore our latest updates and community resources.</p>
             <div className="mt-5 flex items-center gap-3">
@@ -121,7 +121,7 @@ export default function ContactPage() {
                   href={social.href}
                   aria-label={social.label}
                   title={social.label}
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gray-50 text-(--secondary) transition-all hover:bg-indigo-600 hover:text-white hover:shadow-md hover:-translate-y-0.5"
+                  className="flex h-11 w-11 items-center justify-center rounded-2xl bg-(--surface-muted) text-(--secondary) transition-all hover:bg-(--accent) hover:text-(--white) hover:shadow-md hover:-translate-y-0.5"
                 >
                   <social.icon className="h-5 w-5" />
                 </a>

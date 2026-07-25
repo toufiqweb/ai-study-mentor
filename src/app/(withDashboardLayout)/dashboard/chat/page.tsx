@@ -142,17 +142,17 @@ export default function AIChatPage() {
 
   if (goals.length === 0) {
     return (
-      <div className="flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
+      <div className="flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 text-center shadow-sm">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--ternary)/10 text-(--ternary)">
           <GraduationCap className="h-7 w-7" />
         </div>
-        <h3 className="mt-4 text-base font-bold text-gray-900">No goals to chat about yet</h3>
-        <p className="mt-1 max-w-sm text-sm text-gray-500">
+        <h3 className="mt-4 text-base font-bold text-(--text-strong)">No goals to chat about yet</h3>
+        <p className="mt-1 max-w-sm text-sm text-(--text-muted)">
           Create a learning goal first — your AI mentor uses it to tailor every answer.
         </p>
         <Link
           href="/dashboard/goals/create"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:bg-(--primary-hover)"
         >
           <PlusCircle className="h-4 w-4" />
           Create Goal
@@ -162,15 +162,15 @@ export default function AIChatPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] flex-col rounded-2xl border border-gray-100 bg-white shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-6 py-4">
+    <div className="flex h-[calc(100vh-8rem)] flex-col rounded-2xl border border-(--border-subtle) bg-(--surface) shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-(--border-subtle) px-6 py-4">
         <div className="flex items-center gap-2">
           <div className="rounded-xl bg-(--ternary)/10 p-2">
             <GraduationCap className="h-5 w-5 text-(--ternary)" />
           </div>
           <div>
-            <p className="text-sm font-bold text-gray-900">AI Mentor Chat</p>
-            <p className="text-xs text-gray-400">Context-aware to your current goal</p>
+            <p className="text-sm font-bold text-(--text-strong)">AI Mentor Chat</p>
+            <p className="text-xs text-(--text-subtle)">Context-aware to your current goal</p>
           </div>
         </div>
         <select
@@ -178,7 +178,7 @@ export default function AIChatPage() {
           onChange={(e) => {
             setSelectedGoalId(e.target.value);
           }}
-          className="h-9 rounded-xl border border-gray-200 bg-gray-50 px-3 text-xs font-semibold text-gray-700 focus:border-(--primary) focus:outline-none"
+          className="h-9 rounded-xl border border-(--border-default) bg-(--surface-muted) px-3 text-xs font-semibold text-(--text-body) focus:border-(--primary) focus:outline-none"
         >
           {goals.map((g) => (
             <option key={g._id} value={g._id}>
@@ -189,7 +189,7 @@ export default function AIChatPage() {
       </div>
 
       {errorMsg && (
-        <div className="mx-6 mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+        <div className="mx-6 mt-4 rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
           {errorMsg}
         </div>
       )}
@@ -202,7 +202,7 @@ export default function AIChatPage() {
         ) : (
           <>
             {selectedGoal && messages.length === 0 && (
-              <div className="max-w-lg rounded-2xl bg-gray-100 px-4 py-2.5 text-sm leading-6 text-gray-700">
+              <div className="max-w-lg rounded-2xl bg-(--surface-subtle) px-4 py-2.5 text-sm leading-6 text-(--text-body)">
                 Hi! I&apos;m your AI mentor. I can see you&apos;re working on &ldquo;{selectedGoal.title}
                 &rdquo; — ask me anything about your plan, or pick a suggested question below.
               </div>
@@ -211,7 +211,7 @@ export default function AIChatPage() {
               <div
                 key={msg._id}
                 className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm leading-6 ${
-                  msg.role === "user" ? "ml-auto bg-(--primary) text-white" : "bg-gray-100 text-gray-700"
+                  msg.role === "user" ? "ml-auto bg-(--primary) text-(--background)" : "bg-(--surface-subtle) text-(--text-body)"
                 }`}
               >
                 {msg.content}
@@ -222,7 +222,7 @@ export default function AIChatPage() {
         {isTyping && <TypingIndicator />}
       </div>
 
-      <div className="border-t border-gray-100 px-6 py-4">
+      <div className="border-t border-(--border-subtle) px-6 py-4">
         <div className="mb-3 flex flex-wrap gap-2">
           {suggestedQuestions.map((q) => (
             <button
@@ -249,12 +249,12 @@ export default function AIChatPage() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask your AI mentor anything..."
             disabled={isTyping}
-            className="h-11 flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary) disabled:opacity-60"
+            className="h-11 flex-1 rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 text-sm focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary) disabled:opacity-60"
           />
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--ternary) text-white transition-colors hover:bg-blue-700 disabled:opacity-40"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--ternary) text-(--white) transition-colors hover:bg-(--primary-hover) disabled:opacity-40"
             aria-label="Send message"
           >
             {isTyping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}

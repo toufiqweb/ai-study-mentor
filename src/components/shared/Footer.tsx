@@ -32,15 +32,15 @@ const linkGroups = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white">
+    <footer className="border-t border-(--card-border) bg-(--card-bg) transition-colors duration-300">
       <div className="container mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 text-lg font-bold text-gray-900">
+            <Link href="/" className="flex items-center gap-2 text-lg font-bold text-(--primary)">
               <Image src="/logo.png" alt="AI Study Mentor" width={28} height={28} className="object-contain" />
               AI Study Mentor
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-6 text-gray-600">
+            <p className="mt-4 max-w-xs text-sm leading-6 text-(--secondary)">
               Your AI-powered personal study coach that plans, tracks, and improves your learning
               journey.
             </p>
@@ -55,7 +55,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-(--ternary)/10 hover:text-(--ternary)"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-(--card-border)/40 text-(--secondary) transition-colors hover:bg-(--ternary)/10 hover:text-(--ternary)"
                 >
                   <social.icon className="h-4 w-4" />
                 </a>
@@ -65,13 +65,13 @@ export default function Footer() {
 
           {linkGroups.map((group) => (
             <div key={group.title}>
-              <p className="text-sm font-bold text-gray-900">{group.title}</p>
+              <p className="text-sm font-bold text-(--primary)">{group.title}</p>
               <ul className="mt-4 space-y-3">
                 {group.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-600 transition-colors hover:text-(--primary)"
+                      className="text-sm text-(--secondary) transition-colors hover:text-(--primary)"
                     >
                       {link.label}
                     </Link>
@@ -82,9 +82,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-gray-100 pt-8 text-center text-sm text-gray-500 sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-(--card-border) pt-8 text-center text-sm text-(--secondary) sm:flex-row">
           <div>© {new Date().getFullYear()} AI Study Mentor. All rights reserved.</div>
-          <CookiePolicyLink className="text-sm text-gray-500 transition-colors hover:text-(--primary)" />
+          <CookiePolicyLink className="text-sm text-(--secondary) transition-colors hover:text-(--primary)" />
         </div>
       </div>
     </footer>

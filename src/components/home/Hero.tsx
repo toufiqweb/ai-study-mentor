@@ -33,7 +33,7 @@ export default function Hero() {
 
   return (
     <SectionContainer
-      className="bg-white pt-20 pb-24 sm:pt-28 sm:pb-28"
+      className="bg-(--background) pt-20 pb-24 sm:pt-28 sm:pb-28 transition-colors duration-300"
       containerClassName="max-w-4xl text-center"
     >
       <motion.div
@@ -46,26 +46,26 @@ export default function Hero() {
           AI-Powered Learning
         </span>
 
-        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 leading-tight sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight">
+        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-(--primary) leading-tight sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight">
           Discover{" "}
           <span className="text-(--ternary)">Personalized Study Plans </span>
           built by your AI mentor
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-(--secondary)">
           Generate a personalized study plan, track your progress, and get AI
           guidance every day — for any subject you want to learn.
         </p>
 
         <form onSubmit={handleSearch} className="mx-auto mt-10 max-w-xl">
           <div className="relative">
-            <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-(--secondary)" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search roadmaps, e.g. Web Development"
-              className="h-14 w-full rounded-2xl border border-gray-200 bg-white pr-4 pl-12 text-sm shadow-sm transition-colors focus:border-(--primary) focus:ring-1 focus:ring-(--primary) focus:outline-none"
+              className="h-14 w-full rounded-2xl border border-(--card-border) bg-(--card-bg) pr-4 pl-12 text-sm text-(--foreground) shadow-sm transition-colors focus:border-(--ternary) focus:ring-1 focus:ring-(--ternary) focus:outline-none"
             />
           </div>
         </form>
@@ -76,7 +76,7 @@ export default function Hero() {
               key={category}
               type="button"
               onClick={() => handleCategoryClick(category)}
-              className="rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-(--ternary)/30 hover:bg-white hover:text-(--ternary)"
+              className="rounded-full border border-(--card-border) bg-(--card-bg) px-4 py-2 text-sm font-semibold text-(--secondary) transition-colors hover:border-(--ternary)/30 hover:bg-(--card-bg) hover:text-(--ternary) cursor-pointer"
             >
               {category}
             </button>

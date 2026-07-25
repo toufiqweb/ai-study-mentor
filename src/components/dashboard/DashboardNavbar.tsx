@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Menu, Search, Bell, User, LogOut, ChevronDown } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useSidebar } from "./SidebarProvider";
+import ThemeToggle from "@/components/shared/ThemeToggle";
 
 export default function DashboardNavbar() {
   const router = useRouter();
@@ -31,29 +32,30 @@ export default function DashboardNavbar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-100 bg-white/80 px-4 backdrop-blur-sm sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-(--nav-border) bg-(--nav-bg) px-4 backdrop-blur-sm sm:px-6 transition-colors duration-300">
       <div className="flex items-center gap-4">
         <button
           onClick={() => setSidebarOpen(true)}
-          className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-50 lg:hidden"
+          className="rounded-lg p-1.5 text-(--text-muted) hover:bg-(--surface-muted) lg:hidden"
           aria-label="Open sidebar"
         >
           <Menu className="h-5 w-5" />
         </button>
 
         <form onSubmit={(e) => e.preventDefault()} className="relative hidden sm:block">
-          <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-(--text-subtle)" />
           <input
             type="text"
             placeholder="Search goals, topics..."
-            className="h-10 w-64 rounded-full border border-gray-200 bg-gray-50 py-1.5 pl-10 pr-4 text-sm placeholder-gray-400 transition-colors focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+            className="h-10 w-64 rounded-full border border-(--border-default) bg-(--surface-muted) py-1.5 pl-10 pr-4 text-sm placeholder-(--placeholder) transition-colors focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)"
           />
         </form>
       </div>
 
       <div className="flex items-center gap-2">
+        <ThemeToggle />
         <button
-          className="relative rounded-full p-2 text-gray-500 hover:bg-gray-50"
+          className="relative rounded-full p-2 text-(--text-muted) hover:bg-(--surface-subtle) dark:hover:bg-(--neutral-800)"
           aria-label="Notifications"
         >
           <Bell className="h-5 w-5" />
@@ -62,43 +64,43 @@ export default function DashboardNavbar() {
 
         {isPending ? (
           <div className="ml-2 flex items-center gap-3 animate-pulse">
-            <div className="h-9 w-9 rounded-full bg-gray-100" />
-            <div className="hidden h-4 w-20 rounded bg-gray-100 sm:block" />
+            <div className="h-9 w-9 rounded-full bg-(--surface-subtle)" />
+            <div className="hidden h-4 w-20 rounded bg-(--surface-subtle) sm:block" />
           </div>
         ) : (
           <div className="relative ml-1" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-gray-50"
+              className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-(--surface-muted)"
             >
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-(--primary)/10 text-sm font-bold text-(--primary)">
                 {session?.user?.name?.charAt(0).toUpperCase() ?? "S"}
               </div>
-              <span className="hidden text-sm font-semibold text-gray-700 sm:block">
+              <span className="hidden text-sm font-semibold text-(--text-body) sm:block">
                 {session?.user?.name ?? "Student"}
               </span>
-              <ChevronDown className="hidden h-4 w-4 text-gray-400 sm:block" />
+              <ChevronDown className="hidden h-4 w-4 text-(--text-subtle) sm:block" />
             </button>
 
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-52 rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
-                <div className="border-b border-gray-100 px-4 py-2.5">
-                  <p className="truncate text-sm font-bold text-gray-900">
+              <div className="absolute right-0 mt-2 w-52 rounded-2xl border border-(--border-subtle) bg-(--surface) py-2 shadow-xl">
+                <div className="border-b border-(--border-subtle) px-4 py-2.5">
+                  <p className="truncate text-sm font-bold text-(--text-strong)">
                     {session?.user?.name ?? "Student"}
                   </p>
-                  <p className="truncate text-xs text-gray-400">{session?.user?.email}</p>
+                  <p className="truncate text-xs text-(--text-subtle)">{session?.user?.email}</p>
                 </div>
                 <Link
                   href="/dashboard/profile"
                   onClick={() => setIsDropdownOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50"
+                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-(--text-secondary) hover:bg-(--surface-muted)"
                 >
-                  <User className="h-4 w-4 text-gray-400" />
+                  <User className="h-4 w-4 text-(--text-subtle)" />
                   Your Profile
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-red-500 hover:bg-red-50"
+                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-(--error) hover:bg-(--error-subtle)"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign Out

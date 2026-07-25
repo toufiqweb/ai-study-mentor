@@ -39,7 +39,7 @@ export default function LearningCategories() {
       <div className="mt-16 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
         {categories.map((category, i) => (
           <AnimatedSection key={category.name} delay={i * 0.05}>
-            <div className="group flex h-full flex-col items-center gap-4 rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-(--ternary)/20 hover:shadow-xl">
+            <div className="group flex h-full flex-col items-center gap-4 rounded-3xl border border-(--card-border) bg-(--card-bg) p-8 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-(--ternary)/20 hover:shadow-xl">
               <div className="rounded-2xl bg-(--ternary)/10 p-3.5 transition-colors group-hover:bg-(--ternary)/15">
                 <category.icon className="h-6 w-6 text-(--ternary)" />
               </div>

@@ -16,7 +16,7 @@ const stats = [
 export default function StudentStats() {
   return (
     <SectionContainer
-      className="bg-(--background) py-24 border-y border-gray-100"
+      className="bg-(--background) py-24 border-y border-(--card-border) transition-colors duration-300"
       containerClassName="relative max-w-6xl"
     >
       <AnimatedSection className="mx-auto max-w-2xl text-center">
@@ -38,7 +38,7 @@ export default function StudentStats() {
           <AnimatedSection key={stat.label} delay={i * 0.1}>
             <motion.div
               whileHover={{ y: -5 }}
-              className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-xs transition-shadow hover:shadow-xl"
+              className="group relative overflow-hidden rounded-3xl border border-(--card-border) bg-(--card-bg) p-8 text-center shadow-xs transition-shadow hover:shadow-xl"
             >
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-(--ternary)/10 text-(--ternary) transition-colors group-hover:bg-(--ternary)/20 group-hover:scale-110 duration-300">
                 <stat.icon className="h-6 w-6" />

@@ -21,8 +21,8 @@ import { toggleTaskAction } from "@/lib/actions/goals";
 
 const statusStyles = {
   "on-track": "bg-(--primary)/10 text-(--primary)",
-  "at-risk": "bg-amber-50 text-amber-600",
-  completed: "bg-emerald-50 text-emerald-600",
+  "at-risk": "bg-(--warning-subtle) text-(--warning)",
+  completed: "bg-(--success-subtle) text-(--success)",
 } as const;
 
 const statusLabels = {
@@ -103,17 +103,17 @@ export default function GoalDetailsPage() {
 
   if (!goal) {
     return (
-      <div className="flex h-64 flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white text-center shadow-sm">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+      <div className="flex h-64 flex-col items-center justify-center rounded-2xl border border-(--border-subtle) bg-(--surface) text-center shadow-sm">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-(--surface-subtle) text-(--text-subtle)">
           <Target className="h-7 w-7" />
         </div>
-        <h3 className="mt-4 text-base font-bold text-gray-900">Goal not found</h3>
-        <p className="mt-1 max-w-sm text-sm text-gray-500">
+        <h3 className="mt-4 text-base font-bold text-(--text-strong)">Goal not found</h3>
+        <p className="mt-1 max-w-sm text-sm text-(--text-muted)">
           {errorMsg || "This goal doesn't exist or you don't have access to it."}
         </p>
         <Link
           href="/dashboard/goals"
-          className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700"
+          className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:bg-(--primary-hover)"
         >
           Back to My Goals
         </Link>
@@ -123,47 +123,47 @@ export default function GoalDetailsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-1.5 text-sm text-gray-500">
+      <div className="flex items-center gap-1.5 text-sm text-(--text-muted)">
         <Link href="/dashboard/goals" className="hover:text-(--primary)">
           My Goals
         </Link>
         <ChevronRight className="h-3.5 w-3.5" />
-        <span className="font-medium text-gray-900">{goal.title}</span>
+        <span className="font-medium text-(--text-strong)">{goal.title}</span>
       </div>
 
       {errorMsg && (
-        <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+        <div className="rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
           {errorMsg}
         </div>
       )}
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-600">
+              <span className="rounded-full bg-(--surface-subtle) px-2.5 py-1 text-xs font-bold text-(--text-secondary)">
                 {goal.category}
               </span>
               <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${statusStyles[goal.status]}`}>
                 {statusLabels[goal.status]}
               </span>
             </div>
-            <h1 className="mt-3 text-2xl font-bold tracking-tight text-gray-900">{goal.title}</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-600">{goal.description}</p>
+            <h1 className="mt-3 text-2xl font-bold tracking-tight text-(--text-strong)">{goal.title}</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-(--text-secondary)">{goal.description}</p>
           </div>
           <Link
             href={`/dashboard/chat?goalId=${goal._id}`}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-4 py-2.5 text-sm font-bold text-(--white) shadow-sm hover:bg-(--primary-hover)"
           >
             <MessagesSquare className="h-4 w-4" />
             Ask AI Mentor
           </Link>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4 border-t border-gray-100 pt-6 sm:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-4 border-t border-(--border-subtle) pt-6 sm:grid-cols-4">
           <div>
-            <p className="text-xs font-medium text-gray-400">Deadline</p>
-            <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-gray-900">
+            <p className="text-xs font-medium text-(--text-subtle)">Deadline</p>
+            <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-(--text-strong)">
               <CalendarClock className="h-4 w-4 text-(--primary)" />
               {new Date(goal.deadline).toLocaleDateString("en-US", {
                 month: "short",
@@ -173,25 +173,25 @@ export default function GoalDetailsPage() {
             </p>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-400">Current Level</p>
-            <p className="mt-1 text-sm font-bold text-gray-900">{goal.currentLevel}</p>
+            <p className="text-xs font-medium text-(--text-subtle)">Current Level</p>
+            <p className="mt-1 text-sm font-bold text-(--text-strong)">{goal.currentLevel}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-400">Learning Style</p>
-            <p className="mt-1 text-sm font-bold text-gray-900">{goal.learningStyle}</p>
+            <p className="text-xs font-medium text-(--text-subtle)">Learning Style</p>
+            <p className="mt-1 text-sm font-bold text-(--text-strong)">{goal.learningStyle}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-gray-400">Daily Study Hours</p>
-            <p className="mt-1 text-sm font-bold text-gray-900">{goal.dailyStudyHours}h / day</p>
+            <p className="text-xs font-medium text-(--text-subtle)">Daily Study Hours</p>
+            <p className="mt-1 text-sm font-bold text-(--text-strong)">{goal.dailyStudyHours}h / day</p>
           </div>
         </div>
 
-        <div className="mt-6 border-t border-gray-100 pt-6">
-          <div className="mb-1.5 flex items-center justify-between text-sm font-medium text-gray-600">
+        <div className="mt-6 border-t border-(--border-subtle) pt-6">
+          <div className="mb-1.5 flex items-center justify-between text-sm font-medium text-(--text-secondary)">
             <span>Overall Progress</span>
-            <span className="font-bold text-gray-900">{goal.progress}%</span>
+            <span className="font-bold text-(--text-strong)">{goal.progress}%</span>
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-gray-100">
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-(--surface-subtle)">
             <div
               className="h-full rounded-full bg-(--primary) transition-all"
               style={{ width: `${goal.progress}%` }}
@@ -201,12 +201,12 @@ export default function GoalDetailsPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <section className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h2 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <ListChecks className="h-4 w-4 text-(--primary)" />
             Daily Tasks
           </h2>
-          <p className="mt-1 text-xs text-gray-400">Check off a task once you&apos;ve completed it.</p>
+          <p className="mt-1 text-xs text-(--text-subtle)">Check off a task once you&apos;ve completed it.</p>
           <ul className="mt-4 space-y-2.5">
             {goal.studyPlan.dailyRoutine.map((task, i) => {
               const taskKey = `daily-${i}`;
@@ -219,9 +219,9 @@ export default function GoalDetailsPage() {
                       checked={isDone}
                       disabled={pendingTaskKey === taskKey}
                       onChange={() => toggleTask(taskKey)}
-                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 accent-(--primary) disabled:opacity-50"
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-(--border-strong) accent-(--primary) disabled:opacity-50"
                     />
-                    <span className={isDone ? "text-gray-400 line-through" : "text-gray-700"}>{task}</span>
+                    <span className={isDone ? "text-(--text-subtle) line-through" : "text-(--text-body)"}>{task}</span>
                   </label>
                 </li>
               );
@@ -229,8 +229,8 @@ export default function GoalDetailsPage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <section className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h2 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <Map className="h-4 w-4 text-(--secondary)" />
             Weekly Roadmap
           </h2>
@@ -241,22 +241,22 @@ export default function GoalDetailsPage() {
                   {i + 1}
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-gray-900">{item.week}</p>
-                  <p className="text-sm text-gray-600">{item.focus}</p>
+                  <p className="text-sm font-bold text-(--text-strong)">{item.week}</p>
+                  <p className="text-sm text-(--text-secondary)">{item.focus}</p>
                 </div>
               </li>
             ))}
           </ol>
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <section className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h2 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <Layers className="h-4 w-4 text-(--ternary)" />
             Monthly Milestones
           </h2>
           <ul className="mt-4 space-y-2.5">
             {goal.studyPlan.monthlyMilestones.map((milestone) => (
-              <li key={milestone} className="flex gap-2 text-sm text-gray-700">
+              <li key={milestone} className="flex gap-2 text-sm text-(--text-body)">
                 <span className="text-(--ternary)">•</span>
                 {milestone}
               </li>
@@ -264,14 +264,14 @@ export default function GoalDetailsPage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <section className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h2 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <BookOpen className="h-4 w-4 text-(--primary)" />
             Resources
           </h2>
           <ul className="mt-4 space-y-2.5">
             {goal.studyPlan.resources.map((resource) => (
-              <li key={resource} className="flex gap-2 text-sm text-gray-700">
+              <li key={resource} className="flex gap-2 text-sm text-(--text-body)">
                 <span className="text-(--primary)">•</span>
                 {resource}
               </li>
@@ -287,13 +287,13 @@ export default function GoalDetailsPage() {
         </h2>
         <ul className="mt-4 space-y-2.5">
           {goal.studyPlan.tips.map((tip) => (
-            <li key={tip} className="flex gap-2 text-sm text-gray-700">
+            <li key={tip} className="flex gap-2 text-sm text-(--text-body)">
               <span className="text-(--primary)">•</span>
               {tip}
             </li>
           ))}
           {goal.weakTopics.length > 0 && (
-            <li className="flex gap-2 text-sm text-gray-700">
+            <li className="flex gap-2 text-sm text-(--text-body)">
               <span className="text-(--primary)">•</span>
               Extra revision recommended for: {goal.weakTopics.join(", ")}
             </li>
@@ -301,9 +301,9 @@ export default function GoalDetailsPage() {
         </ul>
       </section>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-base font-bold text-gray-900">
+          <h2 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <MessagesSquare className="h-4 w-4 text-(--secondary)" />
             Chat History
           </h2>
@@ -316,7 +316,7 @@ export default function GoalDetailsPage() {
         </div>
         <div className="mt-4 space-y-3">
           {chatHistory.length === 0 ? (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-(--text-muted)">
               No conversation yet — ask your AI mentor a question to get started.
             </p>
           ) : (
@@ -324,7 +324,7 @@ export default function GoalDetailsPage() {
               <div
                 key={msg._id}
                 className={`max-w-lg rounded-2xl px-4 py-2.5 text-sm ${
-                  msg.role === "user" ? "ml-auto bg-(--primary) text-white" : "bg-gray-100 text-gray-700"
+                  msg.role === "user" ? "ml-auto bg-(--primary) text-(--background)" : "bg-(--surface-subtle) text-(--text-body)"
                 }`}
               >
                 {msg.content}

@@ -73,12 +73,12 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white p-7 shadow-xl shadow-gray-200/40 md:p-9 lg:col-span-2">
+    <div className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-7 shadow-xl shadow-(--border-default)/40 md:p-9 lg:col-span-2">
       {/* Form Card Header */}
-      <div className="mb-7 border-b border-gray-100 pb-5">
+      <div className="mb-7 border-b border-(--border-subtle) pb-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-(--accent-subtle) text-(--accent)">
               <Sparkles className="h-5 w-5" />
             </div>
             <div>
@@ -110,11 +110,11 @@ export default function ContactForm() {
         <div className="grid gap-6 sm:grid-cols-2">
           {/* Name Field */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-700" htmlFor="name">
-              Your Name <span className="text-red-500">*</span>
+            <label className="text-xs font-bold uppercase tracking-wider text-(--text-body)" htmlFor="name">
+              Your Name <span className="text-(--error)">*</span>
             </label>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-(--text-subtle)">
                 <User className="h-4 w-4" />
               </div>
               <input
@@ -125,20 +125,20 @@ export default function ContactForm() {
                 autoComplete="off"
                 data-lpignore="true"
                 data-form-type="other"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-gray-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60"
+                className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted)/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-(--placeholder) transition-all focus:border-(--accent-border) focus:bg-(--surface) focus:outline-none focus:ring-4 focus:ring-(--accent-border)/10 disabled:opacity-60"
                 {...register("name")}
               />
             </div>
-            {errors.name && <p className="text-xs font-semibold text-red-500 mt-1">{errors.name.message}</p>}
+            {errors.name && <p className="text-xs font-semibold text-(--error) mt-1">{errors.name.message}</p>}
           </div>
 
           {/* Email Field */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-700" htmlFor="email">
-              Email Address <span className="text-red-500">*</span>
+            <label className="text-xs font-bold uppercase tracking-wider text-(--text-body)" htmlFor="email">
+              Email Address <span className="text-(--error)">*</span>
             </label>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-(--text-subtle)">
                 <Mail className="h-4 w-4" />
               </div>
               <input
@@ -149,21 +149,21 @@ export default function ContactForm() {
                 autoComplete="new-password"
                 data-lpignore="true"
                 data-form-type="other"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-gray-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60"
+                className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted)/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-(--placeholder) transition-all focus:border-(--accent-border) focus:bg-(--surface) focus:outline-none focus:ring-4 focus:ring-(--accent-border)/10 disabled:opacity-60"
                 {...register("email")}
               />
             </div>
-            {errors.email && <p className="text-xs font-semibold text-red-500 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-xs font-semibold text-(--error) mt-1">{errors.email.message}</p>}
           </div>
         </div>
 
         {/* Subject Field */}
         <div className="space-y-1.5">
-          <label className="text-xs font-bold uppercase tracking-wider text-gray-700" htmlFor="subject">
-            Subject <span className="text-red-500">*</span>
+          <label className="text-xs font-bold uppercase tracking-wider text-(--text-body)" htmlFor="subject">
+            Subject <span className="text-(--error)">*</span>
           </label>
           <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-(--text-subtle)">
               <HelpCircle className="h-4 w-4" />
             </div>
             <input
@@ -174,25 +174,25 @@ export default function ContactForm() {
               autoComplete="off"
               data-lpignore="true"
               data-form-type="other"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-gray-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60"
+              className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted)/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-(--placeholder) transition-all focus:border-(--accent-border) focus:bg-(--surface) focus:outline-none focus:ring-4 focus:ring-(--accent-border)/10 disabled:opacity-60"
               {...register("subject")}
             />
           </div>
-          {errors.subject && <p className="text-xs font-semibold text-red-500 mt-1">{errors.subject.message}</p>}
+          {errors.subject && <p className="text-xs font-semibold text-(--error) mt-1">{errors.subject.message}</p>}
         </div>
 
         {/* Message Field */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-700" htmlFor="message">
-              Message <span className="text-red-500">*</span>
+            <label className="text-xs font-bold uppercase tracking-wider text-(--text-body)" htmlFor="message">
+              Message <span className="text-(--error)">*</span>
             </label>
-            <span className="text-[11px] font-medium text-gray-400">
+            <span className="text-[11px] font-medium text-(--text-subtle)">
               {watchMessage ? watchMessage.length : 0} / 1000 chars
             </span>
           </div>
           <div className="relative">
-            <div className="pointer-events-none absolute top-3.5 left-0 flex items-start pl-3.5 text-gray-400">
+            <div className="pointer-events-none absolute top-3.5 left-0 flex items-start pl-3.5 text-(--text-subtle)">
               <MessageSquare className="h-4 w-4" />
             </div>
             <textarea
@@ -203,24 +203,24 @@ export default function ContactForm() {
               data-lpignore="true"
               spellCheck={false}
               placeholder="Write your detailed message here (minimum 15 characters)..."
-              className="w-full rounded-xl border border-gray-200 bg-gray-50/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-gray-400 transition-all focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60 resize-y"
+              className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted)/50 py-3 pl-10 pr-4 text-sm text-(--primary) placeholder-(--placeholder) transition-all focus:border-(--accent-border) focus:bg-(--surface) focus:outline-none focus:ring-4 focus:ring-(--accent-border)/10 disabled:opacity-60 resize-y"
               {...register("message")}
             />
           </div>
-          {errors.message && <p className="text-xs font-semibold text-red-500 mt-1">{errors.message.message}</p>}
+          {errors.message && <p className="text-xs font-semibold text-(--error) mt-1">{errors.message.message}</p>}
         </div>
 
         {/* Form Footer */}
-        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between border-t border-gray-100 pt-5 gap-4">
-          <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-            <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
+        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between border-t border-(--border-subtle) pt-5 gap-4">
+          <div className="flex items-center gap-2 text-xs font-medium text-(--text-muted)">
+            <ShieldCheck className="h-4 w-4 text-(--success-icon) shrink-0" />
             <span>Spam Protected &amp; 256-bit Encrypted</span>
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-linear-to-r from-indigo-600 via-indigo-700 to-indigo-800 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/25 transition-all hover:from-indigo-700 hover:to-indigo-900 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-linear-to-r from-(--accent) via-(--accent-hover) to-(--accent-active) px-7 py-3.5 text-sm font-bold text-(--white) shadow-lg shadow-(--accent)/25 transition-all hover:from-(--accent-hover) hover:to-(--accent-active-strong) active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
           >
             {isSubmitting ? (
               <>

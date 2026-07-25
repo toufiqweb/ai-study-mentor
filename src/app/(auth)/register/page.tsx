@@ -69,13 +69,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gray-50/50">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-(--surface-muted)/50">
       {/* Background Decorative Elements */}
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-(--ternary) opacity-[0.06] rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-(--primary) opacity-[0.04] rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Main Register Card */}
-      <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 z-10 relative">
+      <div className="max-w-md w-full space-y-8 bg-(--surface) p-8 md:p-10 rounded-[2rem] shadow-[0_8px_30px_var(--shadow-soft)] border border-(--border-subtle) z-10 relative">
         {/* Header Section */}
         <div className="text-center flex flex-col items-center">
           <div className="mb-6 relative w-16 h-16 sm:w-20 sm:h-20 drop-shadow-sm">
@@ -100,7 +100,7 @@ export default function RegisterPage() {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 border border-gray-200 bg-white hover:bg-gray-50 text-(--primary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-gray-200"
+            className="w-full flex items-center justify-center gap-3 border border-(--border-default) bg-(--surface) hover:bg-(--surface-muted) text-(--primary) font-semibold py-3 rounded-xl text-sm transition-all duration-200 shadow-sm focus:ring-2 focus:ring-offset-1 focus:ring-(--border-default)"
           >
             <FcGoogle className="text-xl" />
             <span>Continue with Google</span>
@@ -108,8 +108,8 @@ export default function RegisterPage() {
 
           {/* Divider */}
           <div className="relative flex items-center justify-center py-2">
-            <div className="border-t border-gray-200 w-full"></div>
-            <span className="absolute bg-white px-4 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+            <div className="border-t border-(--border-default) w-full"></div>
+            <span className="absolute bg-(--surface) px-4 text-xs font-semibold tracking-wider text-(--text-subtle) uppercase">
               Or continue with email
             </span>
           </div>
@@ -126,7 +126,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
+                  <User className="h-5 w-5 text-(--text-subtle) group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="name"
@@ -135,7 +135,7 @@ export default function RegisterPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-(--border-default) rounded-xl shadow-sm placeholder-(--placeholder) focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-(--surface-muted) focus:bg-(--surface)"
                   placeholder="John Doe"
                 />
               </div>
@@ -151,7 +151,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
+                  <Mail className="h-5 w-5 text-(--text-subtle) group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="email"
@@ -161,7 +161,7 @@ export default function RegisterPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-3 py-3 text-sm border border-(--border-default) rounded-xl shadow-sm placeholder-(--placeholder) focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-(--surface-muted) focus:bg-(--surface)"
                   placeholder="you@example.com"
                 />
               </div>
@@ -177,7 +177,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-(--ternary) transition-colors" />
+                  <Lock className="h-5 w-5 text-(--text-subtle) group-focus-within:text-(--ternary) transition-colors" />
                 </div>
                 <input
                   id="password"
@@ -188,13 +188,13 @@ export default function RegisterPage() {
                   minLength={8}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full pl-11 pr-11 py-3 text-sm border border-gray-200 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-gray-50 focus:bg-white"
+                  className="appearance-none block w-full pl-11 pr-11 py-3 text-sm border border-(--border-default) rounded-xl shadow-sm placeholder-(--placeholder) focus:outline-none focus:ring-2 focus:ring-(--ternary)/20 focus:border-(--ternary) transition-all bg-(--surface-muted) focus:bg-(--surface)"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-(--text-subtle) hover:text-(--text-secondary) focus:outline-none transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -208,8 +208,8 @@ export default function RegisterPage() {
 
           {/* Error Message */}
           {errorMsg && (
-            <div className="animate-in fade-in slide-in-from-top-1 text-red-600 text-sm font-medium bg-red-50 p-3.5 rounded-xl border border-red-100 flex items-start gap-2.5 shadow-sm">
-              <AlertCircle className="w-5 h-5 shrink-0 text-red-500" />
+            <div className="animate-in fade-in slide-in-from-top-1 text-(--error-strong) text-sm font-medium bg-(--error-subtle) p-3.5 rounded-xl border border-(--error-border) flex items-start gap-2.5 shadow-sm">
+              <AlertCircle className="w-5 h-5 shrink-0 text-(--error)" />
               <span className="leading-tight pt-0.5">{errorMsg}</span>
             </div>
           )}
@@ -219,7 +219,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-(--ternary) hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-(--white) bg-(--ternary) hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -234,8 +234,8 @@ export default function RegisterPage() {
         </form>
 
         {/* Footer Link */}
-        <div className="pt-6 mt-6 border-t border-gray-100 text-center">
-          <p className="text-sm text-gray-600">
+        <div className="pt-6 mt-6 border-t border-(--border-subtle) text-center">
+          <p className="text-sm text-(--text-secondary)">
             Already have an account?{" "}
             <Link
               href="/login"

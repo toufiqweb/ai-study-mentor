@@ -4,7 +4,7 @@ export default function SectionTitle({
   eyebrow,
   eyebrowClassName = "text-(--primary)",
   as: Heading = "h2",
-  titleClassName = "text-gray-900",
+  titleClassName = "text-(--text-strong)",
   className = "",
   children,
 }: {

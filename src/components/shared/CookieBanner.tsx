@@ -21,27 +21,27 @@ export default function CookieBanner() {
         role="dialog"
         aria-labelledby="cookie-banner-title"
         aria-describedby="cookie-banner-description"
-        className="fixed bottom-4 left-4 right-4 z-40 max-w-md rounded-2xl border border-gray-100 bg-white/95 p-5 shadow-2xl backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-auto"
+        className="fixed bottom-4 left-4 right-4 z-40 max-w-md rounded-2xl border border-(--border-subtle) bg-(--surface)/95 p-5 shadow-2xl backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-auto"
       >
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--ternary)/10 text-(--ternary)">
             <Cookie className="h-5 w-5" />
           </div>
           <div className="flex-1">
-            <h3 id="cookie-banner-title" className="text-base font-bold text-gray-900">
+            <h3 id="cookie-banner-title" className="text-base font-bold text-(--text-strong)">
               Cookie Preferences
             </h3>
-            <p id="cookie-banner-description" className="mt-1 text-xs leading-5 text-gray-600">
+            <p id="cookie-banner-description" className="mt-1 text-xs leading-5 text-(--text-secondary)">
               We use cookies to enhance your learning experience, remember your language choice, and analyze platform usage. You can manage your choices below.
             </p>
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-end gap-2 border-t border-gray-100 pt-3">
+        <div className="mt-4 flex flex-wrap items-center justify-end gap-2 border-t border-(--border-subtle) pt-3">
           <button
             type="button"
             onClick={openPreferences}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 focus:outline-none"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-(--text-secondary) transition-colors hover:bg-(--surface-subtle) hover:text-(--text-strong) focus:outline-none"
           >
             <Settings className="h-3.5 w-3.5" />
             Customize
@@ -50,7 +50,7 @@ export default function CookieBanner() {
           <button
             type="button"
             onClick={rejectAll}
-            className="rounded-lg bg-gray-100 px-3.5 py-2 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-200 focus:outline-none"
+            className="rounded-lg bg-(--surface-subtle) px-3.5 py-2 text-xs font-bold text-(--text-body) transition-colors hover:bg-(--neutral-200) focus:outline-none"
           >
             Reject All
           </button>
@@ -58,7 +58,7 @@ export default function CookieBanner() {
           <button
             type="button"
             onClick={acceptAll}
-            className="rounded-lg bg-(--ternary) px-4 py-2 text-xs font-bold text-white shadow-sm transition-opacity hover:opacity-90 focus:outline-none"
+            className="rounded-lg bg-(--ternary) px-4 py-2 text-xs font-bold text-(--white) shadow-sm transition-opacity hover:opacity-90 focus:outline-none"
           >
             Accept All
           </button>

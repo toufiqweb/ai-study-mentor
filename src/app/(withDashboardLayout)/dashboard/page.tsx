@@ -31,7 +31,7 @@ import { getMyGoals } from "@/lib/api/goals";
 import type { Goal } from "@/lib/actions/goals";
 import { getAnalytics, type Analytics } from "@/lib/api/analytics";
 
-const PIE_COLORS = ["#4f46e5", "#7c3aed", "#06b6d4", "#a5b4fc", "#f59e0b", "#10b981"];
+const PIE_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)", "var(--chart-6)"];
 
 const truncate = (value: string) => (value.length > 12 ? `${value.slice(0, 12)}…` : value);
 
@@ -72,7 +72,7 @@ export default function DashboardOverview() {
 
   if (errorMsg || !analytics) {
     return (
-      <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+      <div className="rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
         {errorMsg || "Failed to load your dashboard."}
       </div>
     );
@@ -86,8 +86,8 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Welcome back 👋</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-2xl font-bold tracking-tight text-(--text-strong)">Welcome back 👋</h1>
+        <p className="mt-1 text-sm text-(--text-muted)">
           Here&apos;s a snapshot of your learning progress.
         </p>
       </div>
@@ -118,35 +118,35 @@ export default function DashboardOverview() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:col-span-2">
-          <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm lg:col-span-2">
+          <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <BarChart3 className="h-4 w-4 text-(--primary)" />
             Study Hours by Goal
           </h3>
-          <p className="mb-5 text-xs text-gray-400">Daily study hours target per goal</p>
+          <p className="mb-5 text-xs text-(--text-subtle)">Daily study hours target per goal</p>
           {charts.studyHoursByGoal.length === 0 ? (
-            <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+            <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
           ) : (
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={charts.studyHoursByGoal}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
                 <XAxis dataKey="goal" tickFormatter={truncate} tickLine={false} axisLine={false} fontSize={12} />
                 <YAxis tickLine={false} axisLine={false} fontSize={12} unit="h" />
                 <Tooltip content={(props) => <ChartTooltip {...props} />} />
-                <Bar dataKey="hours" name="Hours/day" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="hours" name="Hours/day" fill="var(--chart-1)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <PieChartIcon className="h-4 w-4 text-(--ternary)" />
             Subject Distribution
           </h3>
-          <p className="mb-5 text-xs text-gray-400">Goals by category</p>
+          <p className="mb-5 text-xs text-(--text-subtle)">Goals by category</p>
           {charts.categoryDistribution.length === 0 ? (
-            <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+            <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
           ) : (
             <>
               <ResponsiveContainer width="100%" height={220}>
@@ -168,7 +168,7 @@ export default function DashboardOverview() {
               </ResponsiveContainer>
               <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
                 {charts.categoryDistribution.map((entry, i) => (
-                  <span key={entry.name} className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <span key={entry.name} className="flex items-center gap-1.5 text-xs text-(--text-muted)">
                     <span
                       className="h-2 w-2 rounded-full"
                       style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}
@@ -183,18 +183,18 @@ export default function DashboardOverview() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:col-span-2">
-          <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm lg:col-span-2">
+          <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <TrendingUp className="h-4 w-4 text-(--secondary)" />
             Goal Progress
           </h3>
-          <p className="mb-5 text-xs text-gray-400">Current completion by goal</p>
+          <p className="mb-5 text-xs text-(--text-subtle)">Current completion by goal</p>
           {charts.progressByGoal.length === 0 ? (
-            <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+            <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
           ) : (
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={charts.progressByGoal}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
                 <XAxis dataKey="goal" tickFormatter={truncate} tickLine={false} axisLine={false} fontSize={12} />
                 <YAxis tickLine={false} axisLine={false} fontSize={12} unit="%" domain={[0, 100]} />
                 <Tooltip content={(props) => <ChartTooltip {...props} />} />
@@ -202,25 +202,25 @@ export default function DashboardOverview() {
                   type="monotone"
                   dataKey="progress"
                   name="Progress"
-                  stroke="#7c3aed"
+                  stroke="var(--chart-2)"
                   strokeWidth={2.5}
-                  dot={{ r: 4, fill: "#7c3aed" }}
+                  dot={{ r: 4, fill: "var(--chart-2)" }}
                 />
               </LineChart>
             </ResponsiveContainer>
           )}
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-gray-900">Recent Goals</h3>
+            <h3 className="text-base font-bold text-(--text-strong)">Recent Goals</h3>
             <Link href="/dashboard/goals" className="text-xs font-bold text-(--primary) hover:underline">
               View all
             </Link>
           </div>
           <div className="mt-4 space-y-4">
             {recentGoals.length === 0 ? (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-(--text-muted)">
                 No goals yet.{" "}
                 <Link href="/dashboard/goals/create" className="font-bold text-(--primary) hover:underline">
                   Create one
@@ -231,10 +231,10 @@ export default function DashboardOverview() {
               recentGoals.map((goal) => (
                 <Link key={goal._id} href={`/dashboard/goals/${goal._id}`} className="block">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-semibold text-gray-800">{goal.title}</span>
-                    <span className="text-xs text-gray-400">{goal.progress}%</span>
+                    <span className="font-semibold text-(--neutral-800)">{goal.title}</span>
+                    <span className="text-xs text-(--text-subtle)">{goal.progress}%</span>
                   </div>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-(--text-subtle)">
                     {goal.category} • Due{" "}
                     {new Date(goal.deadline).toLocaleDateString("en-US", {
                       month: "short",
@@ -242,7 +242,7 @@ export default function DashboardOverview() {
                       year: "numeric",
                     })}
                   </p>
-                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-(--surface-subtle)">
                     <div className="h-full rounded-full bg-(--primary)" style={{ width: `${goal.progress}%` }} />
                   </div>
                 </Link>

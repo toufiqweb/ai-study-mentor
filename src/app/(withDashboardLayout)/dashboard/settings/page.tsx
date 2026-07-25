@@ -32,22 +32,22 @@ export default function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <div className="border-b border-gray-100 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Settings</h1>
-        <p className="mt-1 text-sm text-gray-500">Manage your account security.</p>
+      <div className="border-b border-(--border-subtle) pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-(--text-strong)">Settings</h1>
+        <p className="mt-1 text-sm text-(--text-muted)">Manage your account security.</p>
       </div>
 
       <form
         onSubmit={handleChangePassword}
-        className="space-y-5 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8"
+        className="space-y-5 rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm md:p-8"
       >
-        <h2 className="flex items-center gap-2 border-b border-gray-100 pb-2 text-lg font-semibold text-gray-900">
+        <h2 className="flex items-center gap-2 border-b border-(--border-subtle) pb-2 text-lg font-semibold text-(--text-strong)">
           <KeyRound className="h-4 w-4 text-(--ternary)" />
           Change Password
         </h2>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-gray-700" htmlFor="currentPassword">
+          <label className="text-sm font-medium text-(--text-body)" htmlFor="currentPassword">
             Current Password
           </label>
           <input
@@ -56,12 +56,12 @@ export default function SettingsPage() {
             required
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+            className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 py-2.5 text-sm focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-gray-700" htmlFor="newPassword">
+          <label className="text-sm font-medium text-(--text-body)" htmlFor="newPassword">
             New Password
           </label>
           <input
@@ -71,25 +71,25 @@ export default function SettingsPage() {
             minLength={8}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+            className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 py-2.5 text-sm focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)"
           />
         </div>
 
         {message && (
           <p
             className={`rounded-xl px-4 py-2.5 text-sm font-medium ${
-              message.type === "success" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
+              message.type === "success" ? "bg-(--success-subtle) text-(--success)" : "bg-(--error-subtle) text-(--error-strong)"
             }`}
           >
             {message.text}
           </p>
         )}
 
-        <div className="flex justify-end border-t border-gray-100 pt-4">
+        <div className="flex justify-end border-t border-(--border-subtle) pt-4">
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm hover:bg-(--primary-hover) disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Update Password
@@ -97,7 +97,7 @@ export default function SettingsPage() {
         </div>
       </form>
 
-      <p className="text-center text-sm text-gray-400">More settings are on the way.</p>
+      <p className="text-center text-sm text-(--text-subtle)">More settings are on the way.</p>
     </div>
   );
 }

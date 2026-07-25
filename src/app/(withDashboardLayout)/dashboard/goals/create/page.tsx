@@ -30,8 +30,8 @@ const goalSchema = z.object({
 type GoalFormValues = z.infer<typeof goalSchema>;
 
 const inputStyles =
-  "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)";
-const labelStyles = "text-sm font-medium text-gray-700";
+  "w-full rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 py-2.5 text-sm text-(--text-strong) placeholder-(--placeholder) transition-colors focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)";
+const labelStyles = "text-sm font-medium text-(--text-body)";
 
 const toWeakTopicsArray = (value?: string) =>
   value
@@ -108,9 +108,9 @@ export default function CreateGoalPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <div className="border-b border-gray-100 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Create Goal</h1>
-        <p className="mt-1 text-sm text-gray-500">
+      <div className="border-b border-(--border-subtle) pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-(--text-strong)">Create Goal</h1>
+        <p className="mt-1 text-sm text-(--text-muted)">
           Tell us what you want to learn and your AI mentor will build a personalized plan.
         </p>
       </div>
@@ -121,15 +121,15 @@ export default function CreateGoalPage() {
         </div>
       )}
 
-      <form className="space-y-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+      <form className="space-y-8 rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm md:p-8">
         <div className="space-y-5">
-          <h3 className="border-b border-gray-100 pb-2 text-lg font-semibold text-gray-900">
+          <h3 className="border-b border-(--border-subtle) pb-2 text-lg font-semibold text-(--text-strong)">
             Goal Details
           </h3>
 
           <div className="space-y-1.5">
             <label className={labelStyles} htmlFor="title">
-              Goal Title <span className="text-red-500">*</span>
+              Goal Title <span className="text-(--error)">*</span>
             </label>
             <input
               id="title"
@@ -138,13 +138,13 @@ export default function CreateGoalPage() {
               className={inputStyles}
               {...register("title")}
             />
-            {errors.title && <p className="text-xs text-red-500">{errors.title.message}</p>}
+            {errors.title && <p className="text-xs text-(--error)">{errors.title.message}</p>}
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <div className="space-y-1.5">
               <label className={labelStyles} htmlFor="category">
-                Category <span className="text-red-500">*</span>
+                Category <span className="text-(--error)">*</span>
               </label>
               <select id="category" className={inputStyles} {...register("category")}>
                 <option value="">Select a category</option>
@@ -154,21 +154,21 @@ export default function CreateGoalPage() {
                   </option>
                 ))}
               </select>
-              {errors.category && <p className="text-xs text-red-500">{errors.category.message}</p>}
+              {errors.category && <p className="text-xs text-(--error)">{errors.category.message}</p>}
             </div>
 
             <div className="space-y-1.5">
               <label className={labelStyles} htmlFor="deadline">
-                Target Completion Date <span className="text-red-500">*</span>
+                Target Completion Date <span className="text-(--error)">*</span>
               </label>
               <input id="deadline" type="date" className={inputStyles} {...register("deadline")} />
-              {errors.deadline && <p className="text-xs text-red-500">{errors.deadline.message}</p>}
+              {errors.deadline && <p className="text-xs text-(--error)">{errors.deadline.message}</p>}
             </div>
           </div>
 
           <div className="space-y-1.5">
             <label className={labelStyles} htmlFor="description">
-              Description <span className="text-red-500">*</span>
+              Description <span className="text-(--error)">*</span>
             </label>
             <textarea
               id="description"
@@ -177,19 +177,19 @@ export default function CreateGoalPage() {
               className={inputStyles}
               {...register("description")}
             />
-            {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
+            {errors.description && <p className="text-xs text-(--error)">{errors.description.message}</p>}
           </div>
         </div>
 
         <div className="space-y-5">
-          <h3 className="border-b border-gray-100 pb-2 text-lg font-semibold text-gray-900">
+          <h3 className="border-b border-(--border-subtle) pb-2 text-lg font-semibold text-(--text-strong)">
             Study Preferences
           </h3>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             <div className="space-y-1.5">
               <label className={labelStyles} htmlFor="dailyStudyHours">
-                Daily Study Hours <span className="text-red-500">*</span>
+                Daily Study Hours <span className="text-(--error)">*</span>
               </label>
               <input
                 id="dailyStudyHours"
@@ -201,13 +201,13 @@ export default function CreateGoalPage() {
                 {...register("dailyStudyHours", { valueAsNumber: true })}
               />
               {errors.dailyStudyHours && (
-                <p className="text-xs text-red-500">{errors.dailyStudyHours.message}</p>
+                <p className="text-xs text-(--error)">{errors.dailyStudyHours.message}</p>
               )}
             </div>
 
             <div className="space-y-1.5">
               <label className={labelStyles} htmlFor="currentLevel">
-                Current Skill Level <span className="text-red-500">*</span>
+                Current Skill Level <span className="text-(--error)">*</span>
               </label>
               <select id="currentLevel" className={inputStyles} {...register("currentLevel")}>
                 <option value="">Select level</option>
@@ -218,13 +218,13 @@ export default function CreateGoalPage() {
                 ))}
               </select>
               {errors.currentLevel && (
-                <p className="text-xs text-red-500">{errors.currentLevel.message}</p>
+                <p className="text-xs text-(--error)">{errors.currentLevel.message}</p>
               )}
             </div>
 
             <div className="space-y-1.5">
               <label className={labelStyles} htmlFor="learningStyle">
-                Preferred Learning Style <span className="text-red-500">*</span>
+                Preferred Learning Style <span className="text-(--error)">*</span>
               </label>
               <select id="learningStyle" className={inputStyles} {...register("learningStyle")}>
                 <option value="">Select style</option>
@@ -235,7 +235,7 @@ export default function CreateGoalPage() {
                 ))}
               </select>
               {errors.learningStyle && (
-                <p className="text-xs text-red-500">{errors.learningStyle.message}</p>
+                <p className="text-xs text-(--error)">{errors.learningStyle.message}</p>
               )}
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function CreateGoalPage() {
         </div>
 
         {errorMsg && (
-          <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          <div className="rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
             {errorMsg}
           </div>
         )}
@@ -269,8 +269,8 @@ export default function CreateGoalPage() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Daily Routine</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">Daily Routine</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.dailyRoutine.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-(--primary)">•</span>
@@ -281,21 +281,21 @@ export default function CreateGoalPage() {
               </div>
 
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Weekly Roadmap</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">Weekly Roadmap</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.weeklyRoadmap.map((item) => (
                     <li key={item.week}>
-                      <span className="font-semibold text-gray-900">{item.week}:</span> {item.focus}
+                      <span className="font-semibold text-(--text-strong)">{item.week}:</span> {item.focus}
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">
                   Monthly Milestones
                 </p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.monthlyMilestones.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-(--primary)">•</span>
@@ -306,8 +306,8 @@ export default function CreateGoalPage() {
               </div>
 
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">Resources</p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">Resources</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.resources.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-(--primary)">•</span>
@@ -318,10 +318,10 @@ export default function CreateGoalPage() {
               </div>
 
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">
                   Practice Schedule
                 </p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.practiceSchedule.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-(--primary)">•</span>
@@ -332,10 +332,10 @@ export default function CreateGoalPage() {
               </div>
 
               <div>
-                <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+                <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">
                   Revision Schedule
                 </p>
-                <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                   {generatedPlan.revisionSchedule.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="text-(--primary)">•</span>
@@ -347,10 +347,10 @@ export default function CreateGoalPage() {
             </div>
 
             <div>
-              <p className="text-xs font-bold tracking-wide text-gray-500 uppercase">
+              <p className="text-xs font-bold tracking-wide text-(--text-muted) uppercase">
                 Productivity Tips
               </p>
-              <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+              <ul className="mt-2 space-y-1.5 text-sm text-(--text-body)">
                 {generatedPlan.tips.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="text-(--primary)">•</span>
@@ -362,12 +362,12 @@ export default function CreateGoalPage() {
           </div>
         )}
 
-        <div className="flex flex-col-reverse justify-end gap-3 border-t border-gray-100 pt-4 sm:flex-row">
+        <div className="flex flex-col-reverse justify-end gap-3 border-t border-(--border-subtle) pt-4 sm:flex-row">
           <button
             type="button"
             onClick={onGenerate}
             disabled={isGenerating || isSaving}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-(--ternary)/20 bg-white px-5 py-2.5 text-sm font-bold text-(--ternary) transition-colors hover:border-(--ternary)/40 disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-(--ternary)/20 bg-(--surface) px-5 py-2.5 text-sm font-bold text-(--ternary) transition-colors hover:border-(--ternary)/40 disabled:opacity-60"
           >
             {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Generate AI Study Plan
@@ -376,7 +376,7 @@ export default function CreateGoalPage() {
             type="button"
             onClick={onSave}
             disabled={isSaving || isGenerating}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm transition-colors hover:bg-(--primary-hover) disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Goal

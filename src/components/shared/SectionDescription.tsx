@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export default function SectionDescription({
-  className = "mt-4 text-lg text-gray-600",
+  className = "mt-4 text-lg text-(--text-secondary)",
   children,
 }: {
   className?: string;

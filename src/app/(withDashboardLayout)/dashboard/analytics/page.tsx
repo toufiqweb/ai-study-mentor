@@ -20,7 +20,7 @@ import StatCard from "@/components/dashboard/StatCard";
 import ChartTooltip from "@/components/dashboard/ChartTooltip";
 import { getAnalytics, type Analytics } from "@/lib/api/analytics";
 
-const PIE_COLORS = ["#4f46e5", "#7c3aed", "#06b6d4", "#a5b4fc", "#f59e0b", "#10b981"];
+const PIE_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)", "var(--chart-6)"];
 
 const truncate = (value: string) => (value.length > 12 ? `${value.slice(0, 12)}…` : value);
 
@@ -58,7 +58,7 @@ export default function AnalyticsPage() {
 
   if (errorMsg || !analytics) {
     return (
-      <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+      <div className="rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
         {errorMsg || "Failed to load analytics."}
       </div>
     );
@@ -70,8 +70,8 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Analytics</h1>
-        <p className="mt-1 text-sm text-gray-500">How your study time and progress break down across goals.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-(--text-strong)">Analytics</h1>
+        <p className="mt-1 text-sm text-(--text-muted)">How your study time and progress break down across goals.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -106,35 +106,35 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:col-span-2">
-          <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm lg:col-span-2">
+          <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <BarChart3 className="h-4 w-4 text-(--primary)" />
             Study Hours
           </h3>
-          <p className="mb-5 text-xs text-gray-400">Daily study hours target by goal</p>
+          <p className="mb-5 text-xs text-(--text-subtle)">Daily study hours target by goal</p>
           {charts.studyHoursByGoal.length === 0 ? (
-            <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+            <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
           ) : (
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={charts.studyHoursByGoal}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
                 <XAxis dataKey="goal" tickFormatter={truncate} tickLine={false} axisLine={false} fontSize={12} />
                 <YAxis tickLine={false} axisLine={false} fontSize={12} unit="h" />
                 <Tooltip content={(props) => <ChartTooltip {...props} />} />
-                <Bar dataKey="hours" name="Hours/day" fill="#4f46e5" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="hours" name="Hours/day" fill="var(--chart-1)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+          <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
             <PieChartIcon className="h-4 w-4 text-(--ternary)" />
             Learning Categories
           </h3>
-          <p className="mb-5 text-xs text-gray-400">Goals by category</p>
+          <p className="mb-5 text-xs text-(--text-subtle)">Goals by category</p>
           {charts.categoryDistribution.length === 0 ? (
-            <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+            <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
           ) : (
             <>
               <ResponsiveContainer width="100%" height={200}>
@@ -156,7 +156,7 @@ export default function AnalyticsPage() {
               </ResponsiveContainer>
               <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5">
                 {charts.categoryDistribution.map((entry, i) => (
-                  <span key={entry.name} className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <span key={entry.name} className="flex items-center gap-1.5 text-xs text-(--text-muted)">
                     <span
                       className="h-2 w-2 rounded-full"
                       style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}
@@ -170,18 +170,18 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900">
+      <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+        <h3 className="flex items-center gap-2 text-base font-bold text-(--text-strong)">
           <TrendingUp className="h-4 w-4 text-(--secondary)" />
           Goal Progress
         </h3>
-        <p className="mb-5 text-xs text-gray-400">Current completion by goal</p>
+        <p className="mb-5 text-xs text-(--text-subtle)">Current completion by goal</p>
         {charts.progressByGoal.length === 0 ? (
-          <p className="py-16 text-center text-sm text-gray-400">No goals yet.</p>
+          <p className="py-16 text-center text-sm text-(--text-subtle)">No goals yet.</p>
         ) : (
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={charts.progressByGoal}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
               <XAxis dataKey="goal" tickFormatter={truncate} tickLine={false} axisLine={false} fontSize={12} />
               <YAxis tickLine={false} axisLine={false} fontSize={12} unit="%" domain={[0, 100]} />
               <Tooltip content={(props) => <ChartTooltip {...props} />} />
@@ -189,9 +189,9 @@ export default function AnalyticsPage() {
                 type="monotone"
                 dataKey="progress"
                 name="Progress"
-                stroke="#7c3aed"
+                stroke="var(--chart-2)"
                 strokeWidth={2.5}
-                dot={{ r: 4, fill: "#7c3aed" }}
+                dot={{ r: 4, fill: "var(--chart-2)" }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -203,7 +203,7 @@ export default function AnalyticsPage() {
           <Lightbulb className="h-4 w-4" />
           AI Insights
         </h2>
-        <p className="mt-3 text-sm leading-6 text-gray-700">{aiInsight}</p>
+        <p className="mt-3 text-sm leading-6 text-(--text-body)">{aiInsight}</p>
       </section>
     </div>
   );

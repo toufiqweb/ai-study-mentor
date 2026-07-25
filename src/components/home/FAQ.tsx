@@ -51,10 +51,10 @@ function FAQItem({
 }) {
   return (
     <div
-      className={`group overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${
+      className={`group overflow-hidden rounded-2xl border transition-all duration-300 ${
         isOpen
-          ? "border-(--ternary)/30 shadow-[0_8px_24px_-8px_rgba(37,99,235,0.15)]"
-          : "border-gray-100 hover:border-gray-200 hover:shadow-sm"
+          ? "border-(--ternary)/30 bg-(--card-bg) shadow-[0_8px_24px_-8px_var(--shadow-accent-glow)]"
+          : "border-(--card-border) bg-(--card-bg) hover:border-(--ternary)/30 hover:shadow-sm"
       }`}
     >
       <button
@@ -64,7 +64,7 @@ function FAQItem({
       >
         <span
           className={`hidden shrink-0 font-mono text-xs font-bold tabular-nums transition-colors sm:block ${
-            isOpen ? "text-(--ternary)" : "text-gray-300"
+            isOpen ? "text-(--ternary)" : "text-(--secondary)/40"
           }`}
         >
           {String(index + 1).padStart(2, "0")}
@@ -80,7 +80,7 @@ function FAQItem({
           className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
             isOpen
               ? "bg-(--ternary)/10 text-(--ternary)"
-              : "bg-gray-50 text-gray-400 group-hover:bg-gray-100 group-hover:text-gray-600"
+              : "bg-(--card-border)/50 text-(--secondary) group-hover:bg-(--card-border) group-hover:text-(--primary)"
           }`}
         >
           <ChevronDown
@@ -127,8 +127,8 @@ export default function FAQ() {
             Everything you need to know about AI Study Mentor and how it accelerates your learning.
           </p>
 
-          <div className="mt-8 flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
+          <div className="mt-8 flex items-center gap-3 rounded-2xl border border-(--card-border) bg-(--card-bg) p-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-(--background) shadow-sm">
               <MessageCircle className="h-4.5 w-4.5 text-(--ternary)" />
             </div>
             <div className="min-w-0">

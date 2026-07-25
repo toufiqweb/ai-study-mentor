@@ -9,7 +9,7 @@ interface CookiePolicyLinkProps {
 }
 
 export default function CookiePolicyLink({
-  className = "text-sm text-gray-600 transition-colors hover:text-(--primary)",
+  className = "text-sm text-(--text-secondary) transition-colors hover:text-(--primary)",
   children = "Cookie Settings",
 }: CookiePolicyLinkProps) {
   const { openPreferences } = useCookieConsent();

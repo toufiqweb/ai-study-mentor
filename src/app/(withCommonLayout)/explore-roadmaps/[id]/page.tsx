@@ -84,7 +84,7 @@ export default function RoadmapDetailsPage() {
   if (!roadmap) {
     return (
       <div className="container mx-auto max-w-3xl px-4 py-24 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-(--surface-subtle) text-(--text-subtle)">
           <Target className="h-7 w-7" />
         </div>
         <h1 className="mt-4 text-xl font-bold text-(--primary)">
@@ -95,7 +95,7 @@ export default function RoadmapDetailsPage() {
         </p>
         <Link
           href="/explore-roadmaps"
-          className="mt-6 inline-block rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white hover:opacity-90"
+          className="mt-6 inline-block rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:opacity-90"
         >
           Back to Explore Roadmaps
         </Link>
@@ -116,7 +116,7 @@ export default function RoadmapDetailsPage() {
           <span className="font-medium text-(--primary)">{roadmap.title}</span>
         </div>
 
-        <div className="mt-6 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+        <div className="mt-6 rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm md:p-8">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="flex items-start gap-5">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-(--ternary)/10 to-(--secondary)/10">
@@ -143,7 +143,7 @@ export default function RoadmapDetailsPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 border-t border-gray-100 pt-6 sm:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 border-t border-(--border-subtle) pt-6 sm:grid-cols-4">
             <div>
               <p className="text-xs font-medium text-(--secondary)">Duration</p>
               <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-(--primary)">
@@ -163,7 +163,7 @@ export default function RoadmapDetailsPage() {
             <div>
               <p className="text-xs font-medium text-(--secondary)">Rating</p>
               <p className="mt-1 flex items-center gap-1.5 text-sm font-bold text-(--primary)">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                <Star className="h-4 w-4 fill-(--star) text-(--star)" />
                 {roadmap.rating.toFixed(1)} / 5
               </p>
             </div>
@@ -180,7 +180,7 @@ export default function RoadmapDetailsPage() {
 
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <section className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
               <h2 className="text-lg font-bold text-(--primary)">
                 Description
               </h2>
@@ -189,7 +189,7 @@ export default function RoadmapDetailsPage() {
               </p>
             </section>
 
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <section className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-lg font-bold text-(--primary)">
                 <Target className="h-4.5 w-4.5 text-(--ternary)" />
                 Learning Objectives
@@ -207,7 +207,7 @@ export default function RoadmapDetailsPage() {
               </ul>
             </section>
 
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <section className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-lg font-bold text-(--primary)">
                 <Map className="h-4.5 w-4.5 text-(--secondary)" />
                 Weekly Learning Plan
@@ -240,14 +240,14 @@ export default function RoadmapDetailsPage() {
           </div>
 
           <div className="space-y-6 lg:sticky lg:top-24 h-fit">
-            <div className="rounded-3xl border border-gray-100 bg-white p-6 text-center shadow-sm">
+            <div className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 text-center shadow-sm">
               <p className="text-sm text-(--secondary)">
                 Ready to make this your own learning goal?
               </p>
               <button
                 onClick={handleStartRoadmap}
                 disabled={isSessionPending}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-3 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-3 text-sm font-bold text-(--white) shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
               >
                 Start This Roadmap
                 <ArrowRight className="h-4 w-4" />
@@ -259,7 +259,7 @@ export default function RoadmapDetailsPage() {
               </p>
             </div>
 
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <section className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-lg font-bold text-(--primary)">
                 <ListChecks className="h-4.5 w-4.5 text-(--ternary)" />
                 Required Skills
@@ -277,7 +277,7 @@ export default function RoadmapDetailsPage() {
               </ul>
             </section>
 
-            <section className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+            <section className="rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
               <h2 className="flex items-center gap-2 text-lg font-bold text-(--primary)">
                 <BookOpen className="h-4.5 w-4.5 text-(--ternary)" />
                 Recommended Resources

@@ -1,43 +1,281 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-ternary: var(--ternary);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-border: var(--nav-border);
+
+  /* Neutral scale (static — does not shift between themes) */
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  /* Text */
+  --color-text-strong: var(--text-strong);
+  --color-text-body: var(--text-body);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-placeholder: var(--placeholder);
+
+  /* Surface */
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-strong: var(--surface-strong);
+  --color-surface-inverse: var(--surface-inverse);
+
+  /* Border */
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+
+  /* Accent (indigo brand accent — distinct from --ternary) */
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-accent-active-strong: var(--accent-active-strong);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-subtle-strong: var(--accent-subtle-strong);
+  --color-accent-border: var(--accent-border);
+
+  /* Secondary decorative accents (one-off icon/gradient colors) */
+  --color-info: var(--info);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-alt: var(--info-alt);
+  --color-decorative-purple-subtle: var(--decorative-purple-subtle);
+
+  /* Status */
+  --color-success: var(--success);
+  --color-success-icon: var(--success-icon);
+  --color-success-subtle: var(--success-subtle);
+
+  --color-warning: var(--warning);
+  --color-warning-icon: var(--warning-icon);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-star: var(--star);
+
+  --color-error: var(--error);
+  --color-error-strong: var(--error-strong);
+  --color-error-subtle: var(--error-subtle);
+  --color-error-border: var(--error-border);
+  --color-error-border-strong: var(--error-border-strong);
+
+  /* Brand */
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
+
+  /* Chart palette (Recharts) */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-manrope), sans-serif;
+    line-height: 1.25;
+  }
+}
+
+/* =========================
+   LIGHT THEME (:root)
+========================= */
 :root {
+  color-scheme: light;
+
+  /* Surfaces */
   --background: #ffffff;
-  --foreground: #0f172a;
+  --foreground: #111827;
+
+  /* The 3 Core Colors */
   --primary: #111827;
   --secondary: #334155;
   --ternary: #2563eb;
+
+  /* Theme Surfaces */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-border: #e2e8f0;
+
+  /* Hover state for buttons on --ternary (static — does not shift with theme) */
+  --primary-hover: #1d4ed8;
+
+  /* =========================
+     STATIC TOKENS
+     These do not change between light/dark — they back the plain
+     Tailwind gray/red/emerald/amber/indigo utility classes that were
+     used throughout the app without dark: variants. Defined once here
+     (not repeated under .dark) so they inherit unchanged in both themes,
+     preserving the app's existing (theme-independent) appearance.
+  ========================= */
+
+  /* Neutral scale */
+  --white: #ffffff;
+  --black: #000000;
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-300: #d1d5db;
+  --neutral-400: #9ca3af;
+  --neutral-500: #6b7280;
+  --neutral-600: #4b5563;
+  --neutral-700: #374151;
+  --neutral-800: #1f2937;
+  --neutral-900: #111827;
+
+  /* Text */
+  --text-strong: var(--neutral-900);
+  --text-body: var(--neutral-700);
+  --text-secondary: var(--neutral-600);
+  --text-muted: var(--neutral-500);
+  --text-subtle: var(--neutral-400);
+  --placeholder: var(--neutral-400);
+
+  /* Surface */
+  --surface: var(--white);
+  --surface-muted: var(--neutral-50);
+  --surface-subtle: var(--neutral-100);
+  --surface-strong: var(--neutral-800);
+  --surface-inverse: var(--neutral-900);
+
+  /* Border */
+  --border-subtle: var(--neutral-100);
+  --border-default: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+
+  /* Accent (indigo brand accent used in forms/stat cards/CTAs) */
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-active: #3730a3;
+  --accent-active-strong: #312e81;
+  --accent-subtle: #eef2ff;
+  --accent-subtle-strong: #e0e7ff;
+  --accent-border: #6366f1;
+
+  /* Decorative one-off icon/gradient colors */
+  --info: #2563eb;
+  --info-subtle: #60a5fa;
+  --info-alt: #9333ea;
+  --decorative-purple-subtle: #faf5ff;
+
+  /* Status */
+  --success: #059669;
+  --success-icon: #10b981;
+  --success-subtle: #ecfdf5;
+
+  --warning: #d97706;
+  --warning-icon: #f59e0b;
+  --warning-subtle: #fffbeb;
+  --star: #fbbf24;
+
+  --error: #ef4444;
+  --error-strong: #dc2626;
+  --error-subtle: #fef2f2;
+  --error-border: #fee2e2;
+  --error-border-strong: #fecaca;
+
+  /* Brand */
+  --whatsapp: #25d366;
+  --whatsapp-hover: #20bd5a;
+
+  /* Chart palette */
+  --chart-1: var(--accent);
+  --chart-2: #7c3aed;
+  --chart-3: #06b6d4;
+  --chart-4: #a5b4fc;
+  --chart-5: var(--warning-icon);
+  --chart-6: var(--success-icon);
+  --chart-grid: #f1f5f9;
+
+  /* One-off shadow colors */
+  --shadow-soft: rgba(0, 0, 0, 0.04);
+  --shadow-accent-glow: rgba(37, 99, 235, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-manrope);
+/* =========================
+   DARK THEME (.dark)
+========================= */
+.dark {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --background: #0b0f19;
+  --foreground: #f8fafc;
+
+  /* The 3 Core Colors adapted for dark mode */
+  --primary: #f8fafc;
+  --secondary: #cbd5e1;
+  --ternary: #3b82f6;
+
+  /* Theme Surfaces */
+  --card-bg: #111827;
+  --card-border: #1e293b;
+  --nav-bg: rgba(11, 15, 25, 0.85);
+  --nav-border: #1e293b;
+
+  /* Overrides for semantic tokens in dark mode */
+  --surface: var(--card-bg);
+  --surface-muted: #1e293b;
+  --surface-subtle: #0f172a;
+  --surface-strong: var(--foreground);
+  --surface-inverse: #ffffff;
+
+  --border-subtle: var(--card-border);
+  --border-default: #334155;
+  --border-strong: #475569;
+
+  --text-strong: var(--primary);
+  --text-body: var(--secondary);
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-subtle: #475569;
 }
 
+/* =========================
+   BASE
+========================= */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-manrope), sans-serif;
-  line-height: 1.1;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /*
- * Google Website Translator: hide every piece of Google's default UI
- * (top banner, attribution link, dotted highlight under translated
- * words) while leaving translation itself fully functional. The
- * `#google_translate_element` container is hidden separately via the
- * Tailwind `sr-only` class (not display:none) since some browsers
- * won't let the widget mount its <select> into a display:none node.
+ * Google Website Translator: hide default UI
  */
 .goog-te-banner-frame,
 .goog-te-banner-frame.skiptranslate,

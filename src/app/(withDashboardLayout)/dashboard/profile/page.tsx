@@ -75,14 +75,14 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-gray-100 pb-5">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Profile</h1>
-        <p className="mt-1 text-sm text-gray-500">Manage your account and see your learning stats.</p>
+      <div className="border-b border-(--border-subtle) pb-5">
+        <h1 className="text-2xl font-bold tracking-tight text-(--text-strong)">Profile</h1>
+        <p className="mt-1 text-sm text-(--text-muted)">Manage your account and see your learning stats.</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:col-span-2">
-          <h2 className="text-lg font-semibold text-gray-900">Student Information</h2>
+        <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm lg:col-span-2">
+          <h2 className="text-lg font-semibold text-(--text-strong)">Student Information</h2>
           <form onSubmit={handleSave} className="mt-5 space-y-5">
             <div className="flex items-center gap-4">
               {displayImage ? (
@@ -98,7 +98,7 @@ export default function ProfilePage() {
                 </div>
               )}
               <div className="flex-1 space-y-1.5">
-                <label className="text-sm font-medium text-gray-700" htmlFor="image">
+                <label className="text-sm font-medium text-(--text-body)" htmlFor="image">
                   Profile Image URL
                 </label>
                 <input
@@ -107,14 +107,14 @@ export default function ProfilePage() {
                   placeholder="https://example.com/photo.jpg"
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+                  className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 py-2 text-sm focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)"
                 />
               </div>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700" htmlFor="name">
+                <label className="text-sm font-medium text-(--text-body)" htmlFor="name">
                   Name
                 </label>
                 <input
@@ -122,11 +122,11 @@ export default function ProfilePage() {
                   type="text"
                   value={name || user?.name || ""}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:border-(--primary) focus:bg-white focus:outline-none focus:ring-1 focus:ring-(--primary)"
+                  className="w-full rounded-xl border border-(--border-default) bg-(--surface-muted) px-4 py-2 text-sm focus:border-(--primary) focus:bg-(--surface) focus:outline-none focus:ring-1 focus:ring-(--primary)"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700" htmlFor="email">
+                <label className="text-sm font-medium text-(--text-body)" htmlFor="email">
                   Email
                 </label>
                 <input
@@ -134,12 +134,12 @@ export default function ProfilePage() {
                   type="email"
                   value={user?.email ?? ""}
                   disabled
-                  className="w-full rounded-xl border border-gray-200 bg-gray-100 px-4 py-2 text-sm text-gray-500"
+                  className="w-full rounded-xl border border-(--border-default) bg-(--surface-subtle) px-4 py-2 text-sm text-(--text-muted)"
                 />
               </div>
             </div>
 
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-(--text-subtle)">
               Joined{" "}
               {user?.createdAt
                 ? new Date(user.createdAt).toLocaleDateString("en-US", {
@@ -153,18 +153,18 @@ export default function ProfilePage() {
             {message && (
               <p
                 className={`rounded-xl px-4 py-2.5 text-sm font-medium ${
-                  message.type === "success" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
+                  message.type === "success" ? "bg-(--success-subtle) text-(--success)" : "bg-(--error-subtle) text-(--error-strong)"
                 }`}
               >
                 {message.text}
               </p>
             )}
 
-            <div className="flex justify-end border-t border-gray-100 pt-4">
+            <div className="flex justify-end border-t border-(--border-subtle) pt-4">
               <button
                 type="submit"
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm hover:bg-(--primary-hover) disabled:opacity-60"
               >
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Update Profile
@@ -175,11 +175,11 @@ export default function ProfilePage() {
 
         <div className="space-y-4">
           {isLoadingStats ? (
-            <div className="flex h-64 items-center justify-center rounded-2xl border border-gray-100 bg-white shadow-sm">
+            <div className="flex h-64 items-center justify-center rounded-2xl border border-(--border-subtle) bg-(--surface) shadow-sm">
               <Loader2 className="h-6 w-6 animate-spin text-(--ternary)" />
             </div>
           ) : statsError ? (
-            <div className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+            <div className="rounded-xl border border-(--error-border) bg-(--error-subtle) px-4 py-3 text-sm font-medium text-(--error-strong)">
               {statsError}
             </div>
           ) : (
@@ -210,15 +210,15 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-900">Current Goals</h2>
+      <div className="rounded-2xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-(--text-strong)">Current Goals</h2>
         <div className="mt-4 space-y-3">
           {isLoadingStats ? (
             <div className="flex h-24 items-center justify-center">
               <Loader2 className="h-6 w-6 animate-spin text-(--ternary)" />
             </div>
           ) : activeGoals.length === 0 ? (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-(--text-muted)">
               No active goals yet.{" "}
               <Link href="/dashboard/goals/create" className="font-bold text-(--primary) hover:underline">
                 Create one
@@ -230,11 +230,11 @@ export default function ProfilePage() {
               <Link
                 key={goal._id}
                 href={`/dashboard/goals/${goal._id}`}
-                className="flex items-center justify-between rounded-xl border border-gray-100 px-4 py-3 hover:bg-gray-50"
+                className="flex items-center justify-between rounded-xl border border-(--border-subtle) px-4 py-3 hover:bg-(--surface-muted)"
               >
                 <div>
-                  <p className="text-sm font-bold text-gray-900">{goal.title}</p>
-                  <p className="text-xs text-gray-400">{goal.category}</p>
+                  <p className="text-sm font-bold text-(--text-strong)">{goal.title}</p>
+                  <p className="text-xs text-(--text-subtle)">{goal.category}</p>
                 </div>
                 <span className="text-sm font-bold text-(--primary)">{goal.progress}%</span>
               </Link>
