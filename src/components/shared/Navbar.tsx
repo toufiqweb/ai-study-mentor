@@ -6,6 +6,11 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import {
+  getGoogleTranslateLanguage,
+  setGoogleTranslateLanguage,
+  type GoogleTranslateLanguage,
+} from "@/components/shared/GoogleTranslate";
 
 const publicLinks = [
   { label: "Explore Roadmaps", href: "/explore-roadmaps" },
@@ -19,7 +24,22 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // Lazy-initialized from Google's `googtrans` cookie so the switcher reflects
+  // the active language across reloads. Read only on the client (falls back to
+  // "en" during SSR), so the two buttons below carry `suppressHydrationWarning`.
+  const [language, setLanguage] = useState<GoogleTranslateLanguage>(() =>
+    getGoogleTranslateLanguage()
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleLanguageChange = (lang: GoogleTranslateLanguage) => {
+    setLanguage(lang);
+    setGoogleTranslateLanguage(lang);
+  };
+
+  useEffect(() => {
+    setLanguage(getGoogleTranslateLanguage());
+  }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -72,6 +92,38 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
+
+        <div
+          className="notranslate hidden items-center gap-1 rounded-full border border-gray-200 p-1 md:flex"
+          translate="no"
+        >
+          <button
+            type="button"
+            onClick={() => handleLanguageChange("en")}
+            aria-pressed={language === "en"}
+            suppressHydrationWarning
+            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+              language === "en"
+                ? "bg-(--primary) text-white"
+                : "text-gray-500 hover:text-(--primary)"
+            }`}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => handleLanguageChange("bn")}
+            aria-pressed={language === "bn"}
+            suppressHydrationWarning
+            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+              language === "bn"
+                ? "bg-(--primary) text-white"
+                : "text-gray-500 hover:text-(--primary)"
+            }`}
+          >
+            BAN
+          </button>
+        </div>
 
         {isPending ? (
           <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-100" />

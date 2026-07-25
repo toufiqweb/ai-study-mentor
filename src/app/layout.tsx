@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/shared/QueryProvider";
+import GoogleTranslate from "@/components/shared/GoogleTranslate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-(--background) text-(--foreground)" suppressHydrationWarning>
+        <GoogleTranslate />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

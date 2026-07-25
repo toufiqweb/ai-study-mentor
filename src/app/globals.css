@@ -20,3 +20,42 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+ * Google Website Translator: hide every piece of Google's default UI
+ * (top banner, attribution link, dotted highlight under translated
+ * words) while leaving translation itself fully functional. The
+ * `#google_translate_element` container is hidden separately via the
+ * Tailwind `sr-only` class (not display:none) since some browsers
+ * won't let the widget mount its <select> into a display:none node.
+ */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+iframe[id*="google"],
+iframe[id^=":"][id*="container"],
+iframe[class*="skiptranslate"],
+iframe[class*="VIpgJd"],
+#goog-gt-tt,
+.goog-tooltip,
+.goog-te-balloon-frame,
+.goog-te-spinner-pos {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+  position: static !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
