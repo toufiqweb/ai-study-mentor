@@ -8,6 +8,7 @@ import { CookieConsentProvider } from "@/providers/CookieConsentProvider";
 import CookieBanner from "@/components/shared/CookieBanner";
 import CookiePreferencesModal from "@/components/shared/CookiePreferencesModal";
 import TawkChat from "@/components/shared/TawkChat";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,6 +38,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-(--background) text-(--foreground)" suppressHydrationWarning>
         <CookieConsentProvider>
+          <Toaster richColors position="top-right" closeButton />
           <GoogleTranslate />
           <QueryProvider>{children}</QueryProvider>
           <WhatsAppButton />
@@ -48,3 +50,4 @@ export default function RootLayout({
     </html>
   );
 }
+
