@@ -35,7 +35,7 @@ export default function CTA() {
               Start your journey today
             </span>
 
-            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white leading-tight sm:text-5xl sm:leading-tight">
               Ready to study smarter?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg leading-7 text-gray-400">

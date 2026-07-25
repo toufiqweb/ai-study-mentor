@@ -20,7 +20,7 @@ export default function SectionTitle({
       {eyebrow && (
         <p className={`text-sm font-bold tracking-widest uppercase ${eyebrowClassName}`}>{eyebrow}</p>
       )}
-      <Heading className={`mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl ${titleClassName}`}>
+      <Heading className={`mt-3 text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl sm:leading-tight ${titleClassName}`}>
         {children}
       </Heading>
     </div>

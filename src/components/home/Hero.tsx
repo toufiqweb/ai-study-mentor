@@ -16,17 +16,26 @@ export default function Hero() {
   const handleSearch = (e: SubmitEvent) => {
     e.preventDefault();
     const query = search.trim();
-    router.push(query ? `/explore-roadmaps?search=${encodeURIComponent(query)}` : "/explore-roadmaps");
+    router.push(
+      query
+        ? `/explore-roadmaps?search=${encodeURIComponent(query)}`
+        : "/explore-roadmaps",
+    );
   };
 
   const handleCategoryClick = (category: string) => {
     router.push(
-      category === "All" ? "/explore-roadmaps" : `/explore-roadmaps?category=${encodeURIComponent(category)}`
+      category === "All"
+        ? "/explore-roadmaps"
+        : `/explore-roadmaps?category=${encodeURIComponent(category)}`,
     );
   };
 
   return (
-    <SectionContainer className="bg-white pt-20 pb-24 sm:pt-28 sm:pb-28" containerClassName="max-w-4xl text-center">
+    <SectionContainer
+      className="bg-white pt-20 pb-24 sm:pt-28 sm:pb-28"
+      containerClassName="max-w-4xl text-center"
+    >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -37,15 +46,15 @@ export default function Hero() {
           AI-Powered Learning
         </span>
 
-        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-          Discover <span className="text-(--ternary)">Personalized Study Plans</span>
-          <br />
+        <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-gray-900 leading-tight sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight">
+          Discover{" "}
+          <span className="text-(--ternary)">Personalized Study Plans </span>
           built by your AI mentor
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
-          Generate a personalized study plan, track your progress, and get AI guidance every day —
-          for any subject you want to learn.
+          Generate a personalized study plan, track your progress, and get AI
+          guidance every day — for any subject you want to learn.
         </p>
 
         <form onSubmit={handleSearch} className="mx-auto mt-10 max-w-xl">
