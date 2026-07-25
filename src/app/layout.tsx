@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import { CookieConsentProvider } from "@/providers/CookieConsentProvider";
 import CookieBanner from "@/components/shared/CookieBanner";
 import CookiePreferencesModal from "@/components/shared/CookiePreferencesModal";
+import TawkChat from "@/components/shared/TawkChat";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
           <GoogleTranslate />
           <QueryProvider>{children}</QueryProvider>
           <WhatsAppButton />
+          <TawkChat />
           <CookieBanner />
           <CookiePreferencesModal />
         </CookieConsentProvider>
