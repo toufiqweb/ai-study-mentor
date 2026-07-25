@@ -32,12 +32,17 @@ An intelligent, interactive, and personalized educational study platform built u
 ## ✨ Key Features
 
 - 🔐 **Secure Session Management:** Email & Password signup/login alongside Google Social OAuth login powered by **Better-Auth**.
+- 🎨 **Monochrome Theme System:** Fully integrated dark and light mode switching based on a premium monochrome color palette (`#FEFEFE` / `#1B1B1B`) with no color accents except real WhatsApp green for support.
+- 💬 **Real-time Support Chat:** Integrated live chat assistance widget powered by **Tawk.to** (functional cookie consent guarded).
+- 🌐 **Dual-Language translation:** Fully customized language toggler powered by **Google Website Translator** with soft DOM patches for seamless React runtime compatibility.
+- ✉️ **Contact Form Mailer:** Double-reply mailing notifications powered by **Nodemailer** (transmits visitor inquiry emails to admin and delivers confirmation templates to users).
+- 📱 **WhatsApp Quick Connect:** Floating support contact integration with custom message payload templates.
 - 🛠️ **Next.js 16 Proxy Security:** Protected route boundary patterns using the new Next.js 16 `proxy.ts` system to safeguard private user dashboards.
 - 🗺️ **Roadmap Hub:** Dynamic filters for finding roadmaps based on duration, category, difficulty, or search terms.
 - 💬 **Goal-Context Chat:** Real-time chat with the AI Study Mentor where the AI understands the exact goal you are working on.
 - 📊 **Progress Analytics:** Modern charts mapping completed goals, target hours, and milestone metrics.
 - 🌀 **Micro-interactions:** Rich animations and transition states using **Framer Motion**.
-- 📝 **Robust Validation:** Forms protected by **React Hook Form** combined with **Zod** schema validations.
+- 📋 **Robust Validation:** Forms protected by **React Hook Form** combined with **Zod** schema validations.
 
 ---
 
@@ -45,8 +50,10 @@ An intelligent, interactive, and personalized educational study platform built u
 
 - **Core Framework:** [Next.js 16](https://nextjs.org/) (App Router, Server Actions, Client Components)
 - **Programming Language:** [TypeScript](https://www.typescriptlang.org/)
-- **UI & Styles:** [Tailwind CSS v4](https://tailwindcss.com/), [Lucide React](https://lucide.dev/) (Icons)
+- **UI & Styles:** [Tailwind CSS v4](https://tailwindcss.com/), [next-themes](https://github.com/pacocoursey/next-themes) (Theme Provider), [Lucide React](https://lucide.dev/) (Icons), [React Icons](https://react-icons.github.io/react-icons/)
 - **Authentication:** [Better-Auth v1.6](https://better-auth.com/) (with MongoDB Client Adapter)
+- **Mailing Support:** [Nodemailer](https://nodemailer.com/)
+- **Live Widgets:** [Tawk.to Live Chat](https://www.tawk.to/), [Google Translate Widget](https://translate.google.com/)
 - **Animations:** [Framer Motion v12](https://www.framer.com/motion/)
 - **Data Fetching & State:** [TanStack Query v5](https://tanstack.com/query/latest)
 - **Forms & Validation:** [React Hook Form](https://react-hook-form.com/), [Zod Schema Validation](https://zod.dev/)
