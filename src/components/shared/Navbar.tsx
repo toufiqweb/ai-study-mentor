@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
+import { LogOut, LayoutDashboard, ChevronDown, Menu, X } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import {
   getGoogleTranslateLanguage,
@@ -24,6 +24,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session, isPending } = authClient.useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // Lazy-initialized from Google's `googtrans` cookie so the switcher reflects
   // the active language across reloads. Read only on the client (falls back to
   // "en" during SSR), so the two buttons below carry `suppressHydrationWarning`.
@@ -39,6 +40,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setLanguage(getGoogleTranslateLanguage());
+    setIsMobileMenuOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -93,101 +95,168 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div
-          className="notranslate hidden items-center gap-1 rounded-full border border-gray-200 p-1 md:flex"
-          translate="no"
-        >
-          <button
-            type="button"
-            onClick={() => handleLanguageChange("en")}
-            aria-pressed={language === "en"}
-            suppressHydrationWarning
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-              language === "en"
-                ? "bg-(--primary) text-white"
-                : "text-gray-500 hover:text-(--primary)"
-            }`}
+        <div className="flex items-center gap-3">
+          <div
+            className="notranslate hidden items-center gap-1 rounded-full border border-gray-200 p-1 md:flex"
+            translate="no"
           >
-            EN
-          </button>
-          <button
-            type="button"
-            onClick={() => handleLanguageChange("bn")}
-            aria-pressed={language === "bn"}
-            suppressHydrationWarning
-            className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-              language === "bn"
-                ? "bg-(--primary) text-white"
-                : "text-gray-500 hover:text-(--primary)"
-            }`}
-          >
-            BAN
-          </button>
-        </div>
-
-        {isPending ? (
-          <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-100" />
-        ) : session?.user ? (
-          <div className="relative" ref={dropdownRef}>
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-gray-50"
+              type="button"
+              onClick={() => handleLanguageChange("en")}
+              aria-pressed={language === "en"}
+              suppressHydrationWarning
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                language === "en"
+                  ? "bg-(--primary) text-white"
+                  : "text-gray-500 hover:text-(--primary)"
+              }`}
             >
-              {session.user.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={session?.user?.image}
-                  alt={session?.user?.name || "user"}
-                  className="h-8 w-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--primary)/10 text-sm font-bold text-(--primary)">
-                  {session?.user?.name?.charAt(0).toUpperCase() ?? "S"}
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => handleLanguageChange("bn")}
+              aria-pressed={language === "bn"}
+              suppressHydrationWarning
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                language === "bn"
+                  ? "bg-(--primary) text-white"
+                  : "text-gray-500 hover:text-(--primary)"
+              }`}
+            >
+              BAN
+            </button>
+          </div>
+
+          {isPending ? (
+            <div className="h-9 w-24 animate-pulse rounded-lg bg-gray-100" />
+          ) : session?.user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 rounded-full p-1 pr-2 hover:bg-gray-50"
+              >
+                {session.user.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={session?.user?.image}
+                    alt={session?.user?.name || "user"}
+                    className="h-8 w-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--primary)/10 text-sm font-bold text-(--primary)">
+                    {session?.user?.name?.charAt(0).toUpperCase() ?? "S"}
+                  </div>
+                )}
+                <span className="hidden text-sm font-semibold text-(--primary) sm:block">
+                  {session?.user?.name}
+                </span>
+                <ChevronDown className="hidden h-4 w-4 text-(--secondary) sm:block" />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-(--secondary) hover:bg-gray-50"
+                  >
+                    <LayoutDashboard className="h-4 w-4 text-(--secondary)" />
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-red-500 hover:bg-red-50"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </button>
                 </div>
               )}
-              <span className="hidden text-sm font-semibold text-(--primary) sm:block">
-                {session?.user?.name}
-              </span>
-              <ChevronDown className="hidden h-4 w-4 text-(--secondary) sm:block" />
-            </button>
-
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-gray-100 bg-white py-2 shadow-xl">
-                <Link
-                  href="/dashboard"
-                  onClick={() => setIsDropdownOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-(--secondary) hover:bg-gray-50"
-                >
-                  <LayoutDashboard className="h-4 w-4 text-(--secondary)" />
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-sm text-red-500 hover:bg-red-50"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex items-center gap-5">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-gray-500 transition-colors hover:text-(--primary)"
-            >
-              Login
-            </Link>
+            </div>
+          ) : (
             <Link
               href="/register"
-              className="rounded-lg bg-(--ternary) px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+              className="rounded-lg bg-(--ternary) px-3.5 py-2 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90 sm:px-5 sm:py-2.5"
             >
               Get Started
             </Link>
-          </div>
-        )}
+          )}
+
+          {/* Small Device Menu Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 md:hidden focus:outline-none"
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Small Device Menu Drawer */}
+      {isMobileMenuOpen && (
+        <div className="border-t border-gray-100 bg-white px-4 pt-3 pb-6 md:hidden shadow-lg">
+          <div className="flex flex-col space-y-3">
+            {publicLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`rounded-lg px-3 py-2 text-base transition-colors ${
+                  pathname === link.href
+                    ? "bg-gray-50 font-semibold text-(--primary)"
+                    : "font-medium text-gray-600 hover:bg-gray-50 hover:text-(--primary)"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <div className="my-1 border-t border-gray-100 pt-3">
+              <div className="flex items-center justify-between px-3 py-1">
+                <span className="text-sm font-medium text-gray-500">Language</span>
+                <div
+                  className="notranslate flex items-center gap-1 rounded-full border border-gray-200 p-1"
+                  translate="no"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleLanguageChange("en")}
+                    aria-pressed={language === "en"}
+                    suppressHydrationWarning
+                    className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                      language === "en"
+                        ? "bg-(--primary) text-white"
+                        : "text-gray-500 hover:text-(--primary)"
+                    }`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleLanguageChange("bn")}
+                    aria-pressed={language === "bn"}
+                    suppressHydrationWarning
+                    className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                      language === "bn"
+                        ? "bg-(--primary) text-white"
+                        : "text-gray-500 hover:text-(--primary)"
+                    }`}
+                  >
+                    BAN
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
