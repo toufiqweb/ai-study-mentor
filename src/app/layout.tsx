@@ -4,6 +4,9 @@ import "./globals.css";
 import QueryProvider from "@/components/shared/QueryProvider";
 import GoogleTranslate from "@/components/shared/GoogleTranslate";
 import WhatsAppButton from "@/components/shared/WhatsAppButton";
+import { CookieConsentProvider } from "@/providers/CookieConsentProvider";
+import CookieBanner from "@/components/shared/CookieBanner";
+import CookiePreferencesModal from "@/components/shared/CookiePreferencesModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +35,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-(--background) text-(--foreground)" suppressHydrationWarning>
-        <GoogleTranslate />
-        <QueryProvider>{children}</QueryProvider>
-        <WhatsAppButton />
+        <CookieConsentProvider>
+          <GoogleTranslate />
+          <QueryProvider>{children}</QueryProvider>
+          <WhatsAppButton />
+          <CookieBanner />
+          <CookiePreferencesModal />
+        </CookieConsentProvider>
       </body>
     </html>
   );

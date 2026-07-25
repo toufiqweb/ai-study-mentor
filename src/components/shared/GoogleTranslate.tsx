@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useCallback, useEffect } from "react";
+import { useCookieConsent } from "@/providers/CookieConsentProvider";
 
 const SCRIPT_SRC =
   "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
@@ -164,9 +165,13 @@ export function getGoogleTranslateLanguage(): GoogleTranslateLanguage {
 }
 
 export default function GoogleTranslate() {
+  const { hasCategoryConsent } = useCookieConsent();
+  const isFunctionalAllowed = hasCategoryConsent("functional");
   const initialize = useCallback(() => initializeGoogleTranslate(), []);
 
   useEffect(() => {
+    if (!isFunctionalAllowed) return;
+
     patchDomForGoogleTranslate();
     window.googleTranslateElementInit = initialize;
 
@@ -176,7 +181,9 @@ export default function GoogleTranslate() {
     if (window.google?.translate?.TranslateElement) {
       initialize();
     }
-  }, [initialize]);
+  }, [initialize, isFunctionalAllowed]);
+
+  if (!isFunctionalAllowed) return null;
 
   return (
     <>

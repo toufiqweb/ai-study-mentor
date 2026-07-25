@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { GraduationCap, Globe, MessageCircle, Rss, Mail } from "lucide-react";
+import CookiePolicyLink from "@/components/shared/CookiePolicyLink";
 
 const linkGroups = [
   {
@@ -81,8 +82,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-gray-100 pt-8 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} AI Study Mentor. All rights reserved.
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-gray-100 pt-8 text-center text-sm text-gray-500 sm:flex-row">
+          <div>© {new Date().getFullYear()} AI Study Mentor. All rights reserved.</div>
+          <CookiePolicyLink className="text-sm text-gray-500 transition-colors hover:text-(--primary)" />
         </div>
       </div>
     </footer>
