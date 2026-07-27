@@ -181,7 +181,7 @@ export default function CookiePreferencesModal() {
             <button
               type="button"
               onClick={handleSave}
-              className="rounded-xl bg-(--ternary) px-5 py-2.5 text-xs font-bold text-(--white) shadow-sm transition-opacity hover:opacity-90"
+              className="rounded-xl bg-(--action-bg) px-5 py-2.5 text-xs font-bold text-(--action-text) shadow-sm transition-colors hover:bg-(--action-hover)"
             >
               Save Preferences
             </button>

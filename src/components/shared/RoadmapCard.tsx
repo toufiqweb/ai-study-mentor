@@ -127,7 +127,7 @@ export default function RoadmapCard({ roadmap }: { roadmap: RoadmapSummary }) {
 
       <Link
         href={`/explore-roadmaps/${roadmap._id}`}
-        className="mt-5 rounded-xl bg-(--ternary) px-4 py-2.5 text-center text-sm font-bold text-(--white) transition-opacity hover:opacity-90"
+        className="mt-5 rounded-xl bg-(--action-bg) px-4 py-2.5 text-center text-sm font-bold text-(--action-text) transition-colors hover:bg-(--action-hover)"
       >
         View Details
       </Link>

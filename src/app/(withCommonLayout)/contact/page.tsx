@@ -72,7 +72,7 @@ export default function ContactPage() {
             <div className="mt-6 space-y-5">
               {contactInfo.map((item) => (
                 <div key={item.label} className="group flex items-start gap-4">
-                  <div className="rounded-2xl bg-(--accent-subtle)/80 p-3 text-(--accent) transition-colors group-hover:bg-(--accent) group-hover:text-(--white)">
+                  <div className="rounded-2xl bg-(--accent-subtle)/80 p-3 text-(--accent) transition-colors group-hover:bg-(--action-bg) group-hover:text-(--action-text)">
                     <item.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -121,7 +121,7 @@ export default function ContactPage() {
                   href={social.href}
                   aria-label={social.label}
                   title={social.label}
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl bg-(--surface-muted) text-(--secondary) transition-all hover:bg-(--accent) hover:text-(--white) hover:shadow-md hover:-translate-y-0.5"
+                  className="flex h-11 w-11 items-center justify-center rounded-2xl bg-(--surface-muted) text-(--secondary) transition-all hover:bg-(--action-bg) hover:text-(--action-text) hover:shadow-md hover:-translate-y-0.5"
                 >
                   <social.icon className="h-5 w-5" />
                 </a>

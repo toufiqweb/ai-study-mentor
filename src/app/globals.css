@@ -12,6 +12,12 @@
   --color-ternary: var(--ternary);
   --color-primary-hover: var(--primary-hover);
 
+  --color-action-bg: var(--action-bg);
+  --color-action-text: var(--action-text);
+  --color-action-hover: var(--action-hover);
+  --color-banner-from: var(--banner-from);
+  --color-banner-to: var(--banner-to);
+
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-nav-bg: var(--nav-bg);
@@ -135,6 +141,13 @@
   --secondary: #4c4c4c;
   --ternary: #1B1B1B;
 
+  /* Interactive Action & Banner Tokens */
+  --action-bg: var(--ternary);
+  --action-text: var(--white);
+  --action-hover: var(--primary-hover);
+  --banner-from: var(--ternary);
+  --banner-to: var(--secondary);
+
   /* Theme Surfaces */
   --card-bg: #FEFEFE;
   --card-border: #e5e5e5;
@@ -246,6 +259,13 @@
   --secondary: #cccccc;
   --ternary: #FEFEFE;
 
+  /* Interactive Action & Banner Tokens for Dark Mode */
+  --action-bg: #383838;
+  --action-text: #FEFEFE;
+  --action-hover: #484848;
+  --banner-from: #27272a;
+  --banner-to: #3f3f46;
+
   /* Theme Surfaces */
   --card-bg: #1c1c1c;
   --card-border: #2c2c2c;
@@ -268,6 +288,46 @@
   --text-secondary: #999999;
   --text-muted: #7f7f7f;
   --text-subtle: #4c4c4c;
+
+  /* Accent overrides for dark mode */
+  --accent: #FEFEFE;
+  --accent-hover: #e5e5e5;
+  --accent-active: #cccccc;
+  --accent-active-strong: #999999;
+  --accent-subtle: #2c2c2c;
+  --accent-subtle-strong: #383838;
+  --accent-border: #666666;
+
+  /* Decorative overrides for dark mode */
+  --info: #FEFEFE;
+  --info-subtle: #2c2c2c;
+  --info-alt: #999999;
+  --decorative-purple-subtle: #2c2c2c;
+
+  /* Status overrides for dark mode */
+  --success: #4ade80;
+  --success-icon: #86efac;
+  --success-subtle: #14532d;
+
+  --warning: #fbbf24;
+  --warning-icon: #fde047;
+  --warning-subtle: #451a03;
+  --star: #fbbf24;
+
+  --error: #f87171;
+  --error-strong: #fca5a5;
+  --error-subtle: #450a0a;
+  --error-border: #7f1d1d;
+  --error-border-strong: #991b1b;
+
+  /* Chart overrides for dark mode */
+  --chart-1: #FEFEFE;
+  --chart-2: #cccccc;
+  --chart-3: #999999;
+  --chart-4: #7f7f7f;
+  --chart-5: #666666;
+  --chart-6: #4c4c4c;
+  --chart-grid: #2c2c2c;
 }
 
 /* =========================

@@ -43,7 +43,7 @@ export default function HowItWorks() {
         <div className="absolute top-8 right-0 left-0 hidden h-px bg-(--card-border) lg:block" aria-hidden />
         {steps.map((step, i) => (
           <AnimatedSection key={step.title} delay={i * 0.1} className="relative text-center">
-            <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-(--ternary) to-(--secondary) shadow-lg shadow-(--ternary)/20">
+            <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-(--banner-from) to-(--banner-to) shadow-lg shadow-(--banner-from)/20">
               <step.icon className="h-7 w-7 text-(--white)" />
             </div>
             <span className="mx-auto mt-4 flex h-6 w-6 items-center justify-center rounded-full bg-(--primary) text-(--background) text-xs font-bold">

@@ -113,7 +113,7 @@ export default function GoalDetailsPage() {
         </p>
         <Link
           href="/dashboard/goals"
-          className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:bg-(--primary-hover)"
+          className="mt-6 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) hover:bg-(--action-hover)"
         >
           Back to My Goals
         </Link>
@@ -153,7 +153,7 @@ export default function GoalDetailsPage() {
           </div>
           <Link
             href={`/dashboard/chat?goalId=${goal._id}`}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-4 py-2.5 text-sm font-bold text-(--white) shadow-sm hover:bg-(--primary-hover)"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--action-bg) px-4 py-2.5 text-sm font-bold text-(--action-text) shadow-sm hover:bg-(--action-hover)"
           >
             <MessagesSquare className="h-4 w-4" />
             Ask AI Mentor

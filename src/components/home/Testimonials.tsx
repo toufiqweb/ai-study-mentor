@@ -40,7 +40,7 @@ function StarRow() {
 function Avatar({ initials, size = "md" }: { initials: string; size?: "md" | "lg" }) {
   return (
     <div
-      className={`flex shrink-0 items-center justify-center rounded-full bg-linear-to-br from-(--ternary) to-(--secondary) font-bold text-(--white) ${
+      className={`flex shrink-0 items-center justify-center rounded-full bg-linear-to-br from-(--banner-from) to-(--banner-to) font-bold text-(--white) ${
         size === "lg" ? "h-12 w-12 text-base" : "h-10 w-10 text-sm"
       }`}
     >

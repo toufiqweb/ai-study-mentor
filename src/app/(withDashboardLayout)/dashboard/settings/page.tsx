@@ -89,7 +89,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm hover:bg-(--primary-hover) disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) shadow-sm hover:bg-(--action-hover) disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Update Password

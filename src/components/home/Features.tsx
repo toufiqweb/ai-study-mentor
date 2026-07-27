@@ -64,7 +64,7 @@ export default function Features() {
         {features.map((feature, i) => (
           <AnimatedSection key={feature.title} delay={i * 0.08}>
             <div className="h-full rounded-3xl border border-(--card-border) bg-(--card-bg) p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div className="inline-flex rounded-2xl bg-linear-to-br from-(--ternary) to-(--secondary) p-3">
+              <div className="inline-flex rounded-2xl bg-linear-to-br from-(--banner-from) to-(--banner-to) p-3">
                 <feature.icon className="h-6 w-6 text-(--white)" />
               </div>
               <h3 className="mt-5 text-lg font-bold text-(--primary)">{feature.title}</h3>

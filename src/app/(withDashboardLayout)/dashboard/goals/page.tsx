@@ -115,7 +115,7 @@ export default function MyGoalsPage() {
         </div>
         <Link
           href="/dashboard/goals/create"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm transition-colors hover:bg-(--primary-hover)"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) shadow-sm transition-colors hover:bg-(--action-hover)"
         >
           <PlusCircle className="h-4 w-4" />
           Create Goal
@@ -177,7 +177,7 @@ export default function MyGoalsPage() {
           </p>
           <Link
             href="/dashboard/goals/create"
-            className="mt-6 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:bg-(--primary-hover)"
+            className="mt-6 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) hover:bg-(--action-hover)"
           >
             Create Goal
           </Link>
@@ -256,7 +256,7 @@ export default function MyGoalsPage() {
                 onClick={() => setPage(i + 1)}
                 className={`h-9 w-9 rounded-xl border text-xs font-bold ${
                   page === i + 1
-                    ? "border-(--ternary) bg-(--ternary) text-(--white) shadow-sm"
+                    ? "border-(--action-bg) bg-(--action-bg) text-(--action-text) shadow-sm"
                     : "border-(--border-default) text-(--text-secondary) hover:bg-(--surface-muted)"
                 }`}
               >

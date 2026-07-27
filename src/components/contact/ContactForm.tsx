@@ -220,7 +220,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-linear-to-r from-(--accent) via-(--accent-hover) to-(--accent-active) px-7 py-3.5 text-sm font-bold text-(--white) shadow-lg shadow-(--accent)/25 transition-all hover:from-(--accent-hover) hover:to-(--accent-active-strong) active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-linear-to-r from-(--action-bg) to-(--action-hover) px-7 py-3.5 text-sm font-bold text-(--action-text) shadow-lg shadow-(--action-bg)/25 transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
           >
             {isSubmitting ? (
               <>

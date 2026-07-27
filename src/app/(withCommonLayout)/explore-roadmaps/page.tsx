@@ -243,7 +243,7 @@ function ExploreRoadmapsContent() {
                         onClick={() => handlePageChange(i + 1)}
                         className={`h-9 w-9 rounded-xl border text-xs font-bold cursor-pointer transition-colors ${
                           page === i + 1
-                            ? "border-(--ternary) bg-(--ternary) text-(--white) shadow-sm"
+                            ? "border-(--action-bg) bg-(--action-bg) text-(--action-text) shadow-sm"
                             : "border-(--card-border) text-(--secondary) hover:bg-(--card-border)"
                         }`}
                       >

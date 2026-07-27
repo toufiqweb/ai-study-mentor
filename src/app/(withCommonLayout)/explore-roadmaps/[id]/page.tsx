@@ -95,7 +95,7 @@ export default function RoadmapDetailsPage() {
         </p>
         <Link
           href="/explore-roadmaps"
-          className="mt-6 inline-block rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:opacity-90"
+          className="mt-6 inline-block rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) hover:bg-(--action-hover)"
         >
           Back to Explore Roadmaps
         </Link>
@@ -247,7 +247,7 @@ export default function RoadmapDetailsPage() {
               <button
                 onClick={handleStartRoadmap}
                 disabled={isSessionPending}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-3 text-sm font-bold text-(--white) shadow-sm transition-opacity hover:opacity-90 disabled:opacity-60"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-(--action-bg) px-5 py-3 text-sm font-bold text-(--action-text) shadow-sm transition-colors hover:bg-(--action-hover) disabled:opacity-60"
               >
                 Start This Roadmap
                 <ArrowRight className="h-4 w-4" />

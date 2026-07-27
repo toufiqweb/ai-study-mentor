@@ -152,7 +152,7 @@ export default function AIChatPage() {
         </p>
         <Link
           href="/dashboard/goals/create"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) hover:bg-(--primary-hover)"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) hover:bg-(--action-hover)"
         >
           <PlusCircle className="h-4 w-4" />
           Create Goal
@@ -254,7 +254,7 @@ export default function AIChatPage() {
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--ternary) text-(--white) transition-colors hover:bg-(--primary-hover) disabled:opacity-40"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--action-bg) text-(--action-text) transition-colors hover:bg-(--action-hover) disabled:opacity-40"
             aria-label="Send message"
           >
             {isTyping ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}

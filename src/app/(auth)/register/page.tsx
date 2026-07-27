@@ -219,7 +219,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-(--white) bg-(--ternary) hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--ternary) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-(--action-text) bg-(--action-bg) hover:bg-(--action-hover) focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-(--action-bg) transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

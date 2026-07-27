@@ -100,7 +100,7 @@ export default function DashboardSidebar() {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                     active
-                      ? "bg-(--ternary) text-(--white)"
+                      ? "bg-(--action-bg) text-(--action-text)"
                       : "text-(--secondary) hover:bg-(--secondary)/10 hover:text-(--primary)"
                   } ${isCollapsed ? "justify-center" : ""}`}
                 >

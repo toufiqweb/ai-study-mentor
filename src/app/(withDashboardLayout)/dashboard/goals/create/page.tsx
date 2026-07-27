@@ -376,7 +376,7 @@ export default function CreateGoalPage() {
             type="button"
             onClick={onSave}
             disabled={isSaving || isGenerating}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--ternary) px-5 py-2.5 text-sm font-bold text-(--white) shadow-sm transition-colors hover:bg-(--primary-hover) disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-(--action-bg) px-5 py-2.5 text-sm font-bold text-(--action-text) shadow-sm transition-colors hover:bg-(--action-hover) disabled:opacity-60"
           >
             {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Save Goal

@@ -83,7 +83,7 @@ export default function AboutPage() {
           {highlights.map((item, i) => (
             <AnimatedSection key={item.title} delay={i * 0.08}>
               <div className="flex h-full gap-4 rounded-3xl border border-(--border-subtle) bg-(--surface) p-6 shadow-sm">
-                <div className="inline-flex h-fit rounded-2xl bg-linear-to-br from-(--ternary) to-(--secondary) p-3">
+                <div className="inline-flex h-fit rounded-2xl bg-linear-to-br from-(--banner-from) to-(--banner-to) p-3">
                   <item.icon className="h-5 w-5 text-(--white)" />
                 </div>
                 <div>

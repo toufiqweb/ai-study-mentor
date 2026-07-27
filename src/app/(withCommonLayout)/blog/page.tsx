@@ -28,7 +28,7 @@ export default function BlogPage() {
             {blogPosts.map((post, i) => (
               <AnimatedSection key={post.id} delay={i * 0.06}>
                 <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-(--border-subtle) bg-(--surface) shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
-                  <div className="flex h-36 items-center justify-center bg-linear-to-br from-(--ternary) to-(--secondary)">
+                  <div className="flex h-36 items-center justify-center bg-linear-to-br from-(--banner-from) to-(--banner-to)">
                     <post.icon className="h-10 w-10 text-(--white)/90" />
                   </div>
                   <div className="flex flex-1 flex-col p-6">
